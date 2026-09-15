@@ -1,0 +1,65 @@
+[project]
+name = "autotestplatform"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "allure-pytest>=2.16.0",
+    "apiclient",
+    "black>=26.5.1",
+    "django>=6.1",
+    "django-filter>=26.1",
+    "djangorestframework>=3.18.0",
+    "drf-spectacular[sidecar]>=0.30.0",
+    "flake8>=7.3.0",
+    "isort>=9.0.1",
+    "jsonpath>=0.82.2",
+    "markdown>=3.10.3",
+    "pdm>=2.29.0",
+    "pymysql>=1.2.0",
+    "pytest>=9.1.1",
+    "pytest-coverage>=0.0",
+    "pytest-django>=4.14.0",
+    "pytest-yaml>=1.2.1",
+    "pyyaml>=6.0.3",
+    "requests>=2.34.2",
+]
+
+
+
+[build-system]
+requires = ["uv_build>=0.12.8,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.pdm.scripts]
+sqldataout = "python manage.py dumpdata --natural-foreign -e contenttypes -e auth.permission -o fixtures/initial_data.json"
+
+liliangchen = { composite = [
+    "black .",
+    "isort .",
+    "flake8 .",
+    # "pytest"
+]}
+
+init = { composite = [
+    "makeM",
+    "M",
+    "L",
+    # "createadmin"
+]}
+
+makeM = "python manage.py makemigrations"
+
+M = "python manage.py migrate"
+
+R = "python manage.py runserver" # --noreload
+
+T = "python manage.py test"
+
+L = "python manage.py loaddata fixtures/initial_data.json"
+
+createadmin = '''python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'adminpass')"'''
+
+[tool.uv]
+package = false

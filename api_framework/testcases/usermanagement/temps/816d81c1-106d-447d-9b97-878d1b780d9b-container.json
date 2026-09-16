@@ -1,0 +1,1 @@
+{"uuid": "4c9ff593-1136-4471-9fac-b1a80b7a18d2", "children": ["53ff0b03-b3aa-4558-8b9a-e72183032637"], "befores": [{"name": "_dj_autoclear_mailbox", "status": "passed", "start": 1788933270934, "stop": 1788933270934}], "afters": [{"name": "_dj_autoclear_mailbox::<lambda>", "start": 1788933271092}], "start": 1788933270934, "stop": 1788933271092}

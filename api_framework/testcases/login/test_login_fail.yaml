@@ -1,0 +1,63 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: $parametrize{title}
+  description: $parametrize{description}
+  requests:
+    url: /api/private/v1/login
+    method: post
+    headers:
+      Content-Type: application/json
+    json:
+      username: $parametrize{username}
+      password: $parametrize{password}
+  parametrize:
+    title:
+      - test_login_fail_01
+      - test_login_fail_02
+      - test_login_fail_03
+      - test_login_fail_04
+      - test_login_fail_05
+      - test_login_fail_06
+    description:
+      - admin账号用户名为空
+      - admin账号密码为空
+      - 用户名不存在
+      - admin账号密码错误
+      - 角色无登录权限
+      - 用户被禁用
+    username:
+      - null
+      - admin
+      - fdsafasfaf
+      - admin
+      - norid
+      - cantuse
+    password:
+      - '123456'
+      - null
+      - '123456'
+      - ${random_str_int(10000,99999)}
+      - norid123
+      - cantuser123
+    msg:
+      - 用户名不存在
+      - 密码错误
+      - 用户名不存在
+      - 密码错误
+      - 该用户没有权限登录
+      - 该用户已经被禁用
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

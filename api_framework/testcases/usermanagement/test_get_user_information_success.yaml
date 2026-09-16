@@ -1,0 +1,92 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号成功
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    params:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 用户管理模块
+  story: 查询用户列表接口
+  title: 获取用户列表成功
+  description: 查询用户接口列表成功
+  requests:
+    method: get
+    url: /api/private/v1/users
+    headers:
+      Content-Type: application/json
+      Authorization: ${read_extract(token)}
+    params:
+      pagenum: 1
+      pagesize: 10
+  parametrize:
+    expr:
+      - $.data.users[0].id
+      - $.data.users[1].id
+      - $.data.users[2].id
+      - $.data.users[3].id
+      - $.data.users[4].id
+      - $.data.users[5].id
+      - $.data.users[6].id
+      - $.data.users[7].id
+      - $.data.users[8].id
+      - $.data.users[9].id
+  extract:
+    -
+      key: id
+      attr: json
+      expr: $parametrize{expr}
+-
+  feature: 用户管理模块
+  story: 获取用户信息接口
+  title: $parametrize{title}
+  description: 获取id${read_extract(id)}账号成功
+  requests:
+    method: get
+    url: /api/private/v1/users/${read_extract(id)}
+    headers:
+      Content-Type: application/json
+      Authorization: ${read_extract(token)}
+    params:
+      id: ${read_extract(id)}
+  parametrize:
+    title:
+      - test_get_user_information_success_01
+      - test_get_user_information_success_02
+      - test_get_user_information_success_03
+      - test_get_user_information_success_04
+      - test_get_user_information_success_05
+      - test_get_user_information_success_06
+      - test_get_user_information_success_07
+      - test_get_user_information_success_08
+      - test_get_user_information_success_09
+      - test_get_user_information_success_10
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - ${read_extract(id)}
+        - json
+        - $.data.id
+      -
+        - 200
+        - json
+        - $.meta.status
+    contains:
+      -
+        - 获取成功
+        - json
+        - $.meta.msg

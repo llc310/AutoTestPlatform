@@ -1,0 +1,96 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 订单管理模块
+  story: 添加订单接口
+  title: $parametrize{title}
+  description: 添加订单参数校验失败
+  requests:
+    method: post
+    url: /api/private/v1/orders
+    headers:
+      Authorization: $parametrize{auth}
+      Content-Type: application/json
+    json:
+      user_id: $parametrize{user_id}
+      order_price: $parametrize{order_price}
+      order_fapiao_title: $parametrize{order_fapiao_title}
+      consignee_addr: 测试地址
+      goods:
+        -
+          goods_id: 1
+          goods_price: 199
+          goods_number: 1
+  parametrize:
+    title:
+      - test_create_order_fail_01
+      - test_create_order_fail_02
+      - test_create_order_fail_03
+      - test_create_order_fail_04
+      - test_create_order_fail_05
+      - test_create_order_fail_06
+    user_id:
+      - null
+      - abc
+      - 1
+      - 1
+      - 1
+      - 1
+    order_price:
+      - 199
+      - 199
+      - null
+      - abc
+      - 199
+      - 199
+    order_fapiao_title:
+      - 个人
+      - 个人
+      - 个人
+      - 个人
+      - 非法抬头
+      - 个人
+    auth:
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - invalidtoken
+    msg:
+      - 用户ID不能为空
+      - 用户ID必须是数字
+      - 订单价格不能为空
+      - 订单价格必须为数字
+      - 发票抬头必须是 个人 或 公司
+      - 无效token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

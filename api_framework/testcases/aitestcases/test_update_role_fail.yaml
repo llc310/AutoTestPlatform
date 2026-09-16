@@ -1,0 +1,77 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 角色管理模块
+  story: 更新角色接口
+  title: $parametrize{title}
+  description: 更新角色失败-$parametrize{desc}
+  requests:
+    method: put
+    url: $parametrize{url}
+    headers:
+      Authorization: $parametrize{Authorization}
+      Content-Type: application/json
+    json:
+      roleName: $parametrize{roleName}
+      roleDesc: 新描述
+  parametrize:
+    title:
+      - test_update_role_fail_01
+      - test_update_role_fail_02
+      - test_update_role_fail_03
+      - test_update_role_fail_04
+    desc:
+      - id为空
+      - id非数字
+      - roleName为空
+      - token无效
+    url:
+      - /api/private/v1/roles/
+      - /api/private/v1/roles/abc
+      - /api/private/v1/roles/10
+      - /api/private/v1/roles/10
+    Authorization:
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}${random_str(10)}
+    roleName:
+      - 新角色名${random_str(4)}
+      - 新角色名${random_str(4)}
+      - null
+      - 新角色名${random_str(4)}
+    msg:
+      - 角色ID不能为空
+      - 角色ID必须为数字
+      - 角色名称不能为空
+      - 无效token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

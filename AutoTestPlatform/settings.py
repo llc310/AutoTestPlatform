@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "account",
     "system",
     "project",
+    "case_api",
     "rest_framework",
     "rest_framework.authtoken",
     "drf_spectacular",

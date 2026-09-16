@@ -1,0 +1,50 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 权限管理模块
+  story: 获取权限列表接口
+  title: $parametrize{title}
+  description: 以$parametrize{type}形式获取权限列表成功
+  requests:
+    method: get
+    url: /api/private/v1/rights/$parametrize{type}
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+  parametrize:
+    title:
+      - test_get_rights_success_01
+      - test_get_rights_success_02
+    type:
+      - list
+      - tree
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 200
+        - json
+        - $.meta.status
+    contains:
+      -
+        - 获取权限列表成功
+        - json
+        - $.meta.msg

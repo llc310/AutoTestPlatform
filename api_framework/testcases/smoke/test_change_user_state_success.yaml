@@ -1,0 +1,73 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    url: /api/private/v1/login
+    method: post
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 用户管理模块
+  story: 查询用户列表接口
+  title: test_query_user_information_01
+  description: 登录admin账号,查询用户信息列表
+  requests:
+    url: /api/private/v1/users
+    method: get
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+    params:
+      pagenum: 1
+      pagesize: 10
+  extract:
+    -
+      key: id
+      attr: json
+      expr: $parametrize{expr}
+  parametrize:
+    expr:
+      - $.data.users[4].id
+      - $.data.users[5].id
+      - $.data.users[6].id
+      - $.data.users[7].id
+-
+  feature: 用户管理模块
+  story: 修改用户状态接口
+  title: $parametrize{title}
+  description: 启用id为${read_extract(id)}的用户
+  requests:
+    url: /api/private/v1/users/${read_extract(id)}/state/true
+    method: put
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+    params:
+      id: ${read_extract(id)}
+      state: true
+  parametrize:
+    title:
+      - test_change_user_state_success_01
+      - test_change_user_state_success_02
+      - test_change_user_state_success_03
+      - test_change_user_state_success_04
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+    contains:
+      -
+        - 设置状态成功
+        - json
+        - $.meta.msg

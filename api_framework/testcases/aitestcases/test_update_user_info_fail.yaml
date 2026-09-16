@@ -1,0 +1,72 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 用户管理模块
+  story: 修改用户信息接口
+  title: $parametrize{title}
+  description: 修改用户信息失败-$parametrize{desc}
+  requests:
+    method: put
+    url: /api/private/v1/users/$parametrize{id}
+    headers:
+      Authorization: $parametrize{auth}
+      Content-Type: application/json
+    json:
+      mobile: '13800000000'
+      email: 'fail@test.com'
+  parametrize:
+    title:
+      - test_update_user_info_fail_01
+      - test_update_user_info_fail_02
+      - test_update_user_info_fail_03
+      - test_update_user_info_fail_04
+    desc:
+      - id为空
+      - id非数字
+      - 不存在的id
+      - token无效
+    id:
+      - ''
+      - abc
+      - 99999
+      - 1
+    auth:
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - invalidtoken
+    msg:
+      - 用户ID不能为空
+      - 用户ID必须是数字
+      - 更新失败
+      - 无效token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

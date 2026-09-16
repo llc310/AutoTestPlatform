@@ -1,0 +1,78 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 商品分类模块
+  story: 分类列表接口
+  title: $parametrize{title}
+  description: 获取分类列表成功-$parametrize{desc}
+  requests:
+    method: get
+    url: /api/private/v1/categories
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+    params:
+      type: $parametrize{type}
+      pagenum: $parametrize{pagenum}
+      pagesize: $parametrize{pagesize}
+  parametrize:
+    title:
+      - test_get_category_list_success_01
+      - test_get_category_list_success_02
+      - test_get_category_list_success_03
+      - test_get_category_list_success_04
+      - test_get_category_list_success_05
+    desc:
+      - 不分页查询
+      - 分页查询
+      - type=1
+      - type=2
+      - type=3
+    type:
+      - null
+      - null
+      - 1
+      - 2
+      - 3
+    pagenum:
+      - null
+      - 1
+      - null
+      - null
+      - null
+    pagesize:
+      - null
+      - 10
+      - null
+      - null
+      - null
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 200
+        - json
+        - $.meta.status
+    contains:
+      -
+        - 获取成功
+        - json
+        - $.meta.msg

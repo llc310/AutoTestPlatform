@@ -1,0 +1,72 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 订单管理模块
+  story: 更新订单接口
+  title: $parametrize{title}
+  description: 更新订单参数校验失败
+  requests:
+    method: put
+    url: /api/private/v1/orders/$parametrize{id}
+    headers:
+      Authorization: $parametrize{auth}
+      Content-Type: application/json
+    json:
+      order_price: $parametrize{order_price}
+      is_send: 1
+  parametrize:
+    title:
+      - test_update_order_fail_01
+      - test_update_order_fail_02
+      - test_update_order_fail_03
+      - test_update_order_fail_04
+    id:
+      - ''
+      - abc
+      - 1
+      - 1
+    order_price:
+      - 299
+      - 299
+      - null
+      - 299
+    auth:
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - invalidtoken
+    msg:
+      - 用户ID不能为空
+      - 用户ID必须是数字
+      - 订单价格不能为空
+      - 无效token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

@@ -1,0 +1,63 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 商品分类模块
+  story: 创建分类接口
+  title: 创建分类成功
+  description: 创建分类用于删除
+  requests:
+    method: post
+    url: /api/private/v1/categories
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+    json:
+      cat_name: ${random_str(10)}
+      cat_pid: 0
+      cat_level: 0
+  extract:
+    -
+      key: cat_id
+      attr: json
+      expr: $.data.cat_id
+-
+  feature: 商品分类模块
+  story: 删除分类接口
+  title: test_delete_category_success_01
+  description: 删除分类成功
+  requests:
+    method: delete
+    url: /api/private/v1/categories/${read_extract(cat_id)}
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 200
+        - json
+        - $.meta.status
+    contains:
+      -
+        - 删除成功
+        - json
+        - $.meta.msg

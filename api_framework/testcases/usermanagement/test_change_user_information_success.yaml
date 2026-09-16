@@ -1,0 +1,120 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号成功
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    params:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 用户管理模块
+  story: 查询用户列表接口
+  title: 获取用户列表成功
+  description: 查询用户接口列表成功
+  requests:
+    method: get
+    url: /api/private/v1/users
+    headers:
+      Content-Type: application/json
+      Authorization: ${read_extract(token)}
+    params:
+      pagenum: 1
+      pagesize: 20
+  parametrize:
+    expr:
+      - $.data.users[0].id
+      - $.data.users[1].id
+      - $.data.users[2].id
+      - $.data.users[3].id
+      - $.data.users[4].id
+      - $.data.users[5].id
+      - $.data.users[6].id
+      - $.data.users[7].id
+      - $.data.users[8].id
+      - $.data.users[9].id
+  extract:
+    -
+      key: id
+      attr: json
+      expr: $parametrize{expr}
+-
+  feature: 用户管理模块
+  story: 获取用户信息接口
+  title: $parametrize{title}
+  description: 获取id$parametrize{id}账号成功
+  requests:
+    method: get
+    url: /api/private/v1/users/$parametrize{id}
+    headers:
+      Content-Type: application/json
+      Authorization: ${read_extract(token)}
+    params:
+      id: $parametrize{id}
+  parametrize:
+    title:
+      - test_get_user_information_fail_01
+      - test_get_user_information_fail_02
+      - test_get_user_information_fail_03
+      - test_get_user_information_fail_04
+      - test_get_user_information_fail_05
+      - test_get_user_information_fail_06
+      - test_get_user_information_fail_07
+      - test_get_user_information_fail_08
+      - test_get_user_information_fail_09
+      - test_get_user_information_fail_10
+    id:
+      - null
+      - null
+      - null
+      - ${read_extract(id)}${random_str(10)}
+      - ${read_extract(id)}#^#^$%#^
+      - ${read_extract_str(id)}
+      - ${random_int(600,700)}
+      - ${random_int(600,700)}
+      - ${random_int(600,700)}
+      - ${random_int(600,700)}
+    status:
+      - 400
+      - 400
+      - 400
+      - 200
+      - 200
+      - 400
+      - 400
+      - 400
+      - 400
+      - 400
+    msg:
+      - 用户ID必须是数字
+      - 用户ID必须是数字
+      - 用户ID必须是数字
+      - 获取成功
+      - 获取成功
+      - 用户ID必须是数字
+      - {'message': 'Not found', 'code': 2, 'literalCode': 'NOT_FOUND', 'model': 'sp_manager'}
+      - {'message': 'Not found', 'code': 2, 'literalCode': 'NOT_FOUND', 'model': 'sp_manager'}
+      - {'message': 'Not found', 'code': 2, 'literalCode': 'NOT_FOUND', 'model': 'sp_manager'}
+      - {'message': 'Not found', 'code': 2, 'literalCode': 'NOT_FOUND', 'model': 'sp_manager'}
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - $parametrize{status}
+        - json
+        - $.meta.status
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

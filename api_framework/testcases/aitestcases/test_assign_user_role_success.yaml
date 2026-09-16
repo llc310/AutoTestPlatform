@@ -1,0 +1,64 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 用户管理模块
+  story: 查询用户列表接口
+  title: 查询用户列表成功
+  description: 查询用户列表提取非admin用户id
+  requests:
+    method: get
+    url: /api/private/v1/users
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+    params:
+      pagenum: 1
+      pagesize: 10
+  extract:
+    -
+      key: id
+      attr: json
+      expr: $.data.users[1].id
+-
+  feature: 用户管理模块
+  story: 分配用户角色接口
+  title: test_assign_user_role_success_01
+  description: 为用户分配角色成功
+  requests:
+    method: put
+    url: /api/private/v1/users/${read_extract(id)}/role
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+    json:
+      rid: 10
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 200
+        - json
+        - $.meta.status
+    contains:
+      -
+        - 设置角色成功
+        - json
+        - $.meta.msg

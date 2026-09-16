@@ -1,0 +1,72 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 商品管理模块
+  story: 添加商品接口
+  title: 预置商品-用于状态更新
+  description: 创建商品获取goods_id
+  requests:
+    method: post
+    url: /api/private/v1/goods
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+    json:
+      goods_name: 状态测试商品${random_str(6)}
+      goods_price: 99
+      goods_number: 100
+      goods_cat: '1,2,3'
+      goods_weight: 1
+  extract:
+    -
+      key: goods_id
+      attr: json
+      expr: $.data.goods_id
+-
+  feature: 商品管理模块
+  story: 更新商品状态接口
+  title: $parametrize{title}
+  description: 更新商品状态为$parametrize{state}成功
+  requests:
+    method: put
+    url: /api/private/v1/goods/${read_extract(goods_id)}/state/$parametrize{state}
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+  parametrize:
+    title:
+      - test_update_goods_state_success_01
+      - test_update_goods_state_success_02
+    state:
+      - 1
+      - 2
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 200
+        - json
+        - $.meta.status
+    contains:
+      -
+        - 更新成功
+        - json
+        - $.meta.msg

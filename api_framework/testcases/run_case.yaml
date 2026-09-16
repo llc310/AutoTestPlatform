@@ -1,0 +1,11 @@
+-
+#- "smoke/test_login_success.yaml"
+#- "smoke/test_change_user_state_success.yaml"
+#- "smoke/test_create_user_success.yaml"
+#- "login/test_login_fail.yaml"
+#- "usermanagement/test_query_user_list_success.yaml"
+#- "usermanagement/test_query_user_list_fail.yaml"
+#- "usermanagement/test_get_user_information_success.yaml"
+#- "usermanagement/test_get_user_information_fail.yaml"
+#- "usermanagement/test_create_user_success.yaml"
+#- "usermanagement/test_create_user_fail.yaml"

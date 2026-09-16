@@ -1,12 +1,10 @@
 from rest_framework import routers
 
-from project.views import ProjectViewSet, ConfigViewSet
+from project.views import ConfigViewSet, ProjectViewSet
 
-urlpatterns = [
-
-]
+urlpatterns = []
 router = routers.SimpleRouter()
-router.register("project",ProjectViewSet)
-router.register("config",ConfigViewSet)
+router.register("project", ProjectViewSet)
+router.register("config", ConfigViewSet)
 
 urlpatterns += router.urls

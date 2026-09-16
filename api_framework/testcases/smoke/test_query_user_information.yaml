@@ -1,0 +1,31 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    url: /api/private/v1/login
+    method: post
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    - key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 用户管理模块
+  story: 查询用户列表接口
+  title: test_query_user_information_01
+  description: 登录admin账号,查询用户信息列表
+  requests:
+    url: /api/private/v1/users
+    method: get
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+    params:
+      pagenum: 1
+      pagesize: 10

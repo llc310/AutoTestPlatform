@@ -1,0 +1,63 @@
+INFO     root:test_all_case.py:35 ----运行业务流程测试用例----
+INFO     root:test_all_case.py:49 feature:登录模块
+INFO     root:test_all_case.py:50 story:登录接口
+INFO     root:test_all_case.py:51 title:登录成功
+INFO     root:test_all_case.py:52 description:登录admin账号
+INFO     root:request_util.py:14 请求数据
+{
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "json": {
+        "password": "123456",
+        "username": "admin"
+    },
+    "method": "post",
+    "url": "http://127.0.0.1:8888/api/private/v1/login"
+}
+INFO     root:request_util.py:20 响应数据
+{
+    "data": {
+        "id": 500,
+        "rid": 0,
+        "username": "admin",
+        "mobile": "12345678",
+        "email": "adsfad@qq.com",
+        "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwMCwicmlkIjowLCJpYXQiOjE3ODg5MzMyNzAsImV4cCI6MTc4OTAxOTY3MH0.wmcpXO3W73yru3J8sw6TUModHDGDYVHxhCi0aEr9JLk"
+    },
+    "meta": {
+        "msg": "登录成功",
+        "status": 200
+    }
+}
+INFO     root:extract_util.py:21 提取接口关联参数token:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwMCwicmlkIjowLCJpYXQiOjE3ODg5MzMyNzAsImV4cCI6MTc4OTAxOTY3MH0.wmcpXO3W73yru3J8sw6TUModHDGDYVHxhCi0aEr9JLk
+INFO     root:test_all_case.py:49 feature:用户管理模块
+INFO     root:test_all_case.py:50 story:创建用户接口
+INFO     root:test_all_case.py:51 title:test_create_user_success_02
+INFO     root:test_all_case.py:52 description:创建用户user账号成功
+INFO     root:request_util.py:14 请求数据
+{
+    "headers": {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwMCwicmlkIjowLCJpYXQiOjE3ODg5MzMyNzAsImV4cCI6MTc4OTAxOTY3MH0.wmcpXO3W73yru3J8sw6TUModHDGDYVHxhCi0aEr9JLk",
+        "Content-Type": "application/json"
+    },
+    "json": {
+        "email": "llc3526823221@163.com",
+        "mobile": "13451038651",
+        "password": "123456a",
+        "rid": 11,
+        "username": "user"
+    },
+    "method": "post",
+    "url": "http://127.0.0.1:8888/api/private/v1/users"
+}
+INFO     root:request_util.py:20 响应数据
+{
+    "data": null,
+    "meta": {
+        "msg": "用户名已存在",
+        "status": 400
+    }
+}
+INFO     root:assert_util.py:44 响应断言json字段包含:实际结果'用户名已存在'in预期结果'创建成功'
+INFO     root:test_all_case.py:43 ----业务流程测试用例执行结束----

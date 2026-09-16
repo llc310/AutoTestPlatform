@@ -1,0 +1,63 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 商品分类模块
+  story: 创建分类接口
+  title: $parametrize{title}
+  description: 创建分类失败-$parametrize{desc}
+  requests:
+    method: post
+    url: /api/private/v1/categories
+    headers:
+      Authorization: $parametrize{auth}
+      Content-Type: application/json
+    json:
+      cat_name: $parametrize{cat_name}
+      cat_pid: 0
+      cat_level: 0
+  parametrize:
+    title:
+      - test_create_category_fail_01
+      - test_create_category_fail_02
+    desc:
+      - cat_name为空
+      - token无效
+    cat_name:
+      - ''
+      - 测试分类
+    auth:
+      - ${read_extract(token)}
+      - invalidtoken
+    msg:
+      - 必须提供分类名称
+      - 无效token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

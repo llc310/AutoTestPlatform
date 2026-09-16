@@ -1,0 +1,76 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 用户管理模块
+  story: 分配用户角色接口
+  title: $parametrize{title}
+  description: 分配用户角色失败-$parametrize{desc}
+  requests:
+    method: put
+    url: /api/private/v1/users/$parametrize{id}/role
+    headers:
+      Authorization: $parametrize{auth}
+      Content-Type: application/json
+    json:
+      rid: 10
+  parametrize:
+    title:
+      - test_assign_user_role_fail_01
+      - test_assign_user_role_fail_02
+      - test_assign_user_role_fail_03
+      - test_assign_user_role_fail_04
+      - test_assign_user_role_fail_05
+    desc:
+      - id为空
+      - id非数字
+      - 修改admin账户
+      - 不存在的id
+      - token无效
+    id:
+      - ''
+      - abc
+      - 500
+      - 99999
+      - 1
+    auth:
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - invalidtoken
+    msg:
+      - 用户ID不能为空
+      - 用户ID必须是数字
+      - 不允许修改admin账户
+      - 管理员ID不存在
+      - 无效token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

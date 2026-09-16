@@ -1,0 +1,25 @@
+-
+  feature: 物流查询模块
+  story: 物流查询接口
+  title: test_kuaidi_fail_01
+  description: token无效时查询物流
+  requests:
+    method: get
+    url: /api/private/v1/kuaidi/test123
+    headers:
+      Authorization: invalidtoken${random_str(10)}
+      Content-Type: application/json
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - 无效token
+        - json
+        - $.meta.msg

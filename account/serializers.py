@@ -6,21 +6,23 @@ from rest_framework.authtoken.models import Token
 from account.models import Profile
 from system.models import Role
 
-@extend_schema_serializer(
-    component_name="UserRole"
-)
+
+@extend_schema_serializer(component_name="UserRole")
 class RoleSerializer(serializers.ModelSerializer):
     department = serializers.CharField(source="department.name")
     position = serializers.CharField(source="position.name")
     is_leader = serializers.CharField(source="position.is_leader")
+
     class Meta:
         model = Role
-        fields = ["department","position","is_leader"]
+        fields = ["department", "position", "is_leader"]
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     token = serializers.SerializerMethodField()
     user = serializers.SerializerMethodField()
-    role_list = RoleSerializer(read_only=True,many=True,source="get_role_list")
+    role_list = RoleSerializer(read_only=True, many=True, source="get_role_list")
+
     class Meta:
         model = Profile
         fields = "__all__"

@@ -1,0 +1,46 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 商品分类模块
+  story: 更新参数接口
+  title: test_update_category_attr_success_01
+  description: 更新分类参数成功
+  requests:
+    method: put
+    url: /api/private/v1/categories/1/attributes/1
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+    json:
+      attr_name: 新参数名${random_str(6)}
+      attr_sel: only
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 200
+        - json
+        - $.meta.status
+    contains:
+      -
+        - 更新成功
+        - json
+        - $.meta.msg

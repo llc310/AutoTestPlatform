@@ -1,0 +1,120 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录$parametrize{username}账号成功
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    params:
+      username: $parametrize{username}
+      password: $parametrize{password}
+  parametrize:
+    username:
+      - admin
+      - admin
+      - admin
+      - admin
+      - admin
+      - admin
+      - llc
+      - admin
+    password:
+      - '123456'
+      - '123456'
+      - '123456'
+      - '123456'
+      - '123456'
+      - '123456'
+      - 3526823227llc
+      - '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 用户管理模块
+  story: 查询用户列表接口
+  title: $parametrize{title}
+  description: 查询用户接口列表失败
+  requests:
+    method: get
+    url: /api/private/v1/users
+    headers:
+      Content-Type: application/json
+      Authorization: $parametrize{Authorization}
+    params:
+      pagenum: $parametrize{pagenum}
+      pagesize: $parametrize{pagesize}
+  parametrize:
+    title:
+      - test_query_user_list_fail_01
+      - test_query_user_list_fail_02
+      - test_query_user_list_fail_03
+      - test_query_user_list_fail_04
+      - test_query_user_list_fail_05
+      - test_query_user_list_fail_06
+      - test_query_user_list_fail_07
+      - test_query_user_list_fail_08
+    Authorization:
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}${random_str(10)}
+    pagenum:
+      - null
+      - -20
+      - 0
+      - 1
+      - 2
+      - 5
+      - 1
+      - 1
+    pagesize:
+      - 10
+      - 10
+      - 10
+      - null
+      - -1
+      - 0
+      - 10
+      - 20
+    status:
+      - 400
+      - 400
+      - 400
+      - 400
+      - 400
+      - 400
+      - 401
+      - 400
+    msg:
+      - 查询执行出错
+      - pagenum 参数错误
+      - pagenum 参数错误
+      - 查询执行出错
+      - pagesize 参数错误
+      - pagesize 参数错误
+      - 权限验证失败
+      - 无效token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - $parametrize{status}
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

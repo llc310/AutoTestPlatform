@@ -1,0 +1,69 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 商品管理模块
+  story: 删除商品接口
+  title: $parametrize{title}
+  description: 删除商品失败-$parametrize{desc}
+  requests:
+    method: delete
+    url: /api/private/v1/goods/$parametrize{id}
+    headers:
+      Authorization: $parametrize{Authorization}
+      Content-Type: application/json
+  parametrize:
+    title:
+      - test_delete_goods_fail_01
+      - test_delete_goods_fail_02
+      - test_delete_goods_fail_03
+      - test_delete_goods_fail_04
+    desc:
+      - 商品ID为空
+      - 商品ID非数字
+      - 商品ID不存在
+      - token无效
+    Authorization:
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}${random_str(10)}
+    id:
+      - null
+      - abc${random_str(4)}
+      - ${random_int(900000,999999)}
+      - 1
+    msg:
+      - 商品ID不能为空
+      - 商品ID必须是数字
+      - 删除失败
+      - 无效token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

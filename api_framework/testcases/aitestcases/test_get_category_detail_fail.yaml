@@ -1,0 +1,69 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 商品分类模块
+  story: 分类详情接口
+  title: $parametrize{title}
+  description: 获取分类详情失败-$parametrize{desc}
+  requests:
+    method: get
+    url: /api/private/v1/categories/$parametrize{id}
+    headers:
+      Authorization: $parametrize{auth}
+      Content-Type: application/json
+  parametrize:
+    title:
+      - test_get_category_detail_fail_01
+      - test_get_category_detail_fail_02
+      - test_get_category_detail_fail_03
+      - test_get_category_detail_fail_04
+    desc:
+      - id为空
+      - id非数字
+      - 不存在的id
+      - token无效
+    id:
+      - ''
+      - abc
+      - 99999
+      - 1
+    auth:
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - invalidtoken
+    msg:
+      - 分类ID不能为空
+      - 分类ID必须是数字
+      - 获取分类对象失败
+      - 无效token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

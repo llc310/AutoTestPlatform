@@ -1,0 +1,55 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 商品分类模块
+  story: 参数列表接口
+  title: $parametrize{title}
+  description: 获取分类参数列表成功-$parametrize{desc}
+  requests:
+    method: get
+    url: /api/private/v1/categories/1/attributes
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+    params:
+      sel: $parametrize{sel}
+  parametrize:
+    title:
+      - test_get_category_attr_list_success_01
+      - test_get_category_attr_list_success_02
+    desc:
+      - sel=only
+      - sel=many
+    sel:
+      - only
+      - many
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 200
+        - json
+        - $.meta.status
+    contains:
+      -
+        - 获取成功
+        - json
+        - $.meta.msg

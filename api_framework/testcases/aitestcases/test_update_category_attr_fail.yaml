@@ -1,0 +1,111 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 商品分类模块
+  story: 更新参数接口
+  title: $parametrize{title}
+  description: 更新分类参数失败-$parametrize{desc}
+  requests:
+    method: put
+    url: /api/private/v1/categories/$parametrize{id}/attributes/$parametrize{attrId}
+    headers:
+      Authorization: $parametrize{auth}
+      Content-Type: application/json
+    json:
+      attr_name: $parametrize{attr_name}
+      attr_sel: $parametrize{attr_sel}
+  parametrize:
+    title:
+      - test_update_category_attr_fail_01
+      - test_update_category_attr_fail_02
+      - test_update_category_attr_fail_03
+      - test_update_category_attr_fail_04
+      - test_update_category_attr_fail_05
+      - test_update_category_attr_fail_06
+      - test_update_category_attr_fail_07
+    desc:
+      - id为空
+      - id非数字
+      - attrId为空
+      - attrId非数字
+      - attr_sel非法
+      - attr_name为空
+      - token无效
+    id:
+      - ''
+      - abc
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+    attrId:
+      - 1
+      - 1
+      - ''
+      - abc
+      - 1
+      - 1
+      - 1
+    attr_name:
+      - 测试参数
+      - 测试参数
+      - 测试参数
+      - 测试参数
+      - 测试参数
+      - ''
+      - 测试参数
+    attr_sel:
+      - only
+      - only
+      - only
+      - only
+      - invalid
+      - only
+      - only
+    auth:
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - invalidtoken
+    msg:
+      - 分类ID不能为空
+      - 分类ID必须是数字
+      - 参数ID不能为空
+      - 参数ID必须是数字
+      - 参数 attr_sel 类型必须为 only 或 many
+      - 参数名称不能为空
+      - 无效token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

@@ -1,0 +1,62 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 角色管理模块
+  story: 创建角色接口
+  title: $parametrize{title}
+  description: 创建角色失败-$parametrize{desc}
+  requests:
+    method: post
+    url: /api/private/v1/roles
+    headers:
+      Authorization: $parametrize{Authorization}
+      Content-Type: application/json
+    json:
+      roleName: $parametrize{roleName}
+      roleDesc: 测试描述
+  parametrize:
+    title:
+      - test_create_role_fail_01
+      - test_create_role_fail_02
+    desc:
+      - roleName为空
+      - token无效
+    Authorization:
+      - ${read_extract(token)}
+      - ${read_extract(token)}${random_str(10)}
+    roleName:
+      - null
+      - 测试角色${random_str(4)}
+    msg:
+      - 角色名称不能为空
+      - 无效token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

@@ -1,0 +1,64 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 数据报表模块
+  story: 获取报表数据接口
+  title: $parametrize{title}
+  description: 报表类型参数校验失败
+  requests:
+    method: get
+    url: /api/private/v1/reports/type/$parametrize{typeid}
+    headers:
+      Authorization: $parametrize{auth}
+      Content-Type: application/json
+  parametrize:
+    title:
+      - test_get_reports_fail_01
+      - test_get_reports_fail_02
+      - test_get_reports_fail_03
+      - test_get_reports_fail_04
+    typeid:
+      - 5
+      - ''
+      - abc
+      - 1
+    auth:
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - invalidtoken
+    msg:
+      - 类型出错
+      - 报表类型不能为空
+      - 报表类型必须是数字
+      - 无效token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

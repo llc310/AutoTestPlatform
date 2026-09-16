@@ -1,0 +1,85 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    url: /api/private/v1/login
+    method: post
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 用户管理模块
+  story: 创建用户接口
+  title: $parametrize{title}
+  description: 创建用户$parametrize{username}账号失败
+  requests:
+    url: /api/private/v1/users
+    method: post
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+    json:
+      username: $parametrize{username}
+      password: $parametrize{password}
+      mobile: $parametrize{mobile}
+      email: $parametrize{email}
+      rid: $parametrize{rid}
+  parametrize:
+    title:
+      - test_create_user_fail_01
+      - test_create_user_fail_02
+      - test_create_user_fail_03
+      - test_create_user_fail_04
+    username:
+      - null
+      - fasdfasfa
+      - wdf
+      - ridstring
+    password:
+      - 3526823227llc
+      - null
+      - 1234567890abc
+      - ridstring123213
+    mobile:
+      - '13451038652'
+      - '13451038651'
+      - '13451038653'
+      - '13451038657'
+    email:
+      - llc3526823227@163.com
+      - llc3526823221@163.com
+      - llc3526823222@163.com
+      - llcasfasfaf@qq.com
+    rid:
+      - 10
+      - 11
+      - 12
+      - dsafasf
+    msg:
+      - 用户名已存在
+      - 用户名已存在
+      - 用户名已存在
+      - 用户名已存在
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

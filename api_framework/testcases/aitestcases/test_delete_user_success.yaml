@@ -1,0 +1,64 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 用户管理模块
+  story: 创建用户接口
+  title: 创建用户成功
+  description: 创建测试用户用于删除
+  requests:
+    method: post
+    url: /api/private/v1/users
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+    json:
+      username: ${random_str(10)}
+      password: '123456'
+      mobile: '13700000000'
+      email: 'deluser@test.com'
+  extract:
+    -
+      key: id
+      attr: json
+      expr: $.data.id
+-
+  feature: 用户管理模块
+  story: 删除用户接口
+  title: test_delete_user_success_01
+  description: 删除用户成功
+  requests:
+    method: delete
+    url: /api/private/v1/users/${read_extract(id)}
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 200
+        - json
+        - $.meta.status
+    contains:
+      -
+        - 删除成功
+        - json
+        - $.meta.msg

@@ -1,0 +1,90 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 商品分类模块
+  story: 创建参数接口
+  title: $parametrize{title}
+  description: 创建分类参数失败-$parametrize{desc}
+  requests:
+    method: post
+    url: /api/private/v1/categories/$parametrize{id}/attributes
+    headers:
+      Authorization: $parametrize{auth}
+      Content-Type: application/json
+    json:
+      attr_name: $parametrize{attr_name}
+      attr_sel: $parametrize{attr_sel}
+      attr_vals: a,b,c
+  parametrize:
+    title:
+      - test_create_category_attr_fail_01
+      - test_create_category_attr_fail_02
+      - test_create_category_attr_fail_03
+      - test_create_category_attr_fail_04
+      - test_create_category_attr_fail_05
+    desc:
+      - id为空
+      - id非数字
+      - attr_name为空
+      - attr_sel非法
+      - token无效
+    id:
+      - ''
+      - abc
+      - 1
+      - 1
+      - 1
+    attr_name:
+      - 测试参数
+      - 测试参数
+      - ''
+      - 测试参数
+      - 测试参数
+    attr_sel:
+      - many
+      - many
+      - many
+      - invalid
+      - many
+    auth:
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - invalidtoken
+    msg:
+      - 分类ID不能为空
+      - 分类ID必须是数字
+      - 参数名称不能为空
+      - 参数 attr_sel 类型必须为 only 或 many
+      - 无效token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

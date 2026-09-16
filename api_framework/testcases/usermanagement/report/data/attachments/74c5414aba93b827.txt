@@ -1,0 +1,188 @@
+INFO     root:test_all_case.py:35 ----运行业务流程测试用例----
+INFO     root:test_all_case.py:49 feature:登录模块
+INFO     root:test_all_case.py:50 story:登录接口
+INFO     root:test_all_case.py:51 title:登录成功
+INFO     root:test_all_case.py:52 description:登录admin账号成功
+INFO     root:request_util.py:14 请求数据
+{
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "method": "post",
+    "params": {
+        "password": "123456",
+        "username": "admin"
+    },
+    "url": "http://127.0.0.1:8888/api/private/v1/login"
+}
+INFO     root:request_util.py:20 响应数据
+{
+    "data": {
+        "id": 500,
+        "rid": 0,
+        "username": "admin",
+        "mobile": "12345678",
+        "email": "adsfad@qq.com",
+        "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwMCwicmlkIjowLCJpYXQiOjE3ODg5MzMyNzIsImV4cCI6MTc4OTAxOTY3Mn0.LExWUzmJJhtTtU-PvF8kD4-OwGvASEvyFGDcBe2ni6M"
+    },
+    "meta": {
+        "msg": "登录成功",
+        "status": 200
+    }
+}
+INFO     root:extract_util.py:21 提取接口关联参数token:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwMCwicmlkIjowLCJpYXQiOjE3ODg5MzMyNzIsImV4cCI6MTc4OTAxOTY3Mn0.LExWUzmJJhtTtU-PvF8kD4-OwGvASEvyFGDcBe2ni6M
+INFO     root:test_all_case.py:49 feature:用户管理模块
+INFO     root:test_all_case.py:50 story:查询用户列表接口
+INFO     root:test_all_case.py:51 title:获取用户列表成功
+INFO     root:test_all_case.py:52 description:查询用户接口列表成功
+INFO     root:request_util.py:14 请求数据
+{
+    "headers": {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwMCwicmlkIjowLCJpYXQiOjE3ODg5MzMyNzIsImV4cCI6MTc4OTAxOTY3Mn0.LExWUzmJJhtTtU-PvF8kD4-OwGvASEvyFGDcBe2ni6M",
+        "Content-Type": "application/json"
+    },
+    "method": "get",
+    "params": {
+        "pagenum": 1,
+        "pagesize": 10
+    },
+    "url": "http://127.0.0.1:8888/api/private/v1/users"
+}
+INFO     root:request_util.py:20 响应数据
+{
+    "data": {
+        "total": 13,
+        "pagenum": 1,
+        "users": [
+            {
+                "id": 500,
+                "role_name": "超级管理员",
+                "username": "admin",
+                "create_time": 1486720211,
+                "mobile": "12345678",
+                "email": "adsfad@qq.com",
+                "mg_state": true
+            },
+            {
+                "id": 502,
+                "role_name": "测试角色2",
+                "username": "linken",
+                "create_time": 1486720211,
+                "mobile": "1213213123",
+                "email": "asdf@qq.com",
+                "mg_state": false
+            },
+            {
+                "id": 508,
+                "role_name": "主管",
+                "username": "asdf1",
+                "create_time": 1511853015,
+                "mobile": "123123",
+                "email": "adfsa@qq.com",
+                "mg_state": true
+            },
+            {
+                "id": 509,
+                "role_name": "test",
+                "username": "asdf123",
+                "create_time": 1511853353,
+                "mobile": "1111",
+                "email": "asdf@qq.com",
+                "mg_state": false
+            },
+            {
+                "id": 510,
+                "role_name": "超级管理员",
+                "username": "llc",
+                "create_time": 1788490736,
+                "mobile": "13451038652",
+                "email": "llc3526823227@163.com",
+                "mg_state": true
+            },
+            {
+                "id": 511,
+                "role_name": "超级管理员",
+                "username": "user",
+                "create_time": 1788490737,
+                "mobile": "13451038651",
+                "email": "llc3526823221@163.com",
+                "mg_state": true
+            },
+            {
+                "id": 512,
+                "role_name": "超级管理员",
+                "username": "wdf",
+                "create_time": 1788490737,
+                "mobile": "13451038653",
+                "email": "llc3526823222@163.com",
+                "mg_state": true
+            },
+            {
+                "id": 513,
+                "role_name": "超级管理员",
+                "username": "ok123",
+                "create_time": 1788490737,
+                "mobile": "13451038654",
+                "email": "llc3526823227@qq.com",
+                "mg_state": true
+            },
+            {
+                "id": 514,
+                "role_name": "超级管理员",
+                "username": "cantuse",
+                "create_time": 1788746508,
+                "mobile": "13451038655",
+                "email": "llc42114@163.com",
+                "mg_state": false
+            },
+            {
+                "id": 515,
+                "role_name": "超级管理员",
+                "username": "norid",
+                "create_time": 1788747601,
+                "mobile": "13451038656",
+                "email": "llc124214141@qq.com",
+                "mg_state": false
+            }
+        ]
+    },
+    "meta": {
+        "msg": "获取管理员列表成功",
+        "status": 200
+    }
+}
+INFO     root:extract_util.py:21 提取接口关联参数id:510
+INFO     root:test_all_case.py:49 feature:用户管理模块
+INFO     root:test_all_case.py:50 story:获取用户信息接口
+INFO     root:test_all_case.py:51 title:test_get_user_information_fail_05
+INFO     root:test_all_case.py:52 description:获取id510#^#^$%#^账号成功
+INFO     root:request_util.py:14 请求数据
+{
+    "headers": {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwMCwicmlkIjowLCJpYXQiOjE3ODg5MzMyNzIsImV4cCI6MTc4OTAxOTY3Mn0.LExWUzmJJhtTtU-PvF8kD4-OwGvASEvyFGDcBe2ni6M",
+        "Content-Type": "application/json"
+    },
+    "method": "get",
+    "params": {
+        "id": "510#^#^$%#^"
+    },
+    "url": "http://127.0.0.1:8888/api/private/v1/users/510#^#^$%#^"
+}
+INFO     root:request_util.py:20 响应数据
+{
+    "data": {
+        "id": 510,
+        "rid": 10,
+        "username": "llc",
+        "mobile": "13451038652",
+        "email": "llc3526823227@163.com"
+    },
+    "meta": {
+        "msg": "获取成功",
+        "status": 200
+    }
+}
+INFO     root:assert_util.py:34 响应断言status_code字段相等:实际结果'200'==预期结果'200'
+INFO     root:assert_util.py:34 响应断言json字段相等:实际结果'200'==预期结果'200'
+INFO     root:assert_util.py:34 响应断言json字段相等:实际结果'获取成功'==预期结果'获取成功'
+INFO     root:test_all_case.py:43 ----业务流程测试用例执行结束----

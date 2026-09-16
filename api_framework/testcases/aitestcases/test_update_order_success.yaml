@@ -1,0 +1,72 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 订单管理模块
+  story: 添加订单接口
+  title: 前置添加订单
+  description: 添加订单提取order_id供更新使用
+  requests:
+    method: post
+    url: /api/private/v1/orders
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+    json:
+      user_id: 1
+      order_price: 199
+      order_fapiao_title: 个人
+      consignee_addr: 测试地址
+      goods:
+        -
+          goods_id: 1
+          goods_price: 199
+          goods_number: 1
+  extract:
+    -
+      key: order_id
+      attr: json
+      expr: $.data.order_id
+-
+  feature: 订单管理模块
+  story: 更新订单接口
+  title: test_update_order_success_01
+  description: 更新订单价格和发货状态成功
+  requests:
+    method: put
+    url: /api/private/v1/orders/${read_extract(order_id)}
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+    json:
+      order_price: 299
+      is_send: 1
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 201
+        - json
+        - $.meta.status
+    contains:
+      -
+        - 更新订单成功
+        - json
+        - $.meta.msg

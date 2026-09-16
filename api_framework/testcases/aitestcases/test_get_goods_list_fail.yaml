@@ -1,0 +1,83 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 商品管理模块
+  story: 商品列表接口
+  title: $parametrize{title}
+  description: 查询商品列表失败-$parametrize{desc}
+  requests:
+    method: get
+    url: /api/private/v1/goods
+    headers:
+      Authorization: $parametrize{Authorization}
+      Content-Type: application/json
+    params:
+      pagenum: $parametrize{pagenum}
+      pagesize: $parametrize{pagesize}
+  parametrize:
+    title:
+      - test_get_goods_list_fail_01
+      - test_get_goods_list_fail_02
+      - test_get_goods_list_fail_03
+      - test_get_goods_list_fail_04
+      - test_get_goods_list_fail_05
+    desc:
+      - pagenum为空
+      - pagenum小于等于0
+      - pagesize为空
+      - pagesize小于等于0
+      - token无效
+    Authorization:
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}
+      - ${read_extract(token)}${random_str(10)}
+    pagenum:
+      - null
+      - 0
+      - 1
+      - 1
+      - 1
+    pagesize:
+      - 10
+      - 10
+      - null
+      - 0
+      - 10
+    msg:
+      - pagenum 参数错误
+      - pagenum 参数错误
+      - pagesize 参数错误
+      - pagesize 参数错误
+      - 无效token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 400
+        - json
+        - $.meta.status
+    contains:
+      -
+        - $parametrize{msg}
+        - json
+        - $.meta.msg

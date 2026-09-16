@@ -1,0 +1,51 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: $parametrize{title}
+  description: 登录成功，登录账号为$parametrize{username}
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: $parametrize{username}
+      password: $parametrize{password}
+  parametrize:
+    title:
+      - test_login_success_01
+      - test_login_success_02
+      - test_login_success_03
+      - test_login_success_04
+      - test_login_success_05
+    username:
+      - admin
+      - llc
+      - user
+      - wdf
+      - ok123
+    password:
+      - '123456'
+      - 3526823227llc
+      - 123456a
+      - 1234567890abc
+      - 110120abcdef
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 200
+        - json
+        - $.meta.status
+    contains:
+      -
+        - 登录成功
+        - json
+        - $.meta.msg

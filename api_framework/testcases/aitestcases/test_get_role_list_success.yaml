@@ -1,0 +1,43 @@
+-
+  feature: 登录模块
+  story: 登录接口
+  title: 登录成功
+  description: 登录admin账号
+  requests:
+    method: post
+    url: /api/private/v1/login
+    headers:
+      Content-Type: application/json
+    json:
+      username: admin
+      password: '123456'
+  extract:
+    -
+      key: token
+      attr: json
+      expr: $.data.token
+-
+  feature: 角色管理模块
+  story: 角色列表接口
+  title: test_get_role_list_success_01
+  description: 获取角色列表成功
+  requests:
+    method: get
+    url: /api/private/v1/roles
+    headers:
+      Authorization: ${read_extract(token)}
+      Content-Type: application/json
+  validate:
+    equals:
+      -
+        - 200
+        - status_code
+      -
+        - 200
+        - json
+        - $.meta.status
+    contains:
+      -
+        - 获取成功
+        - json
+        - $.meta.msg

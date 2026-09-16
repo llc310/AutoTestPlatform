@@ -23,8 +23,9 @@ from drf_spectacular.views import (SpectacularAPIView, SpectacularRedocView,
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/account/", include("account.urls")),
-    path("api/system/",include("system.urls")),
-    path("api/project/",include("project.urls")),
+    path("api/system/", include("system.urls")),
+    path("api/project/", include("project.urls")),
+    path("api/case_api/", include("case_api.urls")),
     path("api/schema/openapi.json/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "api/schema/swagger/",

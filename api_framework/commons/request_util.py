@@ -1,7 +1,9 @@
 import json
 import logging
+
 import requests
 import settings
+
 
 # 发送接口请求的工具类
 class RequestUtil:

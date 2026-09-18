@@ -1,8 +1,9 @@
 import logging
 import re
 from copy import deepcopy
-from jsonpath import jsonpath
+
 from commons.yaml_util import YamlUtil
+from jsonpath import jsonpath
 
 
 class ExtractUtil:

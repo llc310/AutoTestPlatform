@@ -9,7 +9,7 @@ class EndpointSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class CaseSerializer(serializers.ModelSerializer):
+class CaseAPISerializer(serializers.ModelSerializer):
     class Meta:
         model = Case
         fields = "__all__"

@@ -3,7 +3,6 @@ from pathlib import Path
 
 import allure
 import pytest
-
 import settings
 from commons.ddt_util import load_case, load_function
 from commons.main_util import stand_case_flow

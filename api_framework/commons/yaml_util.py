@@ -1,6 +1,5 @@
-import yaml
-
 import settings
+import yaml
 
 
 # 操作YAML文件的工具类

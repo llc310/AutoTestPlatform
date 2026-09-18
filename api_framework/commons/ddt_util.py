@@ -1,9 +1,8 @@
 import re
 from copy import deepcopy
 
-import yaml
-
 import settings
+import yaml
 from commons.debug_talk import DebugTalk
 from commons.yaml_util import YamlUtil
 

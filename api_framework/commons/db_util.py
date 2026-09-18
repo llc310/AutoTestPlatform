@@ -1,6 +1,5 @@
-from pymysql import connect, cursors
-
 import settings
+from pymysql import connect, cursors
 
 
 class DBUtil:

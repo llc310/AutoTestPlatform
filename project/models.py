@@ -1,11 +1,10 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.query import QuerySet
 
 
 # Create your models here.
 class Project(models.Model):
-    objects: QuerySet
+    objects: models.QuerySet
 
     name = models.CharField(verbose_name="项目名称", max_length=32)
     description = models.CharField(
@@ -21,7 +20,7 @@ class Project(models.Model):
 
 
 class Config(models.Model):
-    objects: QuerySet
+    objects: models.QuerySet
 
     project = models.ForeignKey(
         verbose_name="项目", to=Project, on_delete=models.CASCADE

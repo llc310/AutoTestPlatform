@@ -1,10 +1,13 @@
 from django.db import models
 
+from case_api.serializers import CaseAPISerializer
 from project.models import Project
 
 
 # Create your models here.
 class Endpoint(models.Model):
+    objects: models.QuerySet
+
     name = models.CharField(verbose_name="接口名称", max_length=32)
     project = models.ForeignKey(
         verbose_name="项目id", to=Project, on_delete=models.CASCADE
@@ -29,9 +32,14 @@ class Endpoint(models.Model):
 
 
 class Case(models.Model):
+    objects: models.QuerySet
+
     name = models.CharField(verbose_name="接口测试用例名称", max_length=32)
     project = models.ForeignKey(
-        verbose_name="项目id", to=Project, on_delete=models.CASCADE
+        verbose_name="项目id",
+        to=Project,
+        on_delete=models.CASCADE,
+        related_name="case_api",
     )
     endpoint = models.ForeignKey(
         verbose_name="接口id", to=Endpoint, on_delete=models.CASCADE
@@ -41,3 +49,10 @@ class Case(models.Model):
     extract = models.JSONField(verbose_name="提取参数", blank=True, null=True)
     parametrize = models.JSONField(verbose_name="参数化参数", blank=True, null=True)
     validate = models.JSONField(verbose_name="断言参数", blank=True, null=True)
+
+    def to_yaml(self,path):
+        serializer = CaseAPISerializer(self)
+        data = serializer.data
+
+        case = {}
+        case.update(data["allure"])

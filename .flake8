@@ -1,3 +1,3 @@
 [flake8]
-exclude = .venv
+exclude = .venv api_framework
 extend-ignore = E501

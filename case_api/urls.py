@@ -1,12 +1,13 @@
 from rest_framework import routers
 
 
-from case_api.views import CaseViewSet, EndpointViewSet
+from case_api.views import CaseAPIViewSet, EndpointViewSet, CaseAPIInfoViewSet
 
 urlpatterns = []
 
 router = routers.SimpleRouter()
 router.register("endpoint", EndpointViewSet)
-router.register("case_api", CaseViewSet)
+router.register("case_api_info",CaseAPIInfoViewSet)
+router.register("case_api", CaseAPIViewSet)
 
 urlpatterns += router.urls

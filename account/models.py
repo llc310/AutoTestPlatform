@@ -18,6 +18,7 @@ class Profile(models.Model):
     objects: models.QuerySet
 
     user = models.OneToOneField(to=User, on_delete=models.CASCADE)
+
     name = models.CharField(verbose_name="昵称", max_length=32)
     head_img = models.FileField(verbose_name="头像", upload_to=user_head_img_path)
 

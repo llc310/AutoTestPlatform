@@ -12,7 +12,7 @@ EXTRACT_FILE = Path.cwd() / "extract.yaml"
 # LOG文件夹路径：每进程独立
 LOG_DIR = Path.cwd() / "log"
 # LOG文件最多记录数
-LOG_FILE_MAX_NUM = 7
+LOG_FILE_MAX_NUM = 4
 
 # 项目网址路径
 BASE_URL = "http://127.0.0.1:8888"

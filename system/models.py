@@ -7,9 +7,6 @@ class Department(models.Model):
     objects: models.QuerySet
 
     name = models.CharField(verbose_name="部门名称", max_length=32)
-    description = models.CharField(
-        verbose_name="部门描述", max_length=128, default="公司部门"
-    )
     leader = models.ForeignKey(
         verbose_name="部门领导",
         to=User,
@@ -18,8 +15,12 @@ class Department(models.Model):
         default=None,
     )
 
+    description = models.CharField(
+        verbose_name="部门描述", max_length=128, default="公司部门"
+    )
 
-class Positon(models.Model):
+
+class Position(models.Model):
     objects: models.QuerySet
 
     name = models.CharField(verbose_name="职位名称", max_length=32)
@@ -34,5 +35,5 @@ class Role(models.Model):
         verbose_name="部门", to=Department, on_delete=models.CASCADE
     )
     position = models.ForeignKey(
-        verbose_name="职位", to=Positon, on_delete=models.CASCADE
+        verbose_name="职位", to=Position, on_delete=models.CASCADE
     )

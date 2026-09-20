@@ -1,6 +1,7 @@
+import yaml
 from django.db import models
 
-from case_api.serializers import CaseAPISerializer
+
 from project.models import Project
 
 
@@ -8,10 +9,10 @@ from project.models import Project
 class Endpoint(models.Model):
     objects: models.QuerySet
 
-    name = models.CharField(verbose_name="接口名称", max_length=32)
     project = models.ForeignKey(
         verbose_name="项目id", to=Project, on_delete=models.CASCADE
     )
+
     method = models.CharField(verbose_name="请求方法", max_length=8)
     url = models.CharField(verbose_name="网址", max_length=255)
     params = models.JSONField(
@@ -31,7 +32,18 @@ class Endpoint(models.Model):
     )
 
 
-class Case(models.Model):
+class CaseAPIInfo(models.Model):
+    objects: models.QuerySet
+
+    endpoint = models.ForeignKey(verbose_name="接口id",to=Endpoint,on_delete=models.CASCADE)
+
+    allure = models.JSONField(verbose_name="allure参数", blank=True, null=True)
+    extract = models.JSONField(verbose_name="提取参数", blank=True, null=True)
+    parametrize = models.JSONField(verbose_name="参数化参数", blank=True, null=True)
+    validate = models.JSONField(verbose_name="断言参数", blank=True, null=True)
+
+
+class CaseAPI(models.Model):
     objects: models.QuerySet
 
     name = models.CharField(verbose_name="接口测试用例名称", max_length=32)
@@ -41,18 +53,24 @@ class Case(models.Model):
         on_delete=models.CASCADE,
         related_name="case_api",
     )
-    endpoint = models.ForeignKey(
-        verbose_name="接口id", to=Endpoint, on_delete=models.CASCADE
-    )
-    allure = models.JSONField(verbose_name="allure参数", blank=True, null=True)
-    api_args = models.JSONField(verbose_name="接口用例参数", blank=True, null=True)
-    extract = models.JSONField(verbose_name="提取参数", blank=True, null=True)
-    parametrize = models.JSONField(verbose_name="参数化参数", blank=True, null=True)
-    validate = models.JSONField(verbose_name="断言参数", blank=True, null=True)
+    caseapiinfo = models.ManyToManyField(verbose_name="接口信息id",to=CaseAPIInfo,blank=True)
 
-    def to_yaml(self,path):
+    case_path = models.CharField(verbose_name="测试用例文件路径",blank=True,null=True,default=None,max_length=126)
+
+    def to_yaml(self,yaml_path):
+        from case_api.serializers import CaseAPISerializer
         serializer = CaseAPISerializer(self)
         data = serializer.data
 
-        case = {}
-        case.update(data["allure"])
+        case = []
+        for caseapiinfo in data["caseapiinfo"]:
+            caseinfo = {}
+            caseinfo.update(caseapiinfo)
+            caseinfo.pop("endpoint")
+            caseinfo.update(caseapiinfo["endpoint"])
+            caseinfo.pop("id")
+            caseinfo.pop("project")
+            case.append(caseinfo)
+
+        with open(file=yaml_path,mode="w",encoding="utf-8") as f:
+            yaml.safe_dump(case,f)

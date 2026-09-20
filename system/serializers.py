@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from system.models import Department, Positon, Role
+from system.models import Department, Position, Role
 
 
 class DepartmentSerializer(serializers.ModelSerializer):
@@ -11,7 +11,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
 
 class PositionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Positon
+        model = Position
         fields = "__all__"
 
 

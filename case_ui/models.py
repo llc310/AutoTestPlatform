@@ -14,7 +14,7 @@ class Element(models.Model):
     )
 
 
-class Case(models.Model):
+class CaseUI(models.Model):
     objects: models.QuerySet
 
     name = models.CharField(verbose_name="ui测试用例名称", max_length=32)

@@ -11,7 +11,7 @@ from system.models import Role
 class RoleSerializer(serializers.ModelSerializer):
     department = serializers.CharField(source="department.name")
     position = serializers.CharField(source="position.name")
-    is_leader = serializers.CharField(source="position.is_leader")
+    is_leader = serializers.BooleanField(source="position.is_leader")
 
     class Meta:
         model = Role
@@ -21,6 +21,7 @@ class RoleSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     token = serializers.SerializerMethodField()
     user = serializers.SerializerMethodField()
+    username = serializers.SerializerMethodField()
     role_list = RoleSerializer(read_only=True, many=True, source="get_role_list")
 
     class Meta:
@@ -29,11 +30,14 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def get_token(self, obj):
         user = obj.user
-        token, is_create = Token.objects.get_or_create(user=user)
+        token, _ = Token.objects.get_or_create(user=user)
         return token.key
 
     def get_user(self, obj):
         return obj.user.id
+
+    def get_username(self,obj):
+        return obj.user.username
 
 
 class LoginSerializer(serializers.Serializer):

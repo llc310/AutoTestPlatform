@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from case_api.models import Case, Endpoint
+from case_api.models import CaseAPI, Endpoint, CaseAPIInfo
 
 
 class EndpointSerializer(serializers.ModelSerializer):
@@ -9,7 +9,17 @@ class EndpointSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class CaseAPISerializer(serializers.ModelSerializer):
+class CaseAPIInfoSerializer(serializers.ModelSerializer):
+    endpoint = EndpointSerializer()
+
     class Meta:
-        model = Case
+        model = CaseAPIInfo
+        fields = "__all__"
+
+
+class CaseAPISerializer(serializers.ModelSerializer):
+    caseapiinfo = CaseAPIInfoSerializer(many=True)
+
+    class Meta:
+        model = CaseAPI
         fields = "__all__"

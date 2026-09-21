@@ -6,7 +6,7 @@ from django.db import models
 from case_api.models import CaseAPI as CaseAPI
 from case_ui.models import CaseUI
 from project.models import Project
-from suite.tasks import pool, run_api_case
+from suite.tasks import pool, run_api_case, merge_all_report_log
 
 
 # Create your models here.
@@ -14,8 +14,8 @@ class Suite(models.Model):
     objects: models.QuerySet
 
     project = models.ForeignKey(verbose_name="项目id", to=Project, on_delete=models.CASCADE)
-    case_ui_list = models.ManyToManyField(verbose_name="UI测试用例id", to=CaseUI)
-    case_api_list = models.ManyToManyField(verbose_name="接口测试用例id", to=CaseAPI)
+    case_ui_list = models.ManyToManyField(verbose_name="UI测试用例id", to=CaseUI,blank=True)
+    case_api_list = models.ManyToManyField(verbose_name="接口测试用例id", to=CaseAPI,blank=True)
 
     name = models.CharField(verbose_name="套件名称", max_length=32)
     description = models.CharField(verbose_name="套件名称", blank=True, max_length=32)
@@ -30,6 +30,10 @@ class Suite(models.Model):
         # 创建工作目录
         path = Path("upload_yaml") / f"project_{self.project.id}" / f"suite_{self.id}"
 
+        run_result = RunResult.objects.create(
+            suite=self,
+            path=path
+        )
         # 创建存放测试用例的目录
         api_path = path / "api"
         api_path.mkdir(parents=True, exist_ok=True)
@@ -41,12 +45,14 @@ class Suite(models.Model):
             for case_api in self.case_api_list.all():
                 yaml_path = api_path / f"test_api_{case_api.id}.yaml"
                 case_api.to_yaml(yaml_path)
-                run_result = RunResult.objects.create(
-                    suite = self.id,
-                    path = yaml_path
-                )
-                pool.submit(run_api_case,yaml_path,run_result.id)
+            pool.submit(run_api_case,api_path,run_result.id,"api")
 
+        # 合并测试结果
+        run_result.status = RunResult.RunStatus.Reporting
+        run_result.save()
+        merge_all_report_log(path)
+        run_result.status = RunResult.RunStatus.Reporting_Done
+        run_result.save()
 
 class RunResult(models.Model):
     objects: models.QuerySet

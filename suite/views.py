@@ -7,7 +7,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from case_api.models import CaseAPI as CaseAPI
+
 from suite.models import Suite, RunResult
 from suite.serializers import SuiteSerializer, RunResultSerializer
 
@@ -20,7 +20,7 @@ class SuiteViewSet(viewsets.ModelViewSet):
     queryset = Suite.objects.all()
     serializer_class = SuiteSerializer
 
-    @action(methods=["POST"])
+    @action(methods=["POST"],detail=True)
     def run(self,request,pk):
         suite = self.get_object()
         result = suite.run()
@@ -29,6 +29,9 @@ class SuiteViewSet(viewsets.ModelViewSet):
             "result": result
         })
 
+@extend_schema(
+    tags=["Suite"]
+)
 class RunResultViewSet(
     viewsets.mixins.RetrieveModelMixin,
     viewsets.GenericViewSet

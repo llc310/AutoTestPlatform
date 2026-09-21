@@ -65,12 +65,22 @@ class CaseAPI(models.Model):
         case = []
         for caseapiinfo in data["caseapiinfo"]:
             caseinfo = {}
-            caseinfo.update(caseapiinfo)
-            caseinfo.pop("endpoint")
-            caseinfo.update(caseapiinfo["endpoint"])
-            caseinfo.pop("id")
-            caseinfo.pop("project")
+            if caseapiinfo["allure"]:
+                for key,value in caseapiinfo["allure"].items():
+                    if value:
+                        caseinfo[key] = value
+            caseinfo["requests"] = {}
+            for key,value in caseapiinfo["endpoint"].items():
+                if key not in ["id","project"]:
+                    if value:
+                        caseinfo["requests"].update({key:value})
+            if caseapiinfo["extract"]:
+                caseinfo.update({"extract": caseapiinfo["extract"]})
+            if caseapiinfo["parametrize"]:
+                caseinfo.update({"parametrize": caseapiinfo["parametrize"]})
+            if caseapiinfo["validate"]:
+                caseinfo.update({"validate": caseapiinfo["validate"]})
             case.append(caseinfo)
 
         with open(file=yaml_path,mode="w",encoding="utf-8") as f:
-            yaml.safe_dump(case,f)
+            yaml.safe_dump(case,f,allow_unicode=True,sort_keys=False)

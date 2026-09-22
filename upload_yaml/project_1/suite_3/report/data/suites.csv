@@ -1,2 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"使用llc-x账号登录成功","2231","test_ui_2[test_login_success_01]","selenium_framework.testcases","2026-09-22","passed","2026-09-22","TestAllCase","test_all_case","",""

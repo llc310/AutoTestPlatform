@@ -1,4 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"创建用户user账号成功","197","test_api_1[test_create_user_success_02]","api_framework.testcases","2026-09-22","failed","2026-09-22","TestAllCase","test_all_case","",""
-"创建用户llc账号成功","335","test_api_1[test_create_user_success_01]","api_framework.testcases","2026-09-22","failed","2026-09-22","TestAllCase","test_all_case","",""
-"使用llc-x账号登录成功","1726","test_ui_2[test_login_success_01]","selenium_framework.testcases","2026-09-22","passed","2026-09-22","TestAllCase","test_all_case","",""

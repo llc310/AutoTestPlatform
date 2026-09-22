@@ -1,0 +1,39 @@
+-
+  feature: 登录模块
+  story: 登录功能
+  title: $parametrize{title}
+  description: 使用$parametrize{account}账号登录成功
+  step:
+    -
+      action: 输入用户名
+      keyword: send_keys
+      locator:
+        - xpath
+        - '//*[@id="account"]'
+      args:
+        - $parametrize{account}
+    -
+      action: 输入密码
+      keyword: send_keys
+      locator:
+        - xpath
+        - '//*[@id="password"]'
+      args:
+        - 123456a
+    -
+      action: 保存验证码图片
+      keyword: save_code_img
+      locator:
+        - xpath
+        - '//*[@id="code"]'
+    -
+      action: 输入验证码
+      keyword: send_code
+      locator:
+        - xpath
+        - '//*[@id="checkCode"]'
+  parametrize:
+    title:
+      - test_login_success_01
+    account:
+      - llc-x

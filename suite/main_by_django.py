@@ -1,14 +1,9 @@
 import os
 import shutil
-import subprocess
+import sys
 from pathlib import Path
 
 import pytest
-import sys
-
-import time
-
-
 
 type = sys.argv[-1]
 sys.argv = sys.argv[:-2]
@@ -16,37 +11,45 @@ sys.argv = sys.argv[:-2]
 id = sys.argv[-1]
 sys.argv = sys.argv[:-2]
 
-sys.path.append(r"E:\Pycharm-WorkSpace\AutoTestPlatform")
+BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.append(str(BASE_DIR))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "AutoTestPlatform.settings")
 from django import setup
 
 setup()
 
 allure_dir = Path.cwd().parent / f"temps_{type}"
+if allure_dir.exists():
+    shutil.rmtree(allure_dir)
 allure_dir.mkdir(parents=True, exist_ok=True)
 log_dir = Path.cwd().parent / "log"
-log_dir.mkdir(parents=True,exist_ok=True)
+log_dir.mkdir(parents=True, exist_ok=True)
 log_file = log_dir / f"frame_{type}.log"
 
 from suite.models import RunResult
 
 run_result = RunResult.objects.get(id=id)
 run_result.status = RunResult.RunStatus.Running
-run_result.save()
+run_result.save(update_fields=["status"])
 
-res_code = pytest.main([
-    "--alluredir", allure_dir,
-     "--log-file", log_file,
-     "--log-file-level", "INFO",
-    *sys.argv
-])
+res_code = pytest.main(
+    [
+        "--alluredir",
+        str(allure_dir),
+        "--log-file",
+        str(log_file),
+        "--log-file-level",
+        "INFO",
+        sys.argv[-1],
+    ]
+)
 
 if res_code == pytest.ExitCode.OK:
     run_result.status = RunResult.RunStatus.Done
     run_result.is_pass = True
-    run_result.save()
+    run_result.save(update_fields=["status", "is_pass"])
     print("测试用例执行结束")
 else:
     run_result.status = RunResult.RunStatus.Error
-    run_result.save()
+    run_result.save(update_fields=["status"])
     print("测试用例执行失败")

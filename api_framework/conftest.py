@@ -6,13 +6,13 @@ from commons.yaml_util import YamlUtil
 
 
 # 创建关联参数文件
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="class", autouse=True)
 def create_extract_file():
     YamlUtil.clean_yaml(settings.EXTRACT_FILE)
 
 
 # 清理日志
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="class", autouse=True)
 def clear_log():
     log_list = list(settings.LOG_DIR.glob("*.log"))
     while len(log_list) > settings.LOG_FILE_MAX_NUM:

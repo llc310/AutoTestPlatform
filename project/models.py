@@ -20,7 +20,6 @@ class Project(models.Model):
     base_url = models.CharField(verbose_name="项目网址", default="")
 
 
-
 class Config(models.Model):
     objects: models.QuerySet
 

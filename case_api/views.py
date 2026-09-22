@@ -1,9 +1,9 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
-from rest_framework.decorators import action
 
-from case_api.models import CaseAPI, Endpoint, CaseAPIInfo
-from case_api.serializers import CaseAPISerializer, EndpointSerializer, CaseAPIInfoSerializer
+from case_api.models import CaseAPI, CaseAPIInfo, Endpoint
+from case_api.serializers import (CaseAPIInfoSerializer, CaseAPISerializer,
+                                  EndpointSerializer)
 
 
 # Create your views here.
@@ -13,9 +13,7 @@ class EndpointViewSet(viewsets.ModelViewSet):
     serializer_class = EndpointSerializer
 
 
-@extend_schema(
-    tags=["Case_API"]
-)
+@extend_schema(tags=["Case_API"])
 class CaseAPIInfoViewSet(viewsets.ModelViewSet):
     queryset = CaseAPIInfo.objects.all()
     serializer_class = CaseAPIInfoSerializer

@@ -1,7 +1,6 @@
 import yaml
 from django.db import models
 
-
 from project.models import Project
 
 
@@ -35,7 +34,9 @@ class Endpoint(models.Model):
 class CaseAPIInfo(models.Model):
     objects: models.QuerySet
 
-    endpoint = models.ForeignKey(verbose_name="接口id",to=Endpoint,on_delete=models.CASCADE)
+    endpoint = models.ForeignKey(
+        verbose_name="接口id", to=Endpoint, on_delete=models.CASCADE
+    )
 
     allure = models.JSONField(verbose_name="allure参数", blank=True, null=True)
     extract = models.JSONField(verbose_name="提取参数", blank=True, null=True)
@@ -53,12 +54,13 @@ class CaseAPI(models.Model):
         on_delete=models.CASCADE,
         related_name="case_api",
     )
-    caseapiinfo = models.ManyToManyField(verbose_name="接口信息id",to=CaseAPIInfo,blank=True)
+    caseapiinfo = models.ManyToManyField(
+        verbose_name="接口信息id", to=CaseAPIInfo, blank=True
+    )
 
-    case_path = models.CharField(verbose_name="测试用例文件路径",blank=True,null=True,default=None,max_length=126)
-
-    def to_yaml(self,yaml_path):
+    def to_yaml(self, yaml_path):
         from case_api.serializers import CaseAPISerializer
+
         serializer = CaseAPISerializer(self)
         data = serializer.data
 
@@ -66,14 +68,14 @@ class CaseAPI(models.Model):
         for caseapiinfo in data["caseapiinfo"]:
             caseinfo = {}
             if caseapiinfo["allure"]:
-                for key,value in caseapiinfo["allure"].items():
+                for key, value in caseapiinfo["allure"].items():
                     if value:
                         caseinfo[key] = value
             caseinfo["requests"] = {}
-            for key,value in caseapiinfo["endpoint"].items():
-                if key not in ["id","project"]:
+            for key, value in caseapiinfo["endpoint"].items():
+                if key not in ["id", "project"]:
                     if value:
-                        caseinfo["requests"].update({key:value})
+                        caseinfo["requests"].update({key: value})
             if caseapiinfo["extract"]:
                 caseinfo.update({"extract": caseapiinfo["extract"]})
             if caseapiinfo["parametrize"]:
@@ -82,5 +84,5 @@ class CaseAPI(models.Model):
                 caseinfo.update({"validate": caseapiinfo["validate"]})
             case.append(caseinfo)
 
-        with open(file=yaml_path,mode="w",encoding="utf-8") as f:
-            yaml.safe_dump(case,f,allow_unicode=True,sort_keys=False)
+        with open(file=yaml_path, mode="w", encoding="utf-8") as f:
+            yaml.safe_dump(case, f, allow_unicode=True, sort_keys=False)

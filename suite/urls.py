@@ -1,13 +1,11 @@
 from rest_framework import routers
 
-from suite.views import SuiteViewSet, RunResultViewSet
+from suite.views import RunResultViewSet, SuiteViewSet
 
-urlpatterns = [
-
-]
+urlpatterns = []
 
 router = routers.SimpleRouter()
-router.register("suite",SuiteViewSet)
-router.register("runresult",RunResultViewSet)
+router.register("suite", SuiteViewSet)
+router.register("runresult", RunResultViewSet)
 
 urlpatterns += router.urls

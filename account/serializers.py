@@ -36,7 +36,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_user(self, obj):
         return obj.user.id
 
-    def get_username(self,obj):
+    def get_username(self, obj):
         return obj.user.username
 
 

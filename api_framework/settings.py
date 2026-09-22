@@ -10,7 +10,7 @@ RUN_CASE_FILE = TEST_CASE_DIR / "run_case.yaml"
 # 关联参数文件路径：每进程独立
 EXTRACT_FILE = Path.cwd() / "extract.yaml"
 # LOG文件夹路径：每进程独立
-LOG_DIR = Path.cwd() / "log"
+LOG_DIR = Path.cwd().parent / "log"
 # LOG文件最多记录数
 LOG_FILE_MAX_NUM = 4
 

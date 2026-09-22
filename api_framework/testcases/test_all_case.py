@@ -61,7 +61,7 @@ if isinstance(run_case_list, dict):
 # 长度为0默认执行所有测试用例
 if not run_case_list[0]:
     logging.info("====运行所有测试用例====")
-    for testcase in settings.TEST_CASE_DIR.glob("api/*.yaml"):
+    for testcase in settings.TEST_CASE_DIR.glob("test_*.yaml"):
         if "extract.yaml" in str(testcase):
             continue
         logging.info(f"文件名为{testcase}")

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from case_api.models import CaseAPI, Endpoint, CaseAPIInfo
+from case_api.models import CaseAPI, CaseAPIInfo, Endpoint
 
 
 class EndpointSerializer(serializers.ModelSerializer):

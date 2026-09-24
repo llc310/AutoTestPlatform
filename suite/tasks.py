@@ -3,7 +3,9 @@ import sys
 import time
 from concurrent.futures.process import ProcessPoolExecutor
 
+
 from AutoTestPlatform import settings
+
 
 pool = ProcessPoolExecutor(max_workers=3)
 
@@ -18,12 +20,9 @@ def run_api_case(path, id, type):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
-    try:
-        print(p.stdout.decode("gbk", errors="replace"))
-        print(p.stderr.decode("gbk", errors="replace"))
-    except UnicodeDecodeError:
-        print(p.stdout.decode("gbk", errors="replace"))
-        print(p.stderr.decode("gbk", errors="replace"))
+    print(p.stdout.decode("gbk", errors="replace"))
+    print(p.stderr.decode("gbk", errors="replace"))
+    return p.returncode
 
 
 def run_ui_case(path, id, type):
@@ -36,12 +35,9 @@ def run_ui_case(path, id, type):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
-    try:
-        print(p.stdout.decode("gbk", errors="replace"))
-        print(p.stderr.decode("gbk", errors="replace"))
-    except UnicodeDecodeError:
-        print(p.stdout.decode("gbk", errors="replace"))
-        print(p.stderr.decode("gbk", errors="replace"))
+    print(p.stdout.decode("gbk", errors="replace"))
+    print(p.stderr.decode("gbk", errors="replace"))
+    return p.returncode
 
 
 def merge_all_report_log(path, run_type=("api", "ui")):
@@ -63,3 +59,9 @@ def merge_all_report_log(path, run_type=("api", "ui")):
             f.write(f"\n========== {type} log ==========\n")
             if part.exists():
                 f.write(part.read_text(encoding="utf-8", errors="replace"))
+
+
+def run_by_cron(id):
+    from suite.models import Suite
+    suite = Suite.objects.get(id=id)
+    suite.run()

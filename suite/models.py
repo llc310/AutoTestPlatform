@@ -1,6 +1,12 @@
+
 from pathlib import Path
 
+
+import pytest
 from django.db import models
+from django_q.models import Schedule
+
+from django_q.tasks import schedule
 
 from case_api.models import CaseAPI as CaseAPI
 from case_ui.models import CaseUI
@@ -11,6 +17,12 @@ from suite.tasks import merge_all_report_log, pool, run_api_case, run_ui_case
 # Create your models here.
 class Suite(models.Model):
     objects: models.QuerySet
+
+    schedule = models.ForeignKey(to=Schedule,null=True,on_delete=models.SET_NULL)
+
+    class RunType(models.TextChoices):
+        ONCE = "O"
+        CRON = "C"
 
     project = models.ForeignKey(
         verbose_name="项目id", to=Project, on_delete=models.CASCADE
@@ -24,6 +36,8 @@ class Suite(models.Model):
 
     name = models.CharField(verbose_name="套件名称", max_length=32)
     description = models.CharField(verbose_name="套件名称", blank=True, max_length=32)
+    run_type = models.CharField(verbose_name="运行模式",choices=RunType,default=RunType.ONCE)
+    cron = models.CharField(verbose_name="运行表达式",max_length=32,blank=True)
 
     def case_ui_count(self):
         return self.case_ui_list.all().count()
@@ -31,6 +45,22 @@ class Suite(models.Model):
     def case_api_count(self):
         return self.case_api_list.all().count()
 
+    def save(self,*args,**kwargs) -> None:
+
+        if self.run_type == self.RunType.CRON:
+            Schedule.objects.filter(name=f"cron_套件{self.id}").delete()  # 删旧防重复
+            schedule(
+                "suite.tasks.run_by_cron",
+                self.id,  # 位置参数 = 套件 id
+                name=f"cron_套件{self.id}",  # 固定 name，配合上面去重
+                schedule_type=Schedule.CRON,  # "C"
+                cron=self.cron,  # "*/2 * * * *"
+                repeats=-1,  # 无限
+            )
+        else:
+            if self.schedule:
+                self.schedule.delete()
+        return super().save(*args, **kwargs)
     def run(self):
         # 创建工作目录
         path = Path("upload_yaml") / f"project_{self.project.id}" / f"suite_{self.id}"
@@ -59,12 +89,13 @@ class Suite(models.Model):
             futures.append(pool.submit(run_ui_case, ui_path, run_result.id, "ui"))
             run_type.append("ui")
 
-        for fut in futures:
-            fut.result(timeout=900)
+        results = [future.result(timeout=900) for future in futures]
+        is_pass = all(res_code == pytest.ExitCode.OK for res_code in results)
 
         # 合并测试结果
         run_result.status = RunResult.RunStatus.Reporting
-        run_result.save(update_fields=["status"])
+        run_result.is_pass = is_pass
+        run_result.save(update_fields=["status","is_pass"])
         merge_all_report_log(path, run_type)
         run_result.status = RunResult.RunStatus.Reporting_Done
         run_result.save(update_fields=["status"])

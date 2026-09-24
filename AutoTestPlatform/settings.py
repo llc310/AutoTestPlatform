@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "drf_spectacular",
     "drf_spectacular_sidecar",
+    "django_q",
 ]
 
 MIDDLEWARE = [
@@ -149,4 +150,12 @@ SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
     "REDOC_DIST": "SIDECAR",
     "COMPONENT_SPLIT_REQUEST": True,
+}
+
+Q_CLUSTER = {
+    "name": "autotest",
+    "workers": 2,
+    "timeout": 1800,      # 30 分钟，必须 > 套件最长执行时间（你的 fut.result 上限 900 秒）
+    "retry": 1900,        # 必须 > timeout
+    "orm": "default",
 }

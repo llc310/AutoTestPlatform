@@ -16,8 +16,12 @@ class SuiteViewSet(viewsets.ModelViewSet):
     @action(methods=["POST"], detail=True)
     def run(self, request, pk):
         suite = self.get_object()
-        result = suite.run()
-        return Response({"id": pk, "result": result})
+
+        if suite.run_type == Suite.RunType.ONCE:
+            suite.run()
+            return Response({"id": pk, "result": "该用例只执行一次"})
+        else:
+            return Response({"id": pk, "result": "该用例无需手动执行，会定时执行"})
 
 
 @extend_schema(tags=["Suite"])

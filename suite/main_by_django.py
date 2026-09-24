@@ -44,12 +44,4 @@ res_code = pytest.main(
     ]
 )
 
-if res_code == pytest.ExitCode.OK:
-    run_result.status = RunResult.RunStatus.Done
-    run_result.is_pass = True
-    run_result.save(update_fields=["status", "is_pass"])
-    print("测试用例执行结束")
-else:
-    run_result.status = RunResult.RunStatus.Error
-    run_result.save(update_fields=["status"])
-    print("测试用例执行失败")
+sys.exit(res_code)

@@ -8,8 +8,10 @@ dependencies = [
     "allure-pytest>=2.16.0",
     "apiclient",
     "black>=26.5.1",
+    "croniter>=6.2.4",
     "django>=6.1",
     "django-filter>=26.1",
+    "django-q2>=1.11.1",
     "djangorestframework>=3.18.0",
     "drf-spectacular[sidecar]>=0.30.0",
     "flake8>=7.3.0",
@@ -59,6 +61,8 @@ R = "python manage.py runserver" # --noreload
 T = "python manage.py test"
 
 L = "python manage.py loaddata fixtures/initial_data.json"
+
+Q = "python manage.py qcluster"
 
 createadmin = '''python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'adminpass')"'''
 

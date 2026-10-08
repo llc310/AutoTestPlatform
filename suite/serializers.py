@@ -23,25 +23,21 @@ class RunResultSerializer(serializers.ModelSerializer):
     def get_report_url(self, obj):
         dir_name = Path(obj.path)
         return (
-            f"http://127.0.0.1:8000/api/suite/static/{dir_name.name}/report/index.html"
+            f"http://127.0.0.1:8000/api/suite/static/{dir_name.as_posix()}/report/index.html"
         )
 
     def get_log_url(self, obj):
         dir_name = Path(obj.path)
-        log_file = dir_name.glob("log/*.log")
-        log_url_list = []
-        for log in log_file:
-            log_url_list.append(
-                f"http://127.0.0.1:8000/api/suite/static/{dir_name.name}/log/{log.name}"
-            )
-        return log_url_list
+        return (
+            f"http://127.0.0.1:8000/api/suite/static/{dir_name.as_posix()}/frame.log"
+        )
 
     def get_yaml_url(self, obj):
-        dir_name = Path(obj.path).parent
-        yaml_file = dir_name.glob("testcases/*.yaml")
+        dir_name = Path(obj.path)
+        yaml_file = Path("upload_yaml" / dir_name).glob("yaml/*.yaml")
         yaml_url_list = []
         for yaml in yaml_file:
             yaml_url_list.append(
-                f"http://127.0.0.1:8000/api/suite/static/{dir_name.name}/testcases/{yaml.name}"
+                f"http://127.0.0.1:8000/api/suite/static/{dir_name.as_posix()}/yaml/{yaml.name}"
             )
         return yaml_url_list

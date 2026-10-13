@@ -4,9 +4,9 @@ from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from account.models import Profile
+from account.models import Profile, HeadImg
 from account.serializers import (LoginSerializer, ProfileSerializer,
-                                 ResetSerializer)
+                                 ResetSerializer, HeadImgSerializer)
 
 
 # Create your views here.
@@ -54,5 +54,19 @@ class ProfileViewSet(viewsets.GenericViewSet):
         serializer = ProfileSerializer(profile, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
+        return Response(serializer.data)
+
+    @extend_schema(request=HeadImgSerializer, responses=HeadImgSerializer)
+    @action(methods=["POST"], detail=False)
+    def upload_img(self, request):
+        head_img = HeadImg.objects.create(user=request.user)
+        serializer = HeadImgSerializer(head_img,request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        profile, _ = Profile.objects.get_or_create(user=request.user)
+        profile.head_img = head_img.head_img.url
+        profile.save()
 
         return Response(serializer.data)

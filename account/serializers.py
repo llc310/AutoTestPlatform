@@ -3,7 +3,7 @@ from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from account.models import Profile
+from account.models import Profile, HeadImg
 from system.models import Role
 
 
@@ -69,3 +69,13 @@ class ResetSerializer(serializers.Serializer):
         if new_password != confirm_password:
             raise serializers.ValidationError("两次密码不一致")
         return attrs
+
+class HeadImgSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = HeadImg
+        fields = "__all__"
+
+    def get_user(self, obj):
+        return obj.user.id

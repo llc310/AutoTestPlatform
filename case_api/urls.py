@@ -7,6 +7,6 @@ urlpatterns = []
 router = routers.SimpleRouter()
 router.register("endpoint", EndpointViewSet)
 router.register("case_api_info", CaseAPIInfoViewSet)
-router.register("case_api", CaseAPIViewSet)
+router.register("case", CaseAPIViewSet)
 
 urlpatterns += router.urls

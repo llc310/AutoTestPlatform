@@ -7,7 +7,6 @@ from pathlib import Path
 
 from AutoTestPlatform import settings
 
-
 pool = ThreadPoolExecutor(max_workers=3)
 
 
@@ -51,9 +50,7 @@ def merge_all_report_log(result_path, run_type=("api", "ui")):
     )
 
     log_dir = result_path / "log"
-    log_file = (
-        result_path / "frame.log"
-    )
+    log_file = result_path / "frame.log"
     with open(file=log_file, mode="w", encoding="utf-8") as f:
         for type in run_type:
             part = log_dir / f"frame_{type}.log"
@@ -62,31 +59,37 @@ def merge_all_report_log(result_path, run_type=("api", "ui")):
                 f.write(part.read_text(encoding="utf-8", errors="replace"))
 
 
-def clean_file(result_path:Path):
+def clean_file(result_path: Path):
     yaml_dir = result_path / "yaml"
-    yaml_dir.mkdir(parents=True,exist_ok=True)
-    for sub in ("api","ui"):
+    yaml_dir.mkdir(parents=True, exist_ok=True)
+    for sub in ("api", "ui"):
         dir = result_path / sub
         for yaml_file in dir.glob("test*.yaml"):
             shutil.move(yaml_file, yaml_dir / yaml_file.name)
 
     for item in result_path.iterdir():
-        if item.name in ("report","yaml","frame.log"):
+        if item.name in ("report", "yaml", "frame.log"):
             continue
         if item.is_dir():
-            shutil.rmtree(item,True)
+            shutil.rmtree(item, True)
         else:
             item.unlink(True)
 
 
-def create_artifacts(result_id):
+def create_artifacts(result_id, result_path):
     path = settings.BASE_DIR / "zip" / f"result_{result_id}"
-    path.mkdir(parents=True,exist_ok=True)
-    shutil.make_archive(f"{path}/artifacts_result_{result_id}","zip",)
-    shutil.move()
+    try:
+        path.mkdir(parents=True, exist_ok=True)
+        zip_path = shutil.make_archive(
+            f"{path}/artifacts_result_{result_id}", "zip", result_path
+        )
+        shutil.move(zip_path, result_path / "artifacts.zip")
+    finally:
+        shutil.rmtree(path, True)
 
 
 def run_by_cron(id):
     from suite.models import Suite
+
     suite = Suite.objects.get(id=id)
     suite.run()

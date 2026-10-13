@@ -126,7 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = "static/"
-
+MEDIA_URL = "api/"
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
@@ -143,6 +143,9 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication"
     ],
+    "DEFAULT_RENDERER_CLASSES": [
+        "AutoTestPlatform.renderer.CodeResultMessageRenderer"
+    ]
 }
 
 SPECTACULAR_SETTINGS = {
@@ -155,7 +158,7 @@ SPECTACULAR_SETTINGS = {
 Q_CLUSTER = {
     "name": "autotest",
     "workers": 2,
-    "timeout": 1800,      # 30 分钟，必须 > 套件最长执行时间（你的 fut.result 上限 900 秒）
-    "retry": 1900,        # 必须 > timeout
+    "timeout": 1800,  # 30 分钟，必须 > 套件最长执行时间（你的 fut.result 上限 900 秒）
+    "retry": 1900,  # 必须 > timeout
     "orm": "default",
 }

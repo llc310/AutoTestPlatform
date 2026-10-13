@@ -15,6 +15,7 @@ class RunResultSerializer(serializers.ModelSerializer):
     report_url = serializers.SerializerMethodField()
     log_url = serializers.SerializerMethodField()
     yaml_url = serializers.SerializerMethodField()
+    artifacts_url = serializers.SerializerMethodField()
 
     class Meta:
         model = RunResult
@@ -22,15 +23,11 @@ class RunResultSerializer(serializers.ModelSerializer):
 
     def get_report_url(self, obj):
         dir_name = Path(obj.path)
-        return (
-            f"http://127.0.0.1:8000/api/suite/static/{dir_name.as_posix()}/report/index.html"
-        )
+        return f"http://127.0.0.1:8000/api/suite/static/{dir_name.as_posix()}/report/index.html"
 
     def get_log_url(self, obj):
         dir_name = Path(obj.path)
-        return (
-            f"http://127.0.0.1:8000/api/suite/static/{dir_name.as_posix()}/frame.log"
-        )
+        return f"http://127.0.0.1:8000/api/suite/static/{dir_name.as_posix()}/frame.log"
 
     def get_yaml_url(self, obj):
         dir_name = Path(obj.path)
@@ -41,3 +38,7 @@ class RunResultSerializer(serializers.ModelSerializer):
                 f"http://127.0.0.1:8000/api/suite/static/{dir_name.as_posix()}/yaml/{yaml.name}"
             )
         return yaml_url_list
+
+    def get_artifacts_url(self, obj):
+        dir_name = Path(obj.path)
+        return f"http://127.0.0.1:8000/api/suite/static/{dir_name.as_posix()}/artifacts.zip"

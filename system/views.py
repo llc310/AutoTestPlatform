@@ -1,6 +1,7 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 
+
 from system.models import Department, Position, Role
 from system.serializers import (DepartmentSerializer, PositionSerializer,
                                 RoleSerializer)
@@ -13,6 +14,7 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     serializer_class = DepartmentSerializer
 
 
+
 @extend_schema(tags=["System"])
 class PositionViewSet(viewsets.ModelViewSet):
     queryset = Position.objects.all()
@@ -21,5 +23,5 @@ class PositionViewSet(viewsets.ModelViewSet):
 
 @extend_schema(tags=["System"])
 class RoleViewSet(viewsets.ModelViewSet):
-    queryset = Role.objects.all()
+    queryset = Role.objects.all().order_by("department__name", "position__name")
     serializer_class = RoleSerializer

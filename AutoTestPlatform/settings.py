@@ -145,7 +145,9 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_RENDERER_CLASSES": [
         "AutoTestPlatform.renderer.CodeResultMessageRenderer"
-    ]
+    ],
+    "PAGE_SIZE": 10,
+    "DEFAULT_PAGINATION_CLASS": 'AutoTestPlatform.pagination.PageNumberPagination'
 }
 
 SPECTACULAR_SETTINGS = {

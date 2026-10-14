@@ -10,6 +10,7 @@ from suite.serializers import RunResultSerializer, SuiteSerializer
 
 
 # Create your views here.
+@extend_schema(tags=["Suite"])
 @api_view()
 def static_server(request, path, document_root=None, show_indexes=False):
     response = serve(request, path, document_root)

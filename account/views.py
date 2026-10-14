@@ -4,9 +4,10 @@ from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+
 from account.models import Profile, HeadImg
 from account.serializers import (LoginSerializer, ProfileSerializer,
-                                 ResetSerializer, HeadImgSerializer)
+                                 ResetSerializer, HeadImgSerializer, AllProfileSerializer)
 
 
 # Create your views here.
@@ -69,4 +70,11 @@ class ProfileViewSet(viewsets.GenericViewSet):
         profile.head_img = head_img.head_img.url
         profile.save()
 
+        return Response(serializer.data)
+
+    @extend_schema(responses=AllProfileSerializer(many=True))
+    @action(methods=["GET"], detail=False)
+    def get_all_profile(self,request):
+        profile_list = Profile.objects.all()
+        serializer = AllProfileSerializer(profile_list,many=True)
         return Response(serializer.data)

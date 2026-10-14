@@ -40,6 +40,11 @@ class ProfileSerializer(serializers.ModelSerializer):
         return obj.user.username
 
 
+class AllProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ["id","name"]
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True)

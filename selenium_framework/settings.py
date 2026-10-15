@@ -1,7 +1,8 @@
+import os
 from pathlib import Path
 
 # 项目前台网址
-BASE_URL = "https://uc-uat.ahsjs.com/dologin.htm"
+BASE_URL = os.environ.get("BASE_URL","https://uc-uat.ahsjs.com/dologin.htm")
 # 项目基础路径
 BASE_DIR = Path(__file__).parent
 # 测试数据路径

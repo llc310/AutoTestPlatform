@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 # 项目配置信息文件
@@ -15,7 +16,7 @@ LOG_DIR = Path.cwd().parent / "log"
 LOG_FILE_MAX_NUM = 4
 
 # 项目网址路径
-BASE_URL = "http://127.0.0.1:8888"
+BASE_URL = os.environ.get("BASE_URL","http://127.0.0.1:8888")
 
 # 项目数据库配置
 DB_HOST = "127.0.0.1"

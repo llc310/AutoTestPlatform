@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from case_ui.models import CaseUI, CaseUIInfo, Element
+from case_ui.models import CaseUI, CaseUIInfo, Element, Step
 
 
 class ElementSerializer(serializers.ModelSerializer):
@@ -9,8 +9,13 @@ class ElementSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class StepSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Step
+        fields = "__all__"
+
+
 class CaseUIInfoSerializer(serializers.ModelSerializer):
-    element = ElementSerializer(many=True)
 
     class Meta:
         model = CaseUIInfo
@@ -18,7 +23,6 @@ class CaseUIInfoSerializer(serializers.ModelSerializer):
 
 
 class CaseUISerializer(serializers.ModelSerializer):
-    caseuiinfo = CaseUIInfoSerializer(many=True)
 
     class Meta:
         model = CaseUI

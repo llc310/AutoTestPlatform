@@ -10,7 +10,7 @@ from case_api.models import CaseAPI as CaseAPI
 from case_ui.models import CaseUI
 from project.models import Project
 from suite.tasks import (clean_file, create_artifacts, merge_all_report_log,
-                         pool, run_api_case, run_ui_case)
+                         pool, run_case)
 
 
 # Create your models here.
@@ -91,7 +91,7 @@ class Suite(models.Model):
             for case_api in self.case_api_list.all():
                 yaml_path = api_path / f"test_api_{case_api.id}.yaml"
                 case_api.to_yaml(yaml_path)
-            futures.append(pool.submit(run_api_case, api_path, run_result.id, "api"))
+            futures.append(pool.submit(run_case, api_path, run_result.id, "api",self.project.base_url))
             run_type.append("api")
 
         if self.case_ui_list.exists():
@@ -100,7 +100,7 @@ class Suite(models.Model):
             for case_ui in self.case_ui_list.all():
                 yaml_path = ui_path / f"test_ui_{case_ui.id}.yaml"
                 case_ui.to_yaml(yaml_path)
-            futures.append(pool.submit(run_ui_case, ui_path, run_result.id, "ui"))
+            futures.append(pool.submit(run_case, ui_path, run_result.id, "ui",self.project.base_url))
             run_type.append("ui")
 
         results = [future.result(timeout=900) for future in futures]

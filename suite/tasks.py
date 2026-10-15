@@ -1,3 +1,4 @@
+import os
 import shutil
 import subprocess
 import sys
@@ -10,27 +11,24 @@ from AutoTestPlatform import settings
 pool = ThreadPoolExecutor(max_workers=3)
 
 
-def run_api_case(path, id, type):
-    print(f"创建进程执行接口框架:{time.time()}")
+def run_case(path, id, type,base_url):
+    if type == "api":
+        print(f"创建进程执行接口框架:{time.time()}")
+        case_path = f"{settings.BASE_DIR}/api_framework/testcases/test_all_case.py"
+    elif type == "ui":
+        print(f"创建进程执行UI框架:{time.time()}")
+        case_path = f"{settings.BASE_DIR}/selenium_framework/testcases/test_all_case.py"
+    else:
+        return 3
     run_path = f"{settings.BASE_DIR}/suite/main_by_django.py"
-    case_path = f"{settings.BASE_DIR}/api_framework/testcases/test_all_case.py"
+    env = {**os.environ,
+           "BASE_URL": base_url,
+           "RESULT_ID": str(id),
+           "RUN_TYPE": type
+           }
     p = subprocess.run(
-        [sys.executable, run_path, case_path, "result_id", str(id), "type", type],
-        cwd=path,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-    print(p.stdout.decode("gbk", errors="replace"))
-    print(p.stderr.decode("gbk", errors="replace"))
-    return p.returncode
-
-
-def run_ui_case(path, id, type):
-    print(f"创建进程执行UI框架:{time.time()}")
-    run_path = f"{settings.BASE_DIR}/suite/main_by_django.py"
-    case_path = f"{settings.BASE_DIR}/selenium_framework/testcases/test_all_case.py"
-    p = subprocess.run(
-        [sys.executable, run_path, case_path, "result_id", str(id), "type", type],
+        [sys.executable, run_path, case_path],
+        env = env,
         cwd=path,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

@@ -5,11 +5,9 @@ from pathlib import Path
 
 import pytest
 
-type = sys.argv[-1]
-sys.argv = sys.argv[:-2]
+type = os.environ["RUN_TYPE"]
 
-id = sys.argv[-1]
-sys.argv = sys.argv[:-2]
+id = int(os.environ["RESULT_ID"])
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR))

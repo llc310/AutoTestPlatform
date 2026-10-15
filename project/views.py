@@ -20,11 +20,25 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def get_all_project(self, request):
         project_list = Project.objects.all()
         page = self.paginate_queryset(project_list)
-        if page is not None:
+        if page:
             serializer = ProjectUserSerializer(page, many=True)
             return self.get_paginated_response(serializer.data)
         serializer = ProjectUserSerializer(project_list, many=True)
         return Response(serializer.data)
+
+    @extend_schema(responses=ProjectSerializer(many=True))
+    @action(methods=["GET"], detail=False)
+    def get_single_user_project(self,request):
+        project_list = Project.objects.filter(project_leader=request.user) | Project.objects.filter(user_list=request.user)
+        project_list = project_list.distinct()
+        page = self.paginate_queryset(project_list)
+        if page:
+            serializer = ProjectSerializer(page,many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = ProjectSerializer(project_list,many=True)
+        return Response(serializer.data)
+
+
 
 @extend_schema(tags=["Project"])
 class ConfigViewSet(viewsets.ModelViewSet):

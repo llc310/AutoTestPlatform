@@ -10,20 +10,28 @@ class ElementSerializer(serializers.ModelSerializer):
 
 
 class StepSerializer(serializers.ModelSerializer):
+    element = ElementSerializer(many=True)
+
     class Meta:
         model = Step
         fields = "__all__"
 
 
 class CaseUIInfoSerializer(serializers.ModelSerializer):
-
+    step = StepSerializer(many=True)
     class Meta:
         model = CaseUIInfo
         fields = "__all__"
 
 
 class CaseUISerializer(serializers.ModelSerializer):
+    step_count = serializers.SerializerMethodField()
 
     class Meta:
         model = CaseUI
         fields = "__all__"
+
+    def get_step_count(self,obj):
+        return obj.get_step_count()
+
+

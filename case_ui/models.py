@@ -35,10 +35,14 @@ class CaseUIInfo(models.Model):
 
     step = models.ManyToManyField(verbose_name="操作顺序",to=Step)
 
+    order = models.PositiveBigIntegerField(verbose_name="测试步骤执行顺序")
     name = models.CharField(verbose_name="ui测试步骤名称", max_length=32)
     allure = models.JSONField(verbose_name="allure参数", blank=True, null=True)
     parametrize = models.JSONField(verbose_name="参数化参数", blank=True, null=True)
     validate = models.JSONField(verbose_name="断言参数", blank=True, null=True)
+
+    class Meta:
+        ordering = ["order"]
 
 
 class CaseUI(models.Model):
@@ -51,6 +55,11 @@ class CaseUI(models.Model):
         related_name="case_ui",
     )
     caseuiinfo = models.ManyToManyField(verbose_name="ui测试用例id", to=CaseUIInfo)
+
+    name = models.CharField(verbose_name="UI测试用例名称",max_length=64)
+
+    def get_step_count(self):
+        return self.caseuiinfo.all().count()
 
     def to_yaml(self, yaml_path):
         from case_ui.serializers import CaseUISerializer

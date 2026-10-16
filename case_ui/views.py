@@ -35,3 +35,14 @@ class CaseUIInfoViewSet(viewsets.ModelViewSet):
 class CaseUIViewSet(viewsets.ModelViewSet):
     queryset = CaseUI.objects.all()
     serializer_class = CaseUISerializer
+
+    @extend_schema(responses=CaseUISerializer(many=True))
+    @action(methods=["GET"],detail=False)
+    def get_single_case(self,request):
+        case_list = CaseUI.objects.filter(project=request.query_params.get("project_id"))
+        page = self.paginate_queryset(case_list)
+        if page:
+            serializer = CaseUISerializer(page,many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = CaseUISerializer(case_list,many=True)
+        return Response(serializer.data)

@@ -27,6 +27,7 @@ class CaseUIInfoSerializer(serializers.ModelSerializer):
 class CaseUISerializer(serializers.ModelSerializer):
     step_count = serializers.SerializerMethodField()
 
+
     class Meta:
         model = CaseUI
         fields = "__all__"

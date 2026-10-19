@@ -11,6 +11,7 @@ class Element(models.Model):
     name = models.CharField(verbose_name="元素名称", max_length=32)
     by = models.CharField(verbose_name="定位方式",max_length=32)
     locator = models.CharField(verbose_name="定位路径")
+
     project = models.ForeignKey(
         verbose_name="项目id", to=Project, on_delete=models.CASCADE
     )
@@ -54,7 +55,7 @@ class CaseUI(models.Model):
         on_delete=models.CASCADE,
         related_name="case_ui",
     )
-    caseuiinfo = models.ManyToManyField(verbose_name="ui测试用例id", to=CaseUIInfo)
+    caseuiinfo = models.ManyToManyField(verbose_name="ui测试用例id", to=CaseUIInfo,related_name="caseuiinfo_id")
 
     name = models.CharField(verbose_name="UI测试用例名称",max_length=64)
 

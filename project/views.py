@@ -39,7 +39,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-
 @extend_schema(tags=["Project"])
 class ConfigViewSet(viewsets.ModelViewSet):
     queryset = Config.objects.all()

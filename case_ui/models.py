@@ -10,57 +10,110 @@ class Element(models.Model):
 
     name = models.CharField(verbose_name="元素名称", max_length=32)
     by = models.CharField(verbose_name="定位方式",max_length=32)
-    locator = models.CharField(verbose_name="定位路径")
+    path = models.CharField(verbose_name="定位路径")
 
-    project = models.ForeignKey(
+    project_id = models.ForeignKey(
         verbose_name="项目id", to=Project, on_delete=models.CASCADE
     )
+
+
+class KeyWord(models.Model):
+    objects: models.QuerySet
+
+    keyword_name = models.CharField(verbose_name="关键字名",max_length=64)
+
+
+class Allure(models.Model):
+    objects: models.QuerySet
+
+    feature = models.CharField(verbose_name="所属模块",max_length=64,default="")
+    story = models.CharField(verbose_name="功能名",max_length=64,default="")
+    title = models.CharField(verbose_name="用例标题",max_length=64,default="")
+    description = models.CharField(verbose_name="用例描述",max_length=64,default="")
+
+
+class Parametrize(models.Model):
+    objects: models.QuerySet
+
+    param_key = models.CharField(verbose_name="参数化键名",max_length=64)
+    param_value = models.JSONField(verbose_name="参数化键值")
+
+
+class Validate(models.Model):
+    objects: models.QuerySet
+
+    class ValidateType(models.TextChoices):
+        EQUALS = "equals"
+        CONTAINS = "contains"
+        DB_EQUALS = "db_equals"
+        DB_CONTAINS = "db_contains"
+
+    validate_type = models.CharField(verbose_name="断言类型",choices=ValidateType.choices)
+    validate_params = models.JSONField(verbose_name="断言参数")
+
+
+class Action(models.Model):
+    objects: models.QuerySet
+
+    sort = models.PositiveIntegerField(verbose_name="执行顺序")
+
+    allure_id = models.OneToOneField(
+        verbose_name="allure参数id",
+        to=Allure,
+        on_delete=models.CASCADE
+    )
+    parametrize_id = models.OneToOneField(
+        verbose_name="parametrize参数id",
+        to=Parametrize,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE
+    )
+    Validate_id = models.OneToOneField(
+        verbose_name="validate参数id",
+        to=Validate,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        ordering = ["sort"]
 
 
 class Step(models.Model):
     objects: models.QuerySet
 
-    element = models.ManyToManyField(verbose_name="页面元素id",to=Element)
+    action = models.CharField(verbose_name="操作", max_length=64)
+    params = models.JSONField(verbose_name="参数值", blank=True, null=True)
 
-    order = models.PositiveBigIntegerField(verbose_name="页面操作执行顺序")
-    action = models.CharField(verbose_name="页面操作名称",max_length=64)
-    keyword = models.CharField(verbose_name="页面操作关键字",max_length=64)
-    args = models.JSONField(verbose_name="函数参数",blank=True,default=list)
-
-    class Meta:
-        ordering = ["order"]
-
-
-class CaseUIInfo(models.Model):
-    objects: models.QuerySet
-
-    step = models.ManyToManyField(verbose_name="操作顺序",to=Step)
-
-    order = models.PositiveBigIntegerField(verbose_name="测试步骤执行顺序")
-    name = models.CharField(verbose_name="ui测试步骤名称", max_length=32)
-    allure = models.JSONField(verbose_name="allure参数", blank=True, null=True)
-    parametrize = models.JSONField(verbose_name="参数化参数", blank=True, null=True)
-    validate = models.JSONField(verbose_name="断言参数", blank=True, null=True)
-
-    class Meta:
-        ordering = ["order"]
+    keyword_id = models.ForeignKey(
+        verbose_name="关键字id",
+        to=KeyWord,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+    element_id = models.ForeignKey(
+        verbose_name="页面元素id",
+        to=Element,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+    action_id = models.ForeignKey(verbose_name="测试步骤id", to=Action,on_delete=models.CASCADE)
 
 
 class CaseUI(models.Model):
     objects: models.QuerySet
 
-    project = models.ForeignKey(
-        verbose_name="项目id",
-        to=Project,
-        on_delete=models.CASCADE,
-        related_name="case_ui",
-    )
-    caseuiinfo = models.ManyToManyField(verbose_name="ui测试用例id", to=CaseUIInfo,related_name="caseuiinfo_id")
-
     name = models.CharField(verbose_name="UI测试用例名称",max_length=64)
 
-    def get_step_count(self):
-        return self.caseuiinfo.all().count()
+    project_id = models.ForeignKey(verbose_name="项目id", to=Project, on_delete=models.CASCADE)
+    step_id = models.ManyToManyField(
+        verbose_name="步骤id",
+        to=Step,
+        through="CaseUIStep",
+        through_fields=("caseui_id","step_id")
+    )
 
     def to_yaml(self, yaml_path):
         from case_ui.serializers import CaseUISerializer
@@ -89,3 +142,14 @@ class CaseUI(models.Model):
 
         with open(file=yaml_path, mode="w", encoding="utf-8") as f:
             yaml.safe_dump(case, f, allow_unicode=True, sort_keys=False)
+
+
+class CaseUIStep(models.Model):
+    sort = models.PositiveIntegerField(verbose_name="执行顺序")
+
+    caseui_id = models.ForeignKey(verbose_name="UI测试用例id",to=CaseUI,on_delete=models.CASCADE)
+    step_id = models.ForeignKey(verbose_name="测试步骤id",to=Step,on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ["caseui_id","sort"]
+        unique_together = ["caseui_id","sort"]

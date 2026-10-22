@@ -21,6 +21,7 @@ class KeyWord(models.Model):
     objects: models.QuerySet
 
     keyword_name = models.CharField(verbose_name="关键字名",max_length=64)
+    description = models.CharField(verbose_name="操作描述",max_length=64)
 
 
 class Allure(models.Model):
@@ -55,8 +56,14 @@ class Validate(models.Model):
 class Action(models.Model):
     objects: models.QuerySet
 
+    name = models.CharField(verbose_name="操作名",max_length=64)
     sort = models.PositiveIntegerField(verbose_name="执行顺序")
 
+    project_id = models.ForeignKey(
+        verbose_name="项目id",
+        to=Project,
+        on_delete=models.CASCADE
+    )
     allure_id = models.OneToOneField(
         verbose_name="allure参数id",
         to=Allure,
@@ -69,7 +76,7 @@ class Action(models.Model):
         null=True,
         on_delete=models.CASCADE
     )
-    Validate_id = models.OneToOneField(
+    validate_id = models.OneToOneField(
         verbose_name="validate参数id",
         to=Validate,
         blank=True,
@@ -86,6 +93,7 @@ class Step(models.Model):
 
     action = models.CharField(verbose_name="操作", max_length=64)
     params = models.JSONField(verbose_name="参数值", blank=True, null=True)
+    order = models.PositiveIntegerField(verbose_name="执行顺序")
 
     keyword_id = models.ForeignKey(
         verbose_name="关键字id",
@@ -99,7 +107,15 @@ class Step(models.Model):
         null=True,
         on_delete=models.SET_NULL,
     )
-    action_id = models.ForeignKey(verbose_name="测试步骤id", to=Action,on_delete=models.CASCADE)
+    action_id = models.ForeignKey(
+        verbose_name="测试步骤id",
+        to=Action,
+        related_name="step_id",
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        ordering = ["order"]
 
 
 class CaseUI(models.Model):
@@ -108,12 +124,15 @@ class CaseUI(models.Model):
     name = models.CharField(verbose_name="UI测试用例名称",max_length=64)
 
     project_id = models.ForeignKey(verbose_name="项目id", to=Project, on_delete=models.CASCADE)
-    step_id = models.ManyToManyField(
-        verbose_name="步骤id",
-        to=Step,
-        through="CaseUIStep",
-        through_fields=("caseui_id","step_id")
+    action_id = models.ManyToManyField(
+        verbose_name="操作id",
+        to=Action,
+        through="CaseUIAction",
+        through_fields=("caseui_id","action_id")
     )
+
+    class Meta:
+        ordering = ["id"]
 
     def to_yaml(self, yaml_path):
         from case_ui.serializers import CaseUISerializer
@@ -144,11 +163,11 @@ class CaseUI(models.Model):
             yaml.safe_dump(case, f, allow_unicode=True, sort_keys=False)
 
 
-class CaseUIStep(models.Model):
+class CaseUIAction(models.Model):
     sort = models.PositiveIntegerField(verbose_name="执行顺序")
 
     caseui_id = models.ForeignKey(verbose_name="UI测试用例id",to=CaseUI,on_delete=models.CASCADE)
-    step_id = models.ForeignKey(verbose_name="测试步骤id",to=Step,on_delete=models.CASCADE)
+    action_id = models.ForeignKey(verbose_name="测试步骤id",to=Action,on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["caseui_id","sort"]

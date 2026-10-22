@@ -6,7 +6,7 @@ from django.db import models
 class Department(models.Model):
     objects: models.QuerySet
 
-    name = models.CharField(verbose_name="部门名称", max_length=32)
+    name = models.CharField(verbose_name="部门名称", max_length=32,unique=True)
     leader = models.ForeignKey(
         verbose_name="部门领导",
         to=User,
@@ -37,3 +37,6 @@ class Role(models.Model):
     position = models.ForeignKey(
         verbose_name="职位", to=Position, on_delete=models.CASCADE
     )
+
+    class Meta:
+        unique_together = ["user","department","position"]

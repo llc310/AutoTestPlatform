@@ -4,7 +4,7 @@ from case_ui.models import (
     Allure,
     Action,
     CaseUI,
-    CaseUIStep,
+    CaseUIAction,
     Element,
     KeyWord,
     Parametrize,
@@ -45,7 +45,7 @@ class ValidateAdmin(admin.ModelAdmin):
 
 @admin.register(Action)
 class ActionAdmin(admin.ModelAdmin):
-    list_display = ("id", "sort", "allure_id", "parametrize_id", "Validate_id")
+    list_display = ("id", "sort", "allure_id", "parametrize_id", "validate_id")
     list_filter = ("sort",)
 
 
@@ -61,8 +61,8 @@ class CaseUIAdmin(admin.ModelAdmin):
     search_fields = ("name",)
 
 
-@admin.register(CaseUIStep)
+@admin.register(CaseUIAction)
 class CaseUIStepAdmin(admin.ModelAdmin):
-    list_display = ("id", "caseui_id", "step_id", "sort")
+    list_display = ("id", "caseui_id", "action_id", "sort")
     list_filter = ("caseui_id",)
     ordering = ("caseui_id", "sort")

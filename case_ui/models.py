@@ -16,12 +16,18 @@ class Element(models.Model):
         verbose_name="项目id", to=Project, on_delete=models.CASCADE
     )
 
+    class Meta:
+        ordering = ["id"]
+
 
 class KeyWord(models.Model):
     objects: models.QuerySet
 
     keyword_name = models.CharField(verbose_name="关键字名",max_length=64)
     description = models.CharField(verbose_name="操作描述",max_length=64)
+
+    class Meta:
+        ordering = ["id"]
 
 
 class Allure(models.Model):
@@ -57,7 +63,6 @@ class Action(models.Model):
     objects: models.QuerySet
 
     name = models.CharField(verbose_name="操作名",max_length=64)
-    sort = models.PositiveIntegerField(verbose_name="执行顺序")
 
     project_id = models.ForeignKey(
         verbose_name="项目id",
@@ -85,7 +90,7 @@ class Action(models.Model):
     )
 
     class Meta:
-        ordering = ["sort"]
+        ordering = ["id"]
 
 
 class Step(models.Model):
@@ -93,7 +98,7 @@ class Step(models.Model):
 
     action = models.CharField(verbose_name="操作", max_length=64)
     params = models.JSONField(verbose_name="参数值", blank=True, null=True)
-    order = models.PositiveIntegerField(verbose_name="执行顺序")
+    sort = models.PositiveIntegerField(verbose_name="执行顺序")
 
     keyword_id = models.ForeignKey(
         verbose_name="关键字id",
@@ -115,7 +120,7 @@ class Step(models.Model):
     )
 
     class Meta:
-        ordering = ["order"]
+        ordering = ["sort"]
 
 
 class CaseUI(models.Model):

@@ -45,8 +45,7 @@ class ValidateAdmin(admin.ModelAdmin):
 
 @admin.register(Action)
 class ActionAdmin(admin.ModelAdmin):
-    list_display = ("id", "sort", "allure_id", "parametrize_id", "validate_id")
-    list_filter = ("sort",)
+    list_display = ("id", "allure_id", "parametrize_id", "validate_id")
 
 
 @admin.register(Step)

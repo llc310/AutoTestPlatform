@@ -30,97 +30,24 @@ class KeyWord(models.Model):
         ordering = ["id"]
 
 
-class Allure(models.Model):
-    objects: models.QuerySet
-
-    feature = models.CharField(verbose_name="所属模块",max_length=64,default="")
-    story = models.CharField(verbose_name="功能名",max_length=64,default="")
-    title = models.CharField(verbose_name="用例标题",max_length=64,default="")
-    description = models.CharField(verbose_name="用例描述",max_length=64,default="")
-
-
-class Parametrize(models.Model):
-    objects: models.QuerySet
-
-    param_key = models.CharField(verbose_name="参数化键名",max_length=64)
-    param_value = models.JSONField(verbose_name="参数化键值")
-
-
-class Validate(models.Model):
-    objects: models.QuerySet
-
-    class ValidateType(models.TextChoices):
-        EQUALS = "equals"
-        CONTAINS = "contains"
-        DB_EQUALS = "db_equals"
-        DB_CONTAINS = "db_contains"
-
-    validate_type = models.CharField(verbose_name="断言类型",choices=ValidateType.choices)
-    validate_params = models.JSONField(verbose_name="断言参数")
-
-
 class Action(models.Model):
     objects: models.QuerySet
 
     name = models.CharField(verbose_name="操作名",max_length=64)
+    allure = models.JSONField(verbose_name="allure参数")
+    step = models.JSONField(verbose_name="页面操作步骤")
+    parametrize = models.JSONField(verbose_name="参数化参数",blank=True)
+    validate = models.JSONField(verbose_name="断言参数",blank=True)
 
     project_id = models.ForeignKey(
         verbose_name="项目id",
         to=Project,
         on_delete=models.CASCADE
     )
-    allure_id = models.OneToOneField(
-        verbose_name="allure参数id",
-        to=Allure,
-        on_delete=models.CASCADE
-    )
-    parametrize_id = models.OneToOneField(
-        verbose_name="parametrize参数id",
-        to=Parametrize,
-        blank=True,
-        null=True,
-        on_delete=models.CASCADE
-    )
-    validate_id = models.OneToOneField(
-        verbose_name="validate参数id",
-        to=Validate,
-        blank=True,
-        null=True,
-        on_delete=models.CASCADE
-    )
 
     class Meta:
         ordering = ["id"]
 
-
-class Step(models.Model):
-    objects: models.QuerySet
-
-    action = models.CharField(verbose_name="操作", max_length=64)
-    params = models.JSONField(verbose_name="参数值", blank=True, null=True)
-    sort = models.PositiveIntegerField(verbose_name="执行顺序")
-
-    keyword_id = models.ForeignKey(
-        verbose_name="关键字id",
-        to=KeyWord,
-        null=True,
-        on_delete=models.SET_NULL,
-    )
-    element_id = models.ForeignKey(
-        verbose_name="页面元素id",
-        to=Element,
-        null=True,
-        on_delete=models.SET_NULL,
-    )
-    action_id = models.ForeignKey(
-        verbose_name="测试步骤id",
-        to=Action,
-        related_name="step_id",
-        on_delete=models.CASCADE
-    )
-
-    class Meta:
-        ordering = ["sort"]
 
 
 class CaseUI(models.Model):

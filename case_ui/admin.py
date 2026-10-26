@@ -50,8 +50,7 @@ class ActionAdmin(admin.ModelAdmin):
 
 @admin.register(Step)
 class StepAdmin(admin.ModelAdmin):
-    list_display = ("id", "action", "keyword_id", "element_id", "action_id")
-    search_fields = ("action",)
+    list_display = ("id", "keyword_id", "element_id", "action_id")
 
 
 @admin.register(CaseUI)

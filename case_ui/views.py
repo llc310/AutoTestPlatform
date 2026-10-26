@@ -3,9 +3,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from case_ui.models import Element, KeyWord, Action, Allure, Parametrize, Validate, Step, CaseUI
-from case_ui.serializers import ElementSerializer, KeyWordSerializer, ActionSerializer, AllureSerializer, \
-    ParametrizeSerializer, ValidateSerializer, StepSerializer, CaseUISerializer
+from case_ui.models import Element, KeyWord, Action, CaseUI
+from case_ui.serializers import ElementSerializer, KeyWordSerializer, ActionSerializer, CaseUISerializer
 
 
 # Create your views here.
@@ -30,29 +29,6 @@ class ElementViewSet(viewsets.ModelViewSet):
 class KeyWordViewSet(viewsets.ModelViewSet):
     queryset = KeyWord.objects.all()
     serializer_class = KeyWordSerializer
-
-
-@extend_schema(tags=["Case_UI"])
-class AllureViewSet(viewsets.ModelViewSet):
-    queryset = Allure.objects.all()
-    serializer_class = AllureSerializer
-
-
-@extend_schema(tags=["Case_UI"])
-class ParametrizeViewSet(viewsets.ModelViewSet):
-    queryset = Parametrize.objects.all()
-    serializer_class = ParametrizeSerializer
-
-
-@extend_schema(tags=["Case_UI"])
-class ValidateViewSet(viewsets.ModelViewSet):
-    queryset = Validate.objects.all()
-    serializer_class = ValidateSerializer
-
-@extend_schema(tags=["Case_UI"])
-class StepViewSet(viewsets.ModelViewSet):
-    queryset = Step.objects.all()
-    serializer_class = StepSerializer
 
 
 @extend_schema(tags=["Case_UI"])

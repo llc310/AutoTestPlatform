@@ -1,15 +1,11 @@
 from django.contrib import admin
 
 from case_ui.models import (
-    Allure,
     Action,
     CaseUI,
     CaseUIAction,
     Element,
     KeyWord,
-    Parametrize,
-    Step,
-    Validate,
 )
 
 
@@ -25,32 +21,9 @@ class KeyWordAdmin(admin.ModelAdmin):
     search_fields = ("keyword_name",)
 
 
-@admin.register(Allure)
-class AllureAdmin(admin.ModelAdmin):
-    list_display = ("id", "feature", "story", "title")
-    search_fields = ("feature", "story", "title")
-
-
-@admin.register(Parametrize)
-class ParametrizeAdmin(admin.ModelAdmin):
-    list_display = ("id", "param_key")
-    search_fields = ("param_key",)
-
-
-@admin.register(Validate)
-class ValidateAdmin(admin.ModelAdmin):
-    list_display = ("id", "validate_type")
-    list_filter = ("validate_type",)
-
-
 @admin.register(Action)
 class ActionAdmin(admin.ModelAdmin):
-    list_display = ("id", "allure_id", "parametrize_id", "validate_id")
-
-
-@admin.register(Step)
-class StepAdmin(admin.ModelAdmin):
-    list_display = ("id", "keyword_id", "element_id", "action_id")
+    list_display = ("id", "allure", "parametrize", "validate")
 
 
 @admin.register(CaseUI)

@@ -21,6 +21,19 @@ class ActionSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+    def validate(self, attrs):
+        super().validate(attrs)
+        parametrize_dict:dict = attrs.get("parametrize",{})
+        length = -1
+        for value in parametrize_dict.values():
+            if length == -1:
+                length = len(value)
+                continue
+            elif length != len(value):
+                raise serializers.ValidationError("每个parametrize参数长度不一致")
+        return attrs
+
+
 class CaseUISerializer(serializers.ModelSerializer):
     action_id = ActionSerializer(many=True,read_only=True)
     class Meta:

@@ -47,6 +47,11 @@ class ActionViewSet(viewsets.ModelViewSet):
         serializer = ActionSerializer(action_list, many=True)
         return Response(serializer.data)
 
+    @extend_schema()
+    @action(methods=["POST"], detail=False)
+    def test_action_edit(self, request):
+        print(request.data)
+        return Response()
 
 @extend_schema(tags=["Case_UI"])
 class CaseUIViewSet(viewsets.ModelViewSet):

@@ -1,1 +1,6548 @@
-[{"model": "auth.user", "pk": 1, "fields": {"password": "pbkdf2_sha256$1500000$u8UWJTwLDnGuwj4lNjhJS7$KbLGYToTD2uALcQ6gHAd8L0IFfHXLaeZ0p472CBwMcQ=", "last_login": null, "is_superuser": true, "username": "admin", "first_name": "", "last_name": "", "email": "admin@example.com", "is_staff": true, "is_active": true, "date_joined": "2026-09-15T01:22:30.565Z", "groups": [], "user_permissions": []}}, {"model": "account.profile", "pk": 1, "fields": {"user": ["admin"], "name": "", "head_img": ""}}, {"model": "system.department", "pk": 1, "fields": {"name": "A����", "leader": null, "description": "�������ѧ�뼼��"}}, {"model": "system.department", "pk": 2, "fields": {"name": "B����", "leader": null, "description": "��������"}}, {"model": "system.department", "pk": 3, "fields": {"name": "C����", "leader": null, "description": "������"}}, {"model": "system.department", "pk": 4, "fields": {"name": "D����", "leader": null, "description": "���簲ȫ"}}, {"model": "system.department", "pk": 5, "fields": {"name": "E����", "leader": null, "description": "�˹�����"}}, {"model": "system.position", "pk": 1, "fields": {"name": "���Թ���ʦ", "is_leader": false}}, {"model": "system.position", "pk": 2, "fields": {"name": "��������ʦ", "is_leader": false}}, {"model": "system.position", "pk": 3, "fields": {"name": "ʵʩ����ʦ", "is_leader": false}}, {"model": "system.position", "pk": 4, "fields": {"name": "��Ʒ����", "is_leader": true}}, {"model": "system.role", "pk": 1, "fields": {"user": ["admin"], "department": 1, "position": 1}}, {"model": "system.role", "pk": 2, "fields": {"user": ["admin"], "department": 2, "position": 1}}, {"model": "system.role", "pk": 3, "fields": {"user": ["admin"], "department": 2, "position": 1}}, {"model": "project.project", "pk": 1, "fields": {"project_leader": ["admin"], "name": "�۲���Ŀ", "description": "�û�����ģ���Զ���������Ŀ", "base_url": "http://127.0.0.1:8000", "user_list": [["admin"]]}}, {"model": "case_api.endpoint", "pk": 1, "fields": {"project": 1, "method": "POST", "url": "/api/private/v1/login", "params": null, "data": null, "json": {"username": "admin", "password": "123456"}, "cookies": null, "headers": {"Content-Type": "application/json"}}}, {"model": "case_api.endpoint", "pk": 2, "fields": {"project": 1, "method": "POST", "url": "/api/private/v1/users", "params": null, "data": null, "json": {"username": "$parametrize{username}", "password": "$parametrize{password}", "mobile": "$parametrize{mobile}", "email": "$parametrize{email}", "rid": "$parametrize{rid}"}, "cookies": null, "headers": {"Authorization": "${read_extract(token)}", "Content-Type": "application/json"}}}, {"model": "case_api.caseapiinfo", "pk": 3, "fields": {"endpoint": 1, "allure": {"feature": "��¼ģ��", "story": "��¼�ӿ�", "title": "��¼�ɹ�", "description": "��¼admin�˺�"}, "extract": [{"key": "token", "attr": "json", "expr": "$.data.token"}], "parametrize": null, "validate": null}}, {"model": "case_api.caseapiinfo", "pk": 4, "fields": {"endpoint": 2, "allure": {"feature": "�û�����ģ��", "story": "�����û��ӿ�", "title": "$parametrize{title}", "description": "�����û�$parametrize{username}�˺ųɹ�"}, "extract": null, "parametrize": {"title": ["test_create_user_success_01", "test_create_user_success_02"], "username": ["llc", "user"], "password": ["3526823227llc", "123456a"], "mobile": ["13451038652", "13451038651"], "email": ["llc3526823227@163.com", "llc3526823221@163.com"], "rid": [10, 11]}, "validate": {"equals": [[200, "status_code"]], "contains": [["�����ɹ�", "json", "$.meta.msg"]]}}}, {"model": "case_api.caseapi", "pk": 1, "fields": {"name": "test_create_user_success", "project": 1, "caseapiinfo": [3, 4]}}, {"model": "case_ui.element", "pk": 1, "fields": {"name": "�û��������", "locator": {"by": "xpath", "value": "//*[@id='account']"}, "project": 1}}, {"model": "case_ui.element", "pk": 2, "fields": {"name": "���������", "locator": {"by": "xpath", "value": "//*[@id='password']"}, "project": 1}}, {"model": "case_ui.element", "pk": 3, "fields": {"name": "��֤��ͼƬ", "locator": {"by": "xpath", "value": "//*[@id='code']"}, "project": 1}}, {"model": "case_ui.element", "pk": 4, "fields": {"name": "��֤�������", "locator": {"by": "xpath", "value": "//*[@id='checkCode']"}, "project": 1}}, {"model": "case_ui.caseuiinfo", "pk": 1, "fields": {"name": "��¼�ɹ�", "allure": {"feature": "��¼ģ��", "story": "��¼����", "title": "$parametrize{title}", "description": "ʹ��$parametrize{account}�˺ŵ�¼�ɹ�"}, "step": [{"action": "�����û���", "keyword": "send_keys", "locator": 1, "args": ["$parametrize{account}"]}, {"action": "��������", "keyword": "send_keys", "locator": 2, "args": ["123456a"]}, {"action": "������֤��ͼƬ", "keyword": "save_code_img", "locator": 3}, {"action": "������֤��", "keyword": "send_code", "locator": 4}], "parametrize": {"title": ["test_login_success_01"], "account": ["llc-x"]}, "validate": null, "element": [1, 2, 3, 4]}}, {"model": "case_ui.caseui", "pk": 1, "fields": {"project": 1, "caseuiinfo": []}}, {"model": "case_ui.caseui", "pk": 2, "fields": {"project": 1, "caseuiinfo": [1]}}, {"model": "suite.suite", "pk": 1, "fields": {"schedule": null, "project": 1, "name": "�û������ع��׼�", "description": "�û�����ģ��ð��+�ع�", "run_type": "O", "cron": "", "case_ui_list": [1], "case_api_list": [1]}}, {"model": "suite.suite", "pk": 2, "fields": {"schedule": null, "project": 1, "name": "��һ�������׼�", "description": "ֻ�нӿڲ��������Ĳ����׼�", "run_type": "O", "cron": "", "case_ui_list": [], "case_api_list": [1]}}, {"model": "suite.suite", "pk": 3, "fields": {"schedule": null, "project": 1, "name": "UI-only��¼�����׼�", "description": "ֻ��UI������������¼�ɹ������� test_login_success.yaml��", "run_type": "O", "cron": "", "case_ui_list": [2], "case_api_list": []}}, {"model": "suite.suite", "pk": 4, "fields": {"schedule": null, "project": 1, "name": "UI+�ӿڻ�ϲ����׼�", "description": "UI��¼���� + �ӿڴ����û��������ӿڸ����������ݣ�", "run_type": "O", "cron": "", "case_ui_list": [2], "case_api_list": [1]}}, {"model": "suite.suite", "pk": 5, "fields": {"schedule": null, "project": 1, "name": "UI��ʱ��֤�׼�", "description": "���� UI ������������֤ django-q ��ʱִ�й��ܣ�ÿ 2 ���ӣ�", "run_type": "O", "cron": "", "case_ui_list": [2], "case_api_list": []}}, {"model": "suite.suite", "pk": 6, "fields": {"schedule": null, "project": 1, "name": "UI��ʱ��֤�׼�", "description": "��֤ django-q ��ʱִ�й��ܣ�ÿ 2 ���ӣ�", "run_type": "C", "cron": "*/2 * * * *", "case_ui_list": [2], "case_api_list": []}}, {"model": "suite.suite", "pk": 7, "fields": {"schedule": null, "project": 1, "name": "UI��ʱ��֤�׼�", "description": "��֤ django-q ��ʱִ�й��ܣ�ÿ����ִ�У�", "run_type": "C", "cron": "0 * * * * *", "case_ui_list": [2], "case_api_list": []}}, {"model": "suite.runresult", "pk": 1, "fields": {"suite": 1, "path": "testcases/usermanagement/test_create_user_success.py", "is_pass": true, "status": 4, "create_datetime": "2026-09-20T06:20:55.482Z", "update_datetime": "2026-09-20T06:20:55.482Z"}}, {"model": "suite.runresult", "pk": 2, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": 2, "create_datetime": "2026-09-21T09:30:23.645Z", "update_datetime": "2026-09-21T09:30:23.690Z"}}, {"model": "suite.runresult", "pk": 3, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": 1, "create_datetime": "2026-09-21T09:33:01.425Z", "update_datetime": "2026-09-21T09:33:02.485Z"}}, {"model": "suite.runresult", "pk": 4, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": 1, "create_datetime": "2026-09-21T09:33:41.567Z", "update_datetime": "2026-09-21T09:33:42.739Z"}}, {"model": "suite.runresult", "pk": 5, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": 1, "create_datetime": "2026-09-21T09:34:02.418Z", "update_datetime": "2026-09-21T09:34:03.712Z"}}, {"model": "suite.runresult", "pk": 6, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": 1, "create_datetime": "2026-09-21T09:34:23.104Z", "update_datetime": "2026-09-21T09:34:24.303Z"}}, {"model": "suite.runresult", "pk": 7, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": -1, "create_datetime": "2026-09-21T09:37:17.846Z", "update_datetime": "2026-09-21T09:37:19.640Z"}}, {"model": "suite.runresult", "pk": 8, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": -1, "create_datetime": "2026-09-21T09:41:30.500Z", "update_datetime": "2026-09-21T09:41:32.182Z"}}, {"model": "suite.runresult", "pk": 9, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": -1, "create_datetime": "2026-09-21T09:44:13.452Z", "update_datetime": "2026-09-21T09:44:15.274Z"}}, {"model": "suite.runresult", "pk": 10, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": -1, "create_datetime": "2026-09-21T09:47:12.619Z", "update_datetime": "2026-09-21T09:47:14.439Z"}}, {"model": "suite.runresult", "pk": 11, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": -1, "create_datetime": "2026-09-21T09:48:57.890Z", "update_datetime": "2026-09-21T09:48:59.717Z"}}, {"model": "suite.runresult", "pk": 12, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": -1, "create_datetime": "2026-09-21T09:53:46.413Z", "update_datetime": "2026-09-21T09:53:48.216Z"}}, {"model": "suite.runresult", "pk": 13, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": 4, "create_datetime": "2026-09-21T09:56:03.929Z", "update_datetime": "2026-09-21T09:56:05.714Z"}}, {"model": "suite.runresult", "pk": 14, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": -1, "create_datetime": "2026-09-22T01:48:30.836Z", "update_datetime": "2026-09-22T01:48:33.404Z"}}, {"model": "suite.runresult", "pk": 15, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": true, "status": 3, "create_datetime": "2026-09-22T01:55:14.398Z", "update_datetime": "2026-09-22T01:55:16.992Z"}}, {"model": "suite.runresult", "pk": 16, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": true, "status": 3, "create_datetime": "2026-09-22T02:03:01.316Z", "update_datetime": "2026-09-22T02:03:03.882Z"}}, {"model": "suite.runresult", "pk": 17, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": true, "status": 3, "create_datetime": "2026-09-22T02:04:23.959Z", "update_datetime": "2026-09-22T02:04:26.575Z"}}, {"model": "suite.runresult", "pk": 18, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": true, "status": 3, "create_datetime": "2026-09-22T02:15:59.033Z", "update_datetime": "2026-09-22T02:16:01.707Z"}}, {"model": "suite.runresult", "pk": 19, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": true, "status": 3, "create_datetime": "2026-09-22T02:17:42.761Z", "update_datetime": "2026-09-22T02:17:45.315Z"}}, {"model": "suite.runresult", "pk": 20, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": true, "status": 3, "create_datetime": "2026-09-22T02:23:46.303Z", "update_datetime": "2026-09-22T02:23:48.602Z"}}, {"model": "suite.runresult", "pk": 21, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": -1, "create_datetime": "2026-09-22T02:45:04.844Z", "update_datetime": "2026-09-22T02:45:07.327Z"}}, {"model": "suite.runresult", "pk": 22, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": 4, "create_datetime": "2026-09-22T02:54:45.606Z", "update_datetime": "2026-09-22T02:54:49.828Z"}}, {"model": "suite.runresult", "pk": 23, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": 4, "create_datetime": "2026-09-22T03:00:16.655Z", "update_datetime": "2026-09-22T03:00:20.949Z"}}, {"model": "suite.runresult", "pk": 24, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": 0, "create_datetime": "2026-09-22T03:17:50.542Z", "update_datetime": "2026-09-22T03:17:50.542Z"}}, {"model": "suite.runresult", "pk": 25, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": -1, "create_datetime": "2026-09-22T03:18:26.968Z", "update_datetime": "2026-09-22T03:18:28.933Z"}}, {"model": "suite.runresult", "pk": 26, "fields": {"suite": 2, "path": "upload_yaml\\project_1\\suite_2", "is_pass": false, "status": 4, "create_datetime": "2026-09-22T03:21:24.228Z", "update_datetime": "2026-09-22T03:21:28.207Z"}}, {"model": "suite.runresult", "pk": 27, "fields": {"suite": 3, "path": "upload_yaml\\project_1\\suite_3", "is_pass": false, "status": 4, "create_datetime": "2026-09-22T08:18:30.890Z", "update_datetime": "2026-09-22T08:18:30.890Z"}}, {"model": "suite.runresult", "pk": 28, "fields": {"suite": 3, "path": "upload_yaml\\project_1\\suite_3", "is_pass": false, "status": 2, "create_datetime": "2026-09-22T08:33:09.538Z", "update_datetime": "2026-09-22T08:33:09.538Z"}}, {"model": "suite.runresult", "pk": 29, "fields": {"suite": 3, "path": "upload_yaml\\project_1\\suite_3", "is_pass": false, "status": 4, "create_datetime": "2026-09-22T08:38:46.222Z", "update_datetime": "2026-09-22T08:38:46.222Z"}}, {"model": "suite.runresult", "pk": 30, "fields": {"suite": 3, "path": "upload_yaml\\project_1\\suite_3", "is_pass": false, "status": 4, "create_datetime": "2026-09-22T08:46:03.901Z", "update_datetime": "2026-09-22T08:46:03.901Z"}}, {"model": "suite.runresult", "pk": 31, "fields": {"suite": 3, "path": "upload_yaml\\project_1\\suite_3", "is_pass": false, "status": 4, "create_datetime": "2026-09-22T08:49:36.156Z", "update_datetime": "2026-09-22T08:49:36.156Z"}}, {"model": "suite.runresult", "pk": 32, "fields": {"suite": 3, "path": "upload_yaml\\project_1\\suite_3", "is_pass": false, "status": 4, "create_datetime": "2026-09-22T08:53:25.153Z", "update_datetime": "2026-09-22T08:53:25.153Z"}}, {"model": "suite.runresult", "pk": 33, "fields": {"suite": 3, "path": "upload_yaml\\project_1\\suite_3", "is_pass": false, "status": 4, "create_datetime": "2026-09-22T09:00:10.645Z", "update_datetime": "2026-09-22T09:00:10.645Z"}}, {"model": "suite.runresult", "pk": 34, "fields": {"suite": 3, "path": "upload_yaml\\project_1\\suite_3", "is_pass": false, "status": 4, "create_datetime": "2026-09-22T09:01:15.386Z", "update_datetime": "2026-09-22T09:01:15.386Z"}}, {"model": "suite.runresult", "pk": 35, "fields": {"suite": 3, "path": "upload_yaml\\project_1\\suite_3", "is_pass": true, "status": 4, "create_datetime": "2026-09-22T09:03:29.118Z", "update_datetime": "2026-09-22T09:03:29.118Z"}}, {"model": "suite.runresult", "pk": 36, "fields": {"suite": 3, "path": "upload_yaml\\project_1\\suite_3", "is_pass": true, "status": 4, "create_datetime": "2026-09-22T09:04:02.953Z", "update_datetime": "2026-09-22T09:04:02.953Z"}}, {"model": "suite.runresult", "pk": 37, "fields": {"suite": 4, "path": "upload_yaml\\project_1\\suite_4", "is_pass": true, "status": 4, "create_datetime": "2026-09-22T09:05:04.998Z", "update_datetime": "2026-09-22T09:05:04.998Z"}}, {"model": "suite.runresult", "pk": 38, "fields": {"suite": 6, "path": "upload_yaml\\project_1\\suite_6", "is_pass": false, "status": 0, "create_datetime": "2026-09-24T09:24:48.990Z", "update_datetime": "2026-09-24T09:24:48.990Z"}}, {"model": "suite.runresult", "pk": 39, "fields": {"suite": 6, "path": "upload_yaml\\project_1\\suite_6", "is_pass": false, "status": 0, "create_datetime": "2026-09-24T09:26:21.032Z", "update_datetime": "2026-09-24T09:26:21.032Z"}}, {"model": "suite.runresult", "pk": 40, "fields": {"suite": 6, "path": "upload_yaml\\project_1\\suite_6", "is_pass": false, "status": 0, "create_datetime": "2026-09-24T09:28:24.205Z", "update_datetime": "2026-09-24T09:28:24.205Z"}}, {"model": "suite.runresult", "pk": 41, "fields": {"suite": 6, "path": "upload_yaml\\project_1\\suite_6", "is_pass": false, "status": 0, "create_datetime": "2026-09-24T09:32:13.206Z", "update_datetime": "2026-09-24T09:32:13.206Z"}}, {"model": "authtoken.token", "pk": "a56cdc50ad54f273213775f17a5f25aa0a1f0250", "fields": {"user": ["admin"], "created": "2026-09-15T08:02:37.591Z"}}, {"model": "django_q.task", "pk": "2082c9998fcf45fcb9b5931806a38f1f", "fields": {"name": "west-wolfram-may-double", "func": "suite.tasks.run_by_cron", "hook": null, "args": "gAWVCAAAAAAAAABdlEsFYYWULg==", "kwargs": "gAV9lC4=", "result": "gAWVEA8AAAAAAABYCQ8AAEZpZWxkICdpZCcgZXhwZWN0ZWQgYSBudW1iZXIgYnV0IGdvdCBbNV0uIDogVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xmaWVsZHNcX19pbml0X18ucHkiLCBsaW5lIDIyMDcsIGluIGdldF9wcmVwX3ZhbHVlCiAgICByZXR1cm4gaW50KHZhbHVlKQpUeXBlRXJyb3I6IGludCgpIGFyZ3VtZW50IG11c3QgYmUgYSBzdHJpbmcsIGEgYnl0ZXMtbGlrZSBvYmplY3Qgb3IgYSByZWFsIG51bWJlciwgbm90ICdsaXN0JwoKVGhlIGFib3ZlIGV4Y2VwdGlvbiB3YXMgdGhlIGRpcmVjdCBjYXVzZSBvZiB0aGUgZm9sbG93aW5nIGV4Y2VwdGlvbjoKClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXC52ZW52XExpYlxzaXRlLXBhY2thZ2VzXGRqYW5nb19xXHdvcmtlci5weSIsIGxpbmUgMTA0LCBpbiB3b3JrZXIKICAgIHJlcyA9IGYoKnRhc2tbImFyZ3MiXSwgKip0YXNrWyJrd2FyZ3MiXSkKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXHN1aXRlXHRhc2tzLnB5IiwgbGluZSA2NywgaW4gcnVuX2J5X2Nyb24KICAgIHN1aXRlID0gU3VpdGUub2JqZWN0cy5nZXQoaWQ9aWQpCiAgRmlsZSAiRTpcUHljaGFybS1Xb3JrU3BhY2VcQXV0b1Rlc3RQbGF0Zm9ybVwudmVudlxMaWJcc2l0ZS1wYWNrYWdlc1xkamFuZ29cZGJcbW9kZWxzXG1hbmFnZXIucHkiLCBsaW5lIDg3LCBpbiBtYW5hZ2VyX21ldGhvZAogICAgcmV0dXJuIGdldGF0dHIoc2VsZi5nZXRfcXVlcnlzZXQoKSwgbmFtZSkoKmFyZ3MsICoqa3dhcmdzKQogICAgICAgICAgIH5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5eXl5eXl5eXl5eXl5eXl5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xxdWVyeS5weSIsIGxpbmUgNjY5LCBpbiBnZXQKICAgIGNsb25lID0gc2VsZi5fY2hhaW4oKSBpZiBzZWxmLnF1ZXJ5LmNvbWJpbmF0b3IgZWxzZSBzZWxmLmZpbHRlcigqYXJncywgKiprd2FyZ3MpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfn5+fn5+fn5+fn5eXl5eXl5eXl5eXl5eXl5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xxdWVyeS5weSIsIGxpbmUgMTY1MywgaW4gZmlsdGVyCiAgICByZXR1cm4gc2VsZi5fZmlsdGVyX29yX2V4Y2x1ZGUoRmFsc2UsIGFyZ3MsIGt3YXJncykKICAgICAgICAgICB+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fl5eXl5eXl5eXl5eXl5eXl5eXl5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xxdWVyeS5weSIsIGxpbmUgMTY3MSwgaW4gX2ZpbHRlcl9vcl9leGNsdWRlCiAgICBjbG9uZS5fZmlsdGVyX29yX2V4Y2x1ZGVfaW5wbGFjZShuZWdhdGUsIGFyZ3MsIGt3YXJncykKICAgIH5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Xl5eXl5eXl5eXl5eXl5eXl5eXl5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xxdWVyeS5weSIsIGxpbmUgMTY4MSwgaW4gX2ZpbHRlcl9vcl9leGNsdWRlX2lucGxhY2UKICAgIHNlbGYuX3F1ZXJ5LmFkZF9xKFEoKmFyZ3MsICoqa3dhcmdzKSkKICAgIH5+fn5+fn5+fn5+fn5+fn5+Xl5eXl5eXl5eXl5eXl5eXl5eXl4KICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXC52ZW52XExpYlxzaXRlLXBhY2thZ2VzXGRqYW5nb1xkYlxtb2RlbHNcc3FsXHF1ZXJ5LnB5IiwgbGluZSAxNjgwLCBpbiBhZGRfcQogICAgY2xhdXNlLCBfID0gc2VsZi5fYWRkX3EocV9vYmplY3QsIGNhbl9yZXVzZSkKICAgICAgICAgICAgICAgIH5+fn5+fn5+fn5+Xl5eXl5eXl5eXl5eXl5eXl5eXl5eCiAgRmlsZSAiRTpcUHljaGFybS1Xb3JrU3BhY2VcQXV0b1Rlc3RQbGF0Zm9ybVwudmVudlxMaWJcc2l0ZS1wYWNrYWdlc1xkamFuZ29cZGJcbW9kZWxzXHNxbFxxdWVyeS5weSIsIGxpbmUgMTcxMiwgaW4gX2FkZF9xCiAgICBjaGlsZF9jbGF1c2UsIG5lZWRlZF9pbm5lciA9IHNlbGYuYnVpbGRfZmlsdGVyKAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB+fn5+fn5+fn5+fn5+fn5+fl4KICAgICAgICBjaGlsZCwKICAgICAgICBeXl5eXl4KICAgIC4uLjw3IGxpbmVzPi4uLgogICAgICAgIHVwZGF0ZV9qb2luX3R5cGVzPXVwZGF0ZV9qb2luX3R5cGVzLAogICAgICAgIF5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXgogICAgKQogICAgXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xzcWxccXVlcnkucHkiLCBsaW5lIDE2MTIsIGluIGJ1aWxkX2ZpbHRlcgogICAgY29uZGl0aW9uID0gc2VsZi5idWlsZF9sb29rdXAobG9va3VwcywgY29sLCB2YWx1ZSkKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXC52ZW52XExpYlxzaXRlLXBhY2thZ2VzXGRqYW5nb1xkYlxtb2RlbHNcc3FsXHF1ZXJ5LnB5IiwgbGluZSAxNDM5LCBpbiBidWlsZF9sb29rdXAKICAgIGxvb2t1cCA9IGxvb2t1cF9jbGFzcyhsaHMsIHJocykKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXC52ZW52XExpYlxzaXRlLXBhY2thZ2VzXGRqYW5nb1xkYlxtb2RlbHNcbG9va3Vwcy5weSIsIGxpbmUgMzUsIGluIF9faW5pdF9fCiAgICBzZWxmLnJocyA9IHNlbGYuZ2V0X3ByZXBfbG9va3VwKCkKICAgICAgICAgICAgICAgfn5+fn5+fn5+fn5+fn5+fn5+fn5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xsb29rdXBzLnB5IiwgbGluZSAzOTEsIGluIGdldF9wcmVwX2xvb2t1cAogICAgcmV0dXJuIHN1cGVyKCkuZ2V0X3ByZXBfbG9va3VwKCkKICAgICAgICAgICB+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fl5eCiAgRmlsZSAiRTpcUHljaGFybS1Xb3JrU3BhY2VcQXV0b1Rlc3RQbGF0Zm9ybVwudmVudlxMaWJcc2l0ZS1wYWNrYWdlc1xkamFuZ29cZGJcbW9kZWxzXGxvb2t1cHMucHkiLCBsaW5lIDkzLCBpbiBnZXRfcHJlcF9sb29rdXAKICAgIHJldHVybiBzZWxmLmxocy5vdXRwdXRfZmllbGQuZ2V0X3ByZXBfdmFsdWUoc2VsZi5yaHMpCiAgICAgICAgICAgfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Xl5eXl5eXl5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xmaWVsZHNcX19pbml0X18ucHkiLCBsaW5lIDIyMDksIGluIGdldF9wcmVwX3ZhbHVlCiAgICByYWlzZSBlLl9fY2xhc3NfXygKICAgICAgICAiRmllbGQgJyVzJyBleHBlY3RlZCBhIG51bWJlciBidXQgZ290ICVyLiIgJSAoc2VsZi5uYW1lLCB2YWx1ZSksCiAgICApIGZyb20gZQpUeXBlRXJyb3I6IEZpZWxkICdpZCcgZXhwZWN0ZWQgYSBudW1iZXIgYnV0IGdvdCBbNV0uCpQu", "group": "ÿ2������UI��ʱ��֤�׼�", "cluster": "default", "started": "2026-09-24T09:01:21.292Z", "stopped": "2026-09-24T09:02:21.659Z", "success": false, "attempt_count": 2}}, {"model": "django_q.task", "pk": "358af877503049babcf912702a804dc6", "fields": {"name": "december-moon-coffee-carolina", "func": "suite.tasks.run_by_cron", "hook": null, "args": "gAWVBQAAAAAAAABLBoWULg==", "kwargs": "gAV9lC4=", "result": "gAWVxQgAAAAAAABYvggAAGRhZW1vbmljIHByb2Nlc3NlcyBhcmUgbm90IGFsbG93ZWQgdG8gaGF2ZSBjaGlsZHJlbiA6IFRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXC52ZW52XExpYlxzaXRlLXBhY2thZ2VzXGRqYW5nb19xXHdvcmtlci5weSIsIGxpbmUgMTA0LCBpbiB3b3JrZXIKICAgIHJlcyA9IGYoKnRhc2tbImFyZ3MiXSwgKip0YXNrWyJrd2FyZ3MiXSkKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXHN1aXRlXHRhc2tzLnB5IiwgbGluZSA2NywgaW4gcnVuX2J5X2Nyb24KICAgIHN1aXRlLnJ1bigpCiAgICB+fn5+fn5+fn5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cc3VpdGVcbW9kZWxzLnB5IiwgbGluZSA4NCwgaW4gcnVuCiAgICBmdXR1cmVzLmFwcGVuZChwb29sLnN1Ym1pdChydW5fdWlfY2FzZSwgdWlfcGF0aCwgcnVuX3Jlc3VsdC5pZCwgInVpIikpCiAgICAgICAgICAgICAgICAgICB+fn5+fn5+fn5+fl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4KICBGaWxlICJDOlxVc2Vyc1xoc3BjYWRtaW5cQXBwRGF0YVxMb2NhbFxEb3ViYW9cVXNlciBEYXRhXHNhbmRib3hfcnVudGltZVxiYXNlc1xjOThjNTA0MjMzOGVkMTUyYzZmMTBlY2Q4NTkxODg5ZlxweXRob25cTGliXGNvbmN1cnJlbnRcZnV0dXJlc1xwcm9jZXNzLnB5IiwgbGluZSA5MTQsIGluIHN1Ym1pdAogICAgc2VsZi5fYWRqdXN0X3Byb2Nlc3NfY291bnQoKQogICAgfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5eXgogIEZpbGUgIkM6XFVzZXJzXGhzcGNhZG1pblxBcHBEYXRhXExvY2FsXERvdWJhb1xVc2VyIERhdGFcc2FuZGJveF9ydW50aW1lXGJhc2VzXGM5OGM1MDQyMzM4ZWQxNTJjNmYxMGVjZDg1OTE4ODlmXHB5dGhvblxMaWJcY29uY3VycmVudFxmdXR1cmVzXHByb2Nlc3MucHkiLCBsaW5lIDg3OCwgaW4gX2FkanVzdF9wcm9jZXNzX2NvdW50CiAgICBzZWxmLl9zcGF3bl9wcm9jZXNzKCkKICAgIH5+fn5+fn5+fn5+fn5+fn5+fn5eXgogIEZpbGUgIkM6XFVzZXJzXGhzcGNhZG1pblxBcHBEYXRhXExvY2FsXERvdWJhb1xVc2VyIERhdGFcc2FuZGJveF9ydW50aW1lXGJhc2VzXGM5OGM1MDQyMzM4ZWQxNTJjNmYxMGVjZDg1OTE4ODlmXHB5dGhvblxMaWJcY29uY3VycmVudFxmdXR1cmVzXHByb2Nlc3MucHkiLCBsaW5lIDg4OSwgaW4gX3NwYXduX3Byb2Nlc3MKICAgIF9zcGF3bl93b3JrZXIoc2VsZi5fbXBfY29udGV4dCwgc2VsZi5fY2FsbF9xdWV1ZSwKICAgIH5+fn5+fn5+fn5+fn5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4KICAgICAgICAgICAgICAgICAgc2VsZi5fcmVzdWx0X3F1ZXVlLCBzZWxmLl9pbml0aWFsaXplciwKICAgICAgICAgICAgICAgICAgXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4KICAgICAgICAgICAgICAgICAgc2VsZi5faW5pdGFyZ3MsIHNlbGYuX21heF90YXNrc19wZXJfY2hpbGQsCiAgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXgogICAgICAgICAgICAgICAgICBzZWxmLl9wcm9jZXNzZXMpCiAgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eXl5eXl4KICBGaWxlICJDOlxVc2Vyc1xoc3BjYWRtaW5cQXBwRGF0YVxMb2NhbFxEb3ViYW9cVXNlciBEYXRhXHNhbmRib3hfcnVudGltZVxiYXNlc1xjOThjNTA0MjMzOGVkMTUyYzZmMTBlY2Q4NTkxODg5ZlxweXRob25cTGliXGNvbmN1cnJlbnRcZnV0dXJlc1xwcm9jZXNzLnB5IiwgbGluZSAyODIsIGluIF9zcGF3bl93b3JrZXIKICAgIHAuc3RhcnQoKQogICAgfn5+fn5+fl5eCiAgRmlsZSAiQzpcVXNlcnNcaHNwY2FkbWluXEFwcERhdGFcTG9jYWxcRG91YmFvXFVzZXIgRGF0YVxzYW5kYm94X3J1bnRpbWVcYmFzZXNcYzk4YzUwNDIzMzhlZDE1MmM2ZjEwZWNkODU5MTg4OWZccHl0aG9uXExpYlxtdWx0aXByb2Nlc3NpbmdccHJvY2Vzcy5weSIsIGxpbmUgMTE4LCBpbiBzdGFydAogICAgYXNzZXJ0IG5vdCBfY3VycmVudF9wcm9jZXNzLl9jb25maWcuZ2V0KCdkYWVtb24nKSwgXAogICAgICAgICAgIF5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXgpBc3NlcnRpb25FcnJvcjogZGFlbW9uaWMgcHJvY2Vzc2VzIGFyZSBub3QgYWxsb3dlZCB0byBoYXZlIGNoaWxkcmVuCpQu", "group": "cron_�׼�6", "cluster": "autotest", "started": "2026-09-24T09:24:48.883Z", "stopped": "2026-09-24T09:24:49.123Z", "success": false, "attempt_count": 1}}, {"model": "django_q.task", "pk": "75f6d479a0db480981125da390b29a1b", "fields": {"name": "cup-edward-july-oklahoma", "func": "suite.tasks.run_by_cron", "hook": null, "args": "gAWVCAAAAAAAAABdlEsFYYWULg==", "kwargs": "gAV9lC4=", "result": "gAWVEA8AAAAAAABYCQ8AAEZpZWxkICdpZCcgZXhwZWN0ZWQgYSBudW1iZXIgYnV0IGdvdCBbNV0uIDogVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xmaWVsZHNcX19pbml0X18ucHkiLCBsaW5lIDIyMDcsIGluIGdldF9wcmVwX3ZhbHVlCiAgICByZXR1cm4gaW50KHZhbHVlKQpUeXBlRXJyb3I6IGludCgpIGFyZ3VtZW50IG11c3QgYmUgYSBzdHJpbmcsIGEgYnl0ZXMtbGlrZSBvYmplY3Qgb3IgYSByZWFsIG51bWJlciwgbm90ICdsaXN0JwoKVGhlIGFib3ZlIGV4Y2VwdGlvbiB3YXMgdGhlIGRpcmVjdCBjYXVzZSBvZiB0aGUgZm9sbG93aW5nIGV4Y2VwdGlvbjoKClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXC52ZW52XExpYlxzaXRlLXBhY2thZ2VzXGRqYW5nb19xXHdvcmtlci5weSIsIGxpbmUgMTA0LCBpbiB3b3JrZXIKICAgIHJlcyA9IGYoKnRhc2tbImFyZ3MiXSwgKip0YXNrWyJrd2FyZ3MiXSkKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXHN1aXRlXHRhc2tzLnB5IiwgbGluZSA2NywgaW4gcnVuX2J5X2Nyb24KICAgIHN1aXRlID0gU3VpdGUub2JqZWN0cy5nZXQoaWQ9aWQpCiAgRmlsZSAiRTpcUHljaGFybS1Xb3JrU3BhY2VcQXV0b1Rlc3RQbGF0Zm9ybVwudmVudlxMaWJcc2l0ZS1wYWNrYWdlc1xkamFuZ29cZGJcbW9kZWxzXG1hbmFnZXIucHkiLCBsaW5lIDg3LCBpbiBtYW5hZ2VyX21ldGhvZAogICAgcmV0dXJuIGdldGF0dHIoc2VsZi5nZXRfcXVlcnlzZXQoKSwgbmFtZSkoKmFyZ3MsICoqa3dhcmdzKQogICAgICAgICAgIH5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5eXl5eXl5eXl5eXl5eXl5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xxdWVyeS5weSIsIGxpbmUgNjY5LCBpbiBnZXQKICAgIGNsb25lID0gc2VsZi5fY2hhaW4oKSBpZiBzZWxmLnF1ZXJ5LmNvbWJpbmF0b3IgZWxzZSBzZWxmLmZpbHRlcigqYXJncywgKiprd2FyZ3MpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfn5+fn5+fn5+fn5eXl5eXl5eXl5eXl5eXl5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xxdWVyeS5weSIsIGxpbmUgMTY1MywgaW4gZmlsdGVyCiAgICByZXR1cm4gc2VsZi5fZmlsdGVyX29yX2V4Y2x1ZGUoRmFsc2UsIGFyZ3MsIGt3YXJncykKICAgICAgICAgICB+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fl5eXl5eXl5eXl5eXl5eXl5eXl5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xxdWVyeS5weSIsIGxpbmUgMTY3MSwgaW4gX2ZpbHRlcl9vcl9leGNsdWRlCiAgICBjbG9uZS5fZmlsdGVyX29yX2V4Y2x1ZGVfaW5wbGFjZShuZWdhdGUsIGFyZ3MsIGt3YXJncykKICAgIH5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Xl5eXl5eXl5eXl5eXl5eXl5eXl5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xxdWVyeS5weSIsIGxpbmUgMTY4MSwgaW4gX2ZpbHRlcl9vcl9leGNsdWRlX2lucGxhY2UKICAgIHNlbGYuX3F1ZXJ5LmFkZF9xKFEoKmFyZ3MsICoqa3dhcmdzKSkKICAgIH5+fn5+fn5+fn5+fn5+fn5+Xl5eXl5eXl5eXl5eXl5eXl5eXl4KICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXC52ZW52XExpYlxzaXRlLXBhY2thZ2VzXGRqYW5nb1xkYlxtb2RlbHNcc3FsXHF1ZXJ5LnB5IiwgbGluZSAxNjgwLCBpbiBhZGRfcQogICAgY2xhdXNlLCBfID0gc2VsZi5fYWRkX3EocV9vYmplY3QsIGNhbl9yZXVzZSkKICAgICAgICAgICAgICAgIH5+fn5+fn5+fn5+Xl5eXl5eXl5eXl5eXl5eXl5eXl5eCiAgRmlsZSAiRTpcUHljaGFybS1Xb3JrU3BhY2VcQXV0b1Rlc3RQbGF0Zm9ybVwudmVudlxMaWJcc2l0ZS1wYWNrYWdlc1xkamFuZ29cZGJcbW9kZWxzXHNxbFxxdWVyeS5weSIsIGxpbmUgMTcxMiwgaW4gX2FkZF9xCiAgICBjaGlsZF9jbGF1c2UsIG5lZWRlZF9pbm5lciA9IHNlbGYuYnVpbGRfZmlsdGVyKAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB+fn5+fn5+fn5+fn5+fn5+fl4KICAgICAgICBjaGlsZCwKICAgICAgICBeXl5eXl4KICAgIC4uLjw3IGxpbmVzPi4uLgogICAgICAgIHVwZGF0ZV9qb2luX3R5cGVzPXVwZGF0ZV9qb2luX3R5cGVzLAogICAgICAgIF5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXgogICAgKQogICAgXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xzcWxccXVlcnkucHkiLCBsaW5lIDE2MTIsIGluIGJ1aWxkX2ZpbHRlcgogICAgY29uZGl0aW9uID0gc2VsZi5idWlsZF9sb29rdXAobG9va3VwcywgY29sLCB2YWx1ZSkKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXC52ZW52XExpYlxzaXRlLXBhY2thZ2VzXGRqYW5nb1xkYlxtb2RlbHNcc3FsXHF1ZXJ5LnB5IiwgbGluZSAxNDM5LCBpbiBidWlsZF9sb29rdXAKICAgIGxvb2t1cCA9IGxvb2t1cF9jbGFzcyhsaHMsIHJocykKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXC52ZW52XExpYlxzaXRlLXBhY2thZ2VzXGRqYW5nb1xkYlxtb2RlbHNcbG9va3Vwcy5weSIsIGxpbmUgMzUsIGluIF9faW5pdF9fCiAgICBzZWxmLnJocyA9IHNlbGYuZ2V0X3ByZXBfbG9va3VwKCkKICAgICAgICAgICAgICAgfn5+fn5+fn5+fn5+fn5+fn5+fn5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xsb29rdXBzLnB5IiwgbGluZSAzOTEsIGluIGdldF9wcmVwX2xvb2t1cAogICAgcmV0dXJuIHN1cGVyKCkuZ2V0X3ByZXBfbG9va3VwKCkKICAgICAgICAgICB+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fl5eCiAgRmlsZSAiRTpcUHljaGFybS1Xb3JrU3BhY2VcQXV0b1Rlc3RQbGF0Zm9ybVwudmVudlxMaWJcc2l0ZS1wYWNrYWdlc1xkamFuZ29cZGJcbW9kZWxzXGxvb2t1cHMucHkiLCBsaW5lIDkzLCBpbiBnZXRfcHJlcF9sb29rdXAKICAgIHJldHVybiBzZWxmLmxocy5vdXRwdXRfZmllbGQuZ2V0X3ByZXBfdmFsdWUoc2VsZi5yaHMpCiAgICAgICAgICAgfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Xl5eXl5eXl5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cLnZlbnZcTGliXHNpdGUtcGFja2FnZXNcZGphbmdvXGRiXG1vZGVsc1xmaWVsZHNcX19pbml0X18ucHkiLCBsaW5lIDIyMDksIGluIGdldF9wcmVwX3ZhbHVlCiAgICByYWlzZSBlLl9fY2xhc3NfXygKICAgICAgICAiRmllbGQgJyVzJyBleHBlY3RlZCBhIG51bWJlciBidXQgZ290ICVyLiIgJSAoc2VsZi5uYW1lLCB2YWx1ZSksCiAgICApIGZyb20gZQpUeXBlRXJyb3I6IEZpZWxkICdpZCcgZXhwZWN0ZWQgYSBudW1iZXIgYnV0IGdvdCBbNV0uCpQu", "group": "ÿ2������UI��ʱ��֤�׼�", "cluster": "default", "started": "2026-09-24T09:01:52.285Z", "stopped": "2026-09-24T09:01:52.369Z", "success": false, "attempt_count": 1}}, {"model": "django_q.task", "pk": "781b14989fd847f680f8f3503f3c8ef9", "fields": {"name": "violet-winner-tennessee-lactose", "func": "suite.tasks.run_by_cron", "hook": null, "args": "gAWVBQAAAAAAAABLBoWULg==", "kwargs": "gAV9lC4=", "result": "gAWVxQgAAAAAAABYvggAAGRhZW1vbmljIHByb2Nlc3NlcyBhcmUgbm90IGFsbG93ZWQgdG8gaGF2ZSBjaGlsZHJlbiA6IFRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXC52ZW52XExpYlxzaXRlLXBhY2thZ2VzXGRqYW5nb19xXHdvcmtlci5weSIsIGxpbmUgMTA0LCBpbiB3b3JrZXIKICAgIHJlcyA9IGYoKnRhc2tbImFyZ3MiXSwgKip0YXNrWyJrd2FyZ3MiXSkKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXHN1aXRlXHRhc2tzLnB5IiwgbGluZSA2NywgaW4gcnVuX2J5X2Nyb24KICAgIHN1aXRlLnJ1bigpCiAgICB+fn5+fn5+fn5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cc3VpdGVcbW9kZWxzLnB5IiwgbGluZSA4OCwgaW4gcnVuCiAgICBmdXR1cmVzLmFwcGVuZChwb29sLnN1Ym1pdChydW5fdWlfY2FzZSwgdWlfcGF0aCwgcnVuX3Jlc3VsdC5pZCwgInVpIikpCiAgICAgICAgICAgICAgICAgICB+fn5+fn5+fn5+fl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4KICBGaWxlICJDOlxVc2Vyc1xoc3BjYWRtaW5cQXBwRGF0YVxMb2NhbFxEb3ViYW9cVXNlciBEYXRhXHNhbmRib3hfcnVudGltZVxiYXNlc1xjOThjNTA0MjMzOGVkMTUyYzZmMTBlY2Q4NTkxODg5ZlxweXRob25cTGliXGNvbmN1cnJlbnRcZnV0dXJlc1xwcm9jZXNzLnB5IiwgbGluZSA5MTQsIGluIHN1Ym1pdAogICAgc2VsZi5fYWRqdXN0X3Byb2Nlc3NfY291bnQoKQogICAgfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5eXgogIEZpbGUgIkM6XFVzZXJzXGhzcGNhZG1pblxBcHBEYXRhXExvY2FsXERvdWJhb1xVc2VyIERhdGFcc2FuZGJveF9ydW50aW1lXGJhc2VzXGM5OGM1MDQyMzM4ZWQxNTJjNmYxMGVjZDg1OTE4ODlmXHB5dGhvblxMaWJcY29uY3VycmVudFxmdXR1cmVzXHByb2Nlc3MucHkiLCBsaW5lIDg3OCwgaW4gX2FkanVzdF9wcm9jZXNzX2NvdW50CiAgICBzZWxmLl9zcGF3bl9wcm9jZXNzKCkKICAgIH5+fn5+fn5+fn5+fn5+fn5+fn5eXgogIEZpbGUgIkM6XFVzZXJzXGhzcGNhZG1pblxBcHBEYXRhXExvY2FsXERvdWJhb1xVc2VyIERhdGFcc2FuZGJveF9ydW50aW1lXGJhc2VzXGM5OGM1MDQyMzM4ZWQxNTJjNmYxMGVjZDg1OTE4ODlmXHB5dGhvblxMaWJcY29uY3VycmVudFxmdXR1cmVzXHByb2Nlc3MucHkiLCBsaW5lIDg4OSwgaW4gX3NwYXduX3Byb2Nlc3MKICAgIF9zcGF3bl93b3JrZXIoc2VsZi5fbXBfY29udGV4dCwgc2VsZi5fY2FsbF9xdWV1ZSwKICAgIH5+fn5+fn5+fn5+fn5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4KICAgICAgICAgICAgICAgICAgc2VsZi5fcmVzdWx0X3F1ZXVlLCBzZWxmLl9pbml0aWFsaXplciwKICAgICAgICAgICAgICAgICAgXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4KICAgICAgICAgICAgICAgICAgc2VsZi5faW5pdGFyZ3MsIHNlbGYuX21heF90YXNrc19wZXJfY2hpbGQsCiAgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXgogICAgICAgICAgICAgICAgICBzZWxmLl9wcm9jZXNzZXMpCiAgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eXl5eXl4KICBGaWxlICJDOlxVc2Vyc1xoc3BjYWRtaW5cQXBwRGF0YVxMb2NhbFxEb3ViYW9cVXNlciBEYXRhXHNhbmRib3hfcnVudGltZVxiYXNlc1xjOThjNTA0MjMzOGVkMTUyYzZmMTBlY2Q4NTkxODg5ZlxweXRob25cTGliXGNvbmN1cnJlbnRcZnV0dXJlc1xwcm9jZXNzLnB5IiwgbGluZSAyODIsIGluIF9zcGF3bl93b3JrZXIKICAgIHAuc3RhcnQoKQogICAgfn5+fn5+fl5eCiAgRmlsZSAiQzpcVXNlcnNcaHNwY2FkbWluXEFwcERhdGFcTG9jYWxcRG91YmFvXFVzZXIgRGF0YVxzYW5kYm94X3J1bnRpbWVcYmFzZXNcYzk4YzUwNDIzMzhlZDE1MmM2ZjEwZWNkODU5MTg4OWZccHl0aG9uXExpYlxtdWx0aXByb2Nlc3NpbmdccHJvY2Vzcy5weSIsIGxpbmUgMTE4LCBpbiBzdGFydAogICAgYXNzZXJ0IG5vdCBfY3VycmVudF9wcm9jZXNzLl9jb25maWcuZ2V0KCdkYWVtb24nKSwgXAogICAgICAgICAgIF5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXgpBc3NlcnRpb25FcnJvcjogZGFlbW9uaWMgcHJvY2Vzc2VzIGFyZSBub3QgYWxsb3dlZCB0byBoYXZlIGNoaWxkcmVuCpQu", "group": "cron_�׼�6", "cluster": "autotest", "started": "2026-09-24T09:32:13.119Z", "stopped": "2026-09-24T09:32:13.386Z", "success": false, "attempt_count": 1}}, {"model": "django_q.task", "pk": "9ee51af72bcf4fd384f0a2799f0a5252", "fields": {"name": "music-leopard-pip-muppet", "func": "suite.tasks.run_by_cron", "hook": null, "args": "gAWVBQAAAAAAAABLBoWULg==", "kwargs": "gAV9lC4=", "result": "gAWVxQgAAAAAAABYvggAAGRhZW1vbmljIHByb2Nlc3NlcyBhcmUgbm90IGFsbG93ZWQgdG8gaGF2ZSBjaGlsZHJlbiA6IFRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXC52ZW52XExpYlxzaXRlLXBhY2thZ2VzXGRqYW5nb19xXHdvcmtlci5weSIsIGxpbmUgMTA0LCBpbiB3b3JrZXIKICAgIHJlcyA9IGYoKnRhc2tbImFyZ3MiXSwgKip0YXNrWyJrd2FyZ3MiXSkKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXHN1aXRlXHRhc2tzLnB5IiwgbGluZSA2NywgaW4gcnVuX2J5X2Nyb24KICAgIHN1aXRlLnJ1bigpCiAgICB+fn5+fn5+fn5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cc3VpdGVcbW9kZWxzLnB5IiwgbGluZSA4NCwgaW4gcnVuCiAgICBmdXR1cmVzLmFwcGVuZChwb29sLnN1Ym1pdChydW5fdWlfY2FzZSwgdWlfcGF0aCwgcnVuX3Jlc3VsdC5pZCwgInVpIikpCiAgICAgICAgICAgICAgICAgICB+fn5+fn5+fn5+fl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4KICBGaWxlICJDOlxVc2Vyc1xoc3BjYWRtaW5cQXBwRGF0YVxMb2NhbFxEb3ViYW9cVXNlciBEYXRhXHNhbmRib3hfcnVudGltZVxiYXNlc1xjOThjNTA0MjMzOGVkMTUyYzZmMTBlY2Q4NTkxODg5ZlxweXRob25cTGliXGNvbmN1cnJlbnRcZnV0dXJlc1xwcm9jZXNzLnB5IiwgbGluZSA5MTQsIGluIHN1Ym1pdAogICAgc2VsZi5fYWRqdXN0X3Byb2Nlc3NfY291bnQoKQogICAgfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5eXgogIEZpbGUgIkM6XFVzZXJzXGhzcGNhZG1pblxBcHBEYXRhXExvY2FsXERvdWJhb1xVc2VyIERhdGFcc2FuZGJveF9ydW50aW1lXGJhc2VzXGM5OGM1MDQyMzM4ZWQxNTJjNmYxMGVjZDg1OTE4ODlmXHB5dGhvblxMaWJcY29uY3VycmVudFxmdXR1cmVzXHByb2Nlc3MucHkiLCBsaW5lIDg3OCwgaW4gX2FkanVzdF9wcm9jZXNzX2NvdW50CiAgICBzZWxmLl9zcGF3bl9wcm9jZXNzKCkKICAgIH5+fn5+fn5+fn5+fn5+fn5+fn5eXgogIEZpbGUgIkM6XFVzZXJzXGhzcGNhZG1pblxBcHBEYXRhXExvY2FsXERvdWJhb1xVc2VyIERhdGFcc2FuZGJveF9ydW50aW1lXGJhc2VzXGM5OGM1MDQyMzM4ZWQxNTJjNmYxMGVjZDg1OTE4ODlmXHB5dGhvblxMaWJcY29uY3VycmVudFxmdXR1cmVzXHByb2Nlc3MucHkiLCBsaW5lIDg4OSwgaW4gX3NwYXduX3Byb2Nlc3MKICAgIF9zcGF3bl93b3JrZXIoc2VsZi5fbXBfY29udGV4dCwgc2VsZi5fY2FsbF9xdWV1ZSwKICAgIH5+fn5+fn5+fn5+fn5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4KICAgICAgICAgICAgICAgICAgc2VsZi5fcmVzdWx0X3F1ZXVlLCBzZWxmLl9pbml0aWFsaXplciwKICAgICAgICAgICAgICAgICAgXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4KICAgICAgICAgICAgICAgICAgc2VsZi5faW5pdGFyZ3MsIHNlbGYuX21heF90YXNrc19wZXJfY2hpbGQsCiAgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXgogICAgICAgICAgICAgICAgICBzZWxmLl9wcm9jZXNzZXMpCiAgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eXl5eXl4KICBGaWxlICJDOlxVc2Vyc1xoc3BjYWRtaW5cQXBwRGF0YVxMb2NhbFxEb3ViYW9cVXNlciBEYXRhXHNhbmRib3hfcnVudGltZVxiYXNlc1xjOThjNTA0MjMzOGVkMTUyYzZmMTBlY2Q4NTkxODg5ZlxweXRob25cTGliXGNvbmN1cnJlbnRcZnV0dXJlc1xwcm9jZXNzLnB5IiwgbGluZSAyODIsIGluIF9zcGF3bl93b3JrZXIKICAgIHAuc3RhcnQoKQogICAgfn5+fn5+fl5eCiAgRmlsZSAiQzpcVXNlcnNcaHNwY2FkbWluXEFwcERhdGFcTG9jYWxcRG91YmFvXFVzZXIgRGF0YVxzYW5kYm94X3J1bnRpbWVcYmFzZXNcYzk4YzUwNDIzMzhlZDE1MmM2ZjEwZWNkODU5MTg4OWZccHl0aG9uXExpYlxtdWx0aXByb2Nlc3NpbmdccHJvY2Vzcy5weSIsIGxpbmUgMTE4LCBpbiBzdGFydAogICAgYXNzZXJ0IG5vdCBfY3VycmVudF9wcm9jZXNzLl9jb25maWcuZ2V0KCdkYWVtb24nKSwgXAogICAgICAgICAgIF5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXgpBc3NlcnRpb25FcnJvcjogZGFlbW9uaWMgcHJvY2Vzc2VzIGFyZSBub3QgYWxsb3dlZCB0byBoYXZlIGNoaWxkcmVuCpQu", "group": "cron_�׼�6", "cluster": "autotest", "started": "2026-09-24T09:26:20.990Z", "stopped": "2026-09-24T09:26:21.197Z", "success": false, "attempt_count": 1}}, {"model": "django_q.task", "pk": "a75fe7749da9428dad3ec8808382e1e6", "fields": {"name": "johnny-xray-tennessee-apart", "func": "suite.tasks.run_by_cron", "hook": null, "args": "gAWVBQAAAAAAAABLBoWULg==", "kwargs": "gAV9lC4=", "result": "gAWVnggAAAAAAABYlwgAAGRhZW1vbmljIHByb2Nlc3NlcyBhcmUgbm90IGFsbG93ZWQgdG8gaGF2ZSBjaGlsZHJlbiA6IFRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXC52ZW52XExpYlxzaXRlLXBhY2thZ2VzXGRqYW5nb19xXHdvcmtlci5weSIsIGxpbmUgMTA0LCBpbiB3b3JrZXIKICAgIHJlcyA9IGYoKnRhc2tbImFyZ3MiXSwgKip0YXNrWyJrd2FyZ3MiXSkKICBGaWxlICJFOlxQeWNoYXJtLVdvcmtTcGFjZVxBdXRvVGVzdFBsYXRmb3JtXHN1aXRlXHRhc2tzLnB5IiwgbGluZSA2NywgaW4gcnVuX2J5X2Nyb24KICAgIHN1aXRlLnJ1bigpCiAgICB+fn5+fn5+fn5eXgogIEZpbGUgIkU6XFB5Y2hhcm0tV29ya1NwYWNlXEF1dG9UZXN0UGxhdGZvcm1cc3VpdGVcbW9kZWxzLnB5IiwgbGluZSA4NCwgaW4gcnVuCiAgICB5YW1sX3BhdGggPSB1aV9wYXRoIC8gZiJ0ZXN0X3VpX3tjYXNlX3VpLmlkfS55YW1sIgogICAgICAgICAgICAgICB+fn5+fn5+fn5efn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KICBGaWxlICJDOlxVc2Vyc1xoc3BjYWRtaW5cQXBwRGF0YVxMb2NhbFxEb3ViYW9cVXNlciBEYXRhXHNhbmRib3hfcnVudGltZVxiYXNlc1xjOThjNTA0MjMzOGVkMTUyYzZmMTBlY2Q4NTkxODg5ZlxweXRob25cTGliXGNvbmN1cnJlbnRcZnV0dXJlc1xwcm9jZXNzLnB5IiwgbGluZSA5MTQsIGluIHN1Ym1pdAogICAgc2VsZi5fYWRqdXN0X3Byb2Nlc3NfY291bnQoKQogICAgfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5eXgogIEZpbGUgIkM6XFVzZXJzXGhzcGNhZG1pblxBcHBEYXRhXExvY2FsXERvdWJhb1xVc2VyIERhdGFcc2FuZGJveF9ydW50aW1lXGJhc2VzXGM5OGM1MDQyMzM4ZWQxNTJjNmYxMGVjZDg1OTE4ODlmXHB5dGhvblxMaWJcY29uY3VycmVudFxmdXR1cmVzXHByb2Nlc3MucHkiLCBsaW5lIDg3OCwgaW4gX2FkanVzdF9wcm9jZXNzX2NvdW50CiAgICBzZWxmLl9zcGF3bl9wcm9jZXNzKCkKICAgIH5+fn5+fn5+fn5+fn5+fn5+fn5eXgogIEZpbGUgIkM6XFVzZXJzXGhzcGNhZG1pblxBcHBEYXRhXExvY2FsXERvdWJhb1xVc2VyIERhdGFcc2FuZGJveF9ydW50aW1lXGJhc2VzXGM5OGM1MDQyMzM4ZWQxNTJjNmYxMGVjZDg1OTE4ODlmXHB5dGhvblxMaWJcY29uY3VycmVudFxmdXR1cmVzXHByb2Nlc3MucHkiLCBsaW5lIDg4OSwgaW4gX3NwYXduX3Byb2Nlc3MKICAgIF9zcGF3bl93b3JrZXIoc2VsZi5fbXBfY29udGV4dCwgc2VsZi5fY2FsbF9xdWV1ZSwKICAgIH5+fn5+fn5+fn5+fn5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4KICAgICAgICAgICAgICAgICAgc2VsZi5fcmVzdWx0X3F1ZXVlLCBzZWxmLl9pbml0aWFsaXplciwKICAgICAgICAgICAgICAgICAgXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4KICAgICAgICAgICAgICAgICAgc2VsZi5faW5pdGFyZ3MsIHNlbGYuX21heF90YXNrc19wZXJfY2hpbGQsCiAgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXgogICAgICAgICAgICAgICAgICBzZWxmLl9wcm9jZXNzZXMpCiAgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eXl5eXl4KICBGaWxlICJDOlxVc2Vyc1xoc3BjYWRtaW5cQXBwRGF0YVxMb2NhbFxEb3ViYW9cVXNlciBEYXRhXHNhbmRib3hfcnVudGltZVxiYXNlc1xjOThjNTA0MjMzOGVkMTUyYzZmMTBlY2Q4NTkxODg5ZlxweXRob25cTGliXGNvbmN1cnJlbnRcZnV0dXJlc1xwcm9jZXNzLnB5IiwgbGluZSAyODIsIGluIF9zcGF3bl93b3JrZXIKICAgIHAuc3RhcnQoKQogICAgfn5+fn5+fl5eCiAgRmlsZSAiQzpcVXNlcnNcaHNwY2FkbWluXEFwcERhdGFcTG9jYWxcRG91YmFvXFVzZXIgRGF0YVxzYW5kYm94X3J1bnRpbWVcYmFzZXNcYzk4YzUwNDIzMzhlZDE1MmM2ZjEwZWNkODU5MTg4OWZccHl0aG9uXExpYlxtdWx0aXByb2Nlc3NpbmdccHJvY2Vzcy5weSIsIGxpbmUgMTE4LCBpbiBzdGFydAogICAgYXNzZXJ0IG5vdCBfY3VycmVudF9wcm9jZXNzLl9jb25maWcuZ2V0KCdkYWVtb24nKSwgXAogICAgICAgICAgIF5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXgpBc3NlcnRpb25FcnJvcjogZGFlbW9uaWMgcHJvY2Vzc2VzIGFyZSBub3QgYWxsb3dlZCB0byBoYXZlIGNoaWxkcmVuCpQu", "group": "cron_�׼�6", "cluster": "autotest", "started": "2026-09-24T09:28:24.083Z", "stopped": "2026-09-24T09:28:24.222Z", "success": false, "attempt_count": 1}}, {"model": "django_q.schedule", "pk": 3, "fields": {"name": "cron_�׼�None", "func": "suite.tasks.run_by_cron", "hook": null, "args": "(None,)", "kwargs": "{}", "schedule_type": "C", "minutes": null, "repeats": -1, "next_run": "2026-09-24T10:00:00Z", "cron": "0 * * * * *", "task": null, "cluster": null, "intended_date_kwarg": null}}, {"model": "django_q.ormq", "pk": 7, "fields": {"key": "autotest", "payload": "gAWVDQEAAAAAAAB9lCiMAmlklIwgMzU4YWY4Nzc1MDMwNDliYWJjZjkxMjcwMmE4MDRkYzaUjARuYW1llIwdZGVjZW1iZXItbW9vbi1jb2ZmZWUtY2Fyb2xpbmGUjARmdW5jlIwXc3VpdGUudGFza3MucnVuX2J5X2Nyb26UjARhcmdzlEsGhZSMBWdyb3VwlIwMY3Jvbl_lpZfku7Y2lIwHY2x1c3RlcpROjAZrd2FyZ3OUfZSMB3N0YXJ0ZWSUjAhkYXRldGltZZSMCGRhdGV0aW1llJOUQwoH6gkYCRgwDXtwlGgPjAh0aW1lem9uZZSTlGgPjAl0aW1lZGVsdGGUk5RLAEsASwCHlFKUhZRSlIaUUpR1Lg:1x9fhA:TK7jWbyn5653ToCkQHrRpGwgvKeTH-SKQe7vo-jiaUQ", "lock": "2026-09-24T09:56:28.977Z"}}, {"model": "django_q.ormq", "pk": 8, "fields": {"key": "autotest", "payload": "gAWVCAEAAAAAAAB9lCiMAmlklIwgOWVlNTFhZjcyYmNmNGZkMzg0ZjBhMjc5OWYwYTUyNTKUjARuYW1llIwYbXVzaWMtbGVvcGFyZC1waXAtbXVwcGV0lIwEZnVuY5SMF3N1aXRlLnRhc2tzLnJ1bl9ieV9jcm9ulIwEYXJnc5RLBoWUjAVncm91cJSMDGNyb25f5aWX5Lu2NpSMB2NsdXN0ZXKUTowGa3dhcmdzlH2UjAdzdGFydGVklIwIZGF0ZXRpbWWUjAhkYXRldGltZZSTlEMKB-oJGAkaFA8d55RoD4wIdGltZXpvbmWUk5RoD4wJdGltZWRlbHRhlJOUSwBLAEsAh5RSlIWUUpSGlFKUdS4:1x9fie:7AHRjyDxQ0vDdwJbbhhDNi8g3elH9RCSlQ-KoZ6Mzgk", "lock": "2026-09-24T09:58:01.021Z"}}, {"model": "django_q.ormq", "pk": 9, "fields": {"key": "autotest", "payload": "gAWVCwEAAAAAAAB9lCiMAmlklIwgYTc1ZmU3NzQ5ZGE5NDI4ZGFkM2VjODgwODM4MmUxZTaUjARuYW1llIwbam9obm55LXhyYXktdGVubmVzc2VlLWFwYXJ0lIwEZnVuY5SMF3N1aXRlLnRhc2tzLnJ1bl9ieV9jcm9ulIwEYXJnc5RLBoWUjAVncm91cJSMDGNyb25f5aWX5Lu2NpSMB2NsdXN0ZXKUTowGa3dhcmdzlH2UjAdzdGFydGVklIwIZGF0ZXRpbWWUjAhkYXRldGltZZSTlEMKB-oJGAkcGAFHRJRoD4wIdGltZXpvbmWUk5RoD4wJdGltZWRlbHRhlJOUSwBLAEsAh5RSlIWUUpSGlFKUdS4:1x9fke:TZMC_iu1Qa_zEvxMUBSXBW4OP92fy5Osx8heHzzMDfo", "lock": "2026-09-24T10:00:04.191Z"}}, {"model": "django_q.ormq", "pk": 10, "fields": {"key": "autotest", "payload": "gAWVDwEAAAAAAAB9lCiMAmlklIwgNzgxYjE0OTg5ZmQ4NDdmNjgwZjhmMzUwM2YzYzhlZjmUjARuYW1llIwfdmlvbGV0LXdpbm5lci10ZW5uZXNzZWUtbGFjdG9zZZSMBGZ1bmOUjBdzdWl0ZS50YXNrcy5ydW5fYnlfY3JvbpSMBGFyZ3OUSwaFlIwFZ3JvdXCUjAxjcm9uX-Wll-S7tjaUjAdjbHVzdGVylE6MBmt3YXJnc5R9lIwHc3RhcnRlZJSMCGRhdGV0aW1llIwIZGF0ZXRpbWWUk5RDCgfqCRgJIA0B0WqUaA-MCHRpbWV6b25llJOUaA-MCXRpbWVkZWx0YZSTlEsASwBLAIeUUpSFlFKUhpRSlHUu:1x9foL:VZbwr2lwYRZEDkAM0Z2nJqgi0IScA5I7oYo055AKsyw", "lock": "2026-09-24T10:03:53.188Z"}}]
+[
+{
+  "model": "case_ui.element",
+  "pk": 1,
+  "fields": {
+    "name": "用户名输入框",
+    "by": "id",
+    "path": "username",
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 2,
+  "fields": {
+    "name": "密码输入框",
+    "by": "id",
+    "path": "password",
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 3,
+  "fields": {
+    "name": "登录按钮",
+    "by": "css",
+    "path": ".btn-login",
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 4,
+  "fields": {
+    "name": "记住我复选框",
+    "by": "id",
+    "path": "remember",
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 5,
+  "fields": {
+    "name": "新增用户按钮",
+    "by": "css",
+    "path": ".btn-add",
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 6,
+  "fields": {
+    "name": "用户列表表格",
+    "by": "xpath",
+    "path": "//table[@id='user-table']",
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 7,
+  "fields": {
+    "name": "搜索框",
+    "by": "id",
+    "path": "search_input",
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 8,
+  "fields": {
+    "name": "编辑按钮",
+    "by": "xpath",
+    "path": "//button[contains(text(),'编辑')]",
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 9,
+  "fields": {
+    "name": "删除按钮",
+    "by": "xpath",
+    "path": "//button[contains(text(),'删除')]",
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 10,
+  "fields": {
+    "name": "退出登录链接",
+    "by": "link_text",
+    "path": "退出登录",
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 11,
+  "fields": {
+    "name": "首页导航Logo",
+    "by": "id",
+    "path": "logo",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 12,
+  "fields": {
+    "name": "导航栏-首页",
+    "by": "link text",
+    "path": "首页",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 13,
+  "fields": {
+    "name": "导航栏-订单管理",
+    "by": "link text",
+    "path": "订单管理",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 14,
+  "fields": {
+    "name": "导航栏-商品管理",
+    "by": "link text",
+    "path": "商品管理",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 15,
+  "fields": {
+    "name": "导航栏-系统设置",
+    "by": "link text",
+    "path": "系统设置",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 16,
+  "fields": {
+    "name": "订单号搜索框",
+    "by": "id",
+    "path": "order-search-input",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 17,
+  "fields": {
+    "name": "订单状态下拉框",
+    "by": "xpath",
+    "path": "//select[@id='order-status']",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 18,
+  "fields": {
+    "name": "订单列表表格",
+    "by": "css selector",
+    "path": ".order-table",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 19,
+  "fields": {
+    "name": "订单详情按钮",
+    "by": "xpath",
+    "path": "//table//tr[1]//button[contains(text(),'详情')]",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 20,
+  "fields": {
+    "name": "订单导出按钮",
+    "by": "class name",
+    "path": "export-btn",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 21,
+  "fields": {
+    "name": "商品名称输入框",
+    "by": "name",
+    "path": "goods_name",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 22,
+  "fields": {
+    "name": "商品价格输入框",
+    "by": "id",
+    "path": "goods-price",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 23,
+  "fields": {
+    "name": "商品库存输入框",
+    "by": "xpath",
+    "path": "//input[@placeholder='请输入库存']",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 24,
+  "fields": {
+    "name": "商品分类下拉框",
+    "by": "css selector",
+    "path": ".category-select",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 25,
+  "fields": {
+    "name": "商品缩略图",
+    "by": "xpath",
+    "path": "//img[@class='goods-thumb']",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 26,
+  "fields": {
+    "name": "弹窗-确定按钮",
+    "by": "xpath",
+    "path": "//div[contains(@class,'modal')]//button[contains(text(),'确定')]",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 27,
+  "fields": {
+    "name": "弹窗-取消按钮",
+    "by": "xpath",
+    "path": "//div[contains(@class,'modal')]//button[contains(text(),'取消')]",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 28,
+  "fields": {
+    "name": "弹窗标题",
+    "by": "css selector",
+    "path": ".modal-title",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 29,
+  "fields": {
+    "name": "分页-上一页",
+    "by": "link text",
+    "path": "上一页",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.element",
+  "pk": 30,
+  "fields": {
+    "name": "分页-下一页",
+    "by": "link text",
+    "path": "下一页",
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 1,
+  "fields": {
+    "keyword_name": "find_element",
+    "description": "查找单个元素"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 2,
+  "fields": {
+    "keyword_name": "find_elements",
+    "description": "查找多个元素"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 3,
+  "fields": {
+    "keyword_name": "clear",
+    "description": "清空输入框"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 4,
+  "fields": {
+    "keyword_name": "send_keys",
+    "description": "输入文本"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 5,
+  "fields": {
+    "keyword_name": "click",
+    "description": "点击元素"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 6,
+  "fields": {
+    "keyword_name": "text",
+    "description": "获取元素文本"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 7,
+  "fields": {
+    "keyword_name": "save_code_img",
+    "description": "保存验证码图片"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 8,
+  "fields": {
+    "keyword_name": "send_code",
+    "description": "发送验证码"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 9,
+  "fields": {
+    "keyword_name": "switch_to_alert",
+    "description": "切换到弹窗"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 10,
+  "fields": {
+    "keyword_name": "alert_text",
+    "description": "获取弹窗文本"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 11,
+  "fields": {
+    "keyword_name": "alert_accept",
+    "description": "接受弹窗"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 12,
+  "fields": {
+    "keyword_name": "alert_dismiss",
+    "description": "关闭弹窗"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 13,
+  "fields": {
+    "keyword_name": "alert_send_keys",
+    "description": "弹窗输入文本"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 14,
+  "fields": {
+    "keyword_name": "select_by_index",
+    "description": "下拉框按索引选择"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 15,
+  "fields": {
+    "keyword_name": "select_by_value",
+    "description": "下拉框按值选择"
+  }
+},
+{
+  "model": "case_ui.keyword",
+  "pk": 16,
+  "fields": {
+    "keyword_name": "select_by_visible_text",
+    "description": "下拉框按可见文本选择"
+  }
+},
+{
+  "model": "case_ui.action",
+  "pk": 2,
+  "fields": {
+    "name": "用户登录成功",
+    "allure": {},
+    "step": [],
+    "parametrize": {},
+    "validate": {},
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.action",
+  "pk": 3,
+  "fields": {
+    "name": "新增用户成功",
+    "allure": {},
+    "step": [],
+    "parametrize": {},
+    "validate": {},
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.action",
+  "pk": 4,
+  "fields": {
+    "name": "删除用户成功",
+    "allure": {},
+    "step": [],
+    "parametrize": {},
+    "validate": {},
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.action",
+  "pk": 5,
+  "fields": {
+    "name": "用户登录",
+    "allure": {
+      "feature": "登录模块",
+      "story": "登录功能",
+      "title": "正确账号密码登录成功",
+      "description": "输入用户名密码后点击登录按钮"
+    },
+    "step": [
+      {
+        "sort": 1,
+        "keyword_id": 3,
+        "element_id": 1,
+        "params": []
+      },
+      {
+        "sort": 2,
+        "keyword_id": 4,
+        "element_id": 1,
+        "params": [
+          "admin"
+        ]
+      },
+      {
+        "sort": 3,
+        "keyword_id": 3,
+        "element_id": 2,
+        "params": []
+      },
+      {
+        "sort": 4,
+        "keyword_id": 4,
+        "element_id": 2,
+        "params": [
+          "123456"
+        ]
+      },
+      {
+        "sort": 5,
+        "keyword_id": 5,
+        "element_id": 3,
+        "params": []
+      }
+    ],
+    "parametrize": {
+      "用户名": [
+        "admin",
+        "test",
+        "user01"
+      ],
+      "密码": [
+        "123456"
+      ]
+    },
+    "validate": {
+      "equals": [
+        {
+          "expect_result": "用户中心",
+          "actual_result": {
+            "keyword_id": 6,
+            "element_id": 6,
+            "params": []
+          }
+        }
+      ]
+    },
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.action",
+  "pk": 6,
+  "fields": {
+    "name": "搜索用户",
+    "allure": {
+      "feature": "用户管理",
+      "story": "用户列表",
+      "title": "关键词搜索命中目标用户",
+      "description": "搜索框输入关键词后校验列表内容"
+    },
+    "step": [
+      {
+        "sort": 1,
+        "keyword_id": 4,
+        "element_id": 7,
+        "params": [
+          "张"
+        ]
+      },
+      {
+        "sort": 2,
+        "keyword_id": 2,
+        "element_id": 6,
+        "params": []
+      }
+    ],
+    "parametrize": {
+      "关键词": [
+        "张",
+        "王",
+        "李"
+      ]
+    },
+    "validate": {
+      "contains": [
+        {
+          "expect_result": "张",
+          "actual_result": {
+            "keyword_id": 6,
+            "element_id": 6,
+            "params": []
+          }
+        }
+      ]
+    },
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.action",
+  "pk": 7,
+  "fields": {
+    "name": "新增用户",
+    "allure": {
+      "feature": "用户管理",
+      "story": "新增用户",
+      "title": "填写表单提交后新用户出现在列表",
+      "description": "点击新增按钮填写用户名密码并提交"
+    },
+    "step": [
+      {
+        "sort": 1,
+        "keyword_id": 5,
+        "element_id": 5,
+        "params": []
+      },
+      {
+        "sort": 2,
+        "keyword_id": 4,
+        "element_id": 1,
+        "params": [
+          "new_user_01"
+        ]
+      },
+      {
+        "sort": 3,
+        "keyword_id": 4,
+        "element_id": 2,
+        "params": [
+          "abc123456"
+        ]
+      },
+      {
+        "sort": 4,
+        "keyword_id": 5,
+        "element_id": 3,
+        "params": []
+      }
+    ],
+    "parametrize": {
+      "用户名": [
+        "new_user_01",
+        "new_user_02"
+      ],
+      "密码": [
+        "abc123456"
+      ]
+    },
+    "validate": {
+      "equals": [
+        {
+          "expect_result": "new_user_01",
+          "actual_result": {
+            "keyword_id": 6,
+            "element_id": 6,
+            "params": []
+          }
+        }
+      ]
+    },
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.action",
+  "pk": 8,
+  "fields": {
+    "name": "删除用户",
+    "allure": {
+      "feature": "用户管理",
+      "story": "删除用户",
+      "title": "删除选中记录并确认弹窗",
+      "description": "点击删除按钮后在确认弹窗中点确定"
+    },
+    "step": [
+      {
+        "sort": 1,
+        "keyword_id": 2,
+        "element_id": 6,
+        "params": []
+      },
+      {
+        "sort": 2,
+        "keyword_id": 5,
+        "element_id": 9,
+        "params": []
+      },
+      {
+        "sort": 3,
+        "keyword_id": 11,
+        "element_id": null,
+        "params": []
+      }
+    ],
+    "parametrize": {},
+    "validate": {
+      "db_equals": [
+        {
+          "expect_result": 0,
+          "actual_result": {
+            "keyword_id": 6,
+            "element_id": 6,
+            "params": [
+              "count"
+            ]
+          }
+        }
+      ]
+    },
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.action",
+  "pk": 9,
+  "fields": {
+    "name": "退出登录",
+    "allure": {
+      "feature": "登录模块",
+      "story": "退出功能",
+      "title": "点击退出链接返回登录页",
+      "description": "点击退出登录链接并在弹窗中确认"
+    },
+    "step": [
+      {
+        "sort": 1,
+        "keyword_id": 5,
+        "element_id": 10,
+        "params": []
+      },
+      {
+        "sort": 2,
+        "keyword_id": 9,
+        "element_id": null,
+        "params": []
+      },
+      {
+        "sort": 3,
+        "keyword_id": 11,
+        "element_id": null,
+        "params": []
+      }
+    ],
+    "parametrize": {},
+    "validate": {
+      "equals": [
+        {
+          "expect_result": "登录",
+          "actual_result": {
+            "keyword_id": 6,
+            "element_id": 3,
+            "params": []
+          }
+        }
+      ]
+    },
+    "project_id": 21
+  }
+},
+{
+  "model": "case_ui.caseui",
+  "pk": 1,
+  "fields": {
+    "name": "登录成功用例",
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.caseui",
+  "pk": 2,
+  "fields": {
+    "name": "新增用户用例",
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.caseui",
+  "pk": 3,
+  "fields": {
+    "name": "删除用户用例",
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.caseui",
+  "pk": 4,
+  "fields": {
+    "name": "用户管理完整流程",
+    "project_id": 1
+  }
+},
+{
+  "model": "case_ui.caseuiaction",
+  "pk": 1,
+  "fields": {
+    "sort": 1,
+    "caseui_id": 1,
+    "action_id": 2
+  }
+},
+{
+  "model": "case_ui.caseuiaction",
+  "pk": 2,
+  "fields": {
+    "sort": 1,
+    "caseui_id": 2,
+    "action_id": 3
+  }
+},
+{
+  "model": "case_ui.caseuiaction",
+  "pk": 3,
+  "fields": {
+    "sort": 1,
+    "caseui_id": 3,
+    "action_id": 4
+  }
+},
+{
+  "model": "case_ui.caseuiaction",
+  "pk": 4,
+  "fields": {
+    "sort": 1,
+    "caseui_id": 4,
+    "action_id": 2
+  }
+},
+{
+  "model": "case_ui.caseuiaction",
+  "pk": 5,
+  "fields": {
+    "sort": 2,
+    "caseui_id": 4,
+    "action_id": 3
+  }
+},
+{
+  "model": "case_ui.caseuiaction",
+  "pk": 6,
+  "fields": {
+    "sort": 3,
+    "caseui_id": 4,
+    "action_id": 4
+  }
+},
+{
+  "model": "system.position",
+  "pk": 1,
+  "fields": {
+    "name": "测试工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 2,
+  "fields": {
+    "name": "开发工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 3,
+  "fields": {
+    "name": "实施工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 4,
+  "fields": {
+    "name": "产品经理",
+    "is_leader": true
+  }
+},
+{
+  "model": "system.position",
+  "pk": 5,
+  "fields": {
+    "name": "总经理",
+    "is_leader": true
+  }
+},
+{
+  "model": "system.position",
+  "pk": 7,
+  "fields": {
+    "name": "部门经理",
+    "is_leader": true
+  }
+},
+{
+  "model": "system.position",
+  "pk": 8,
+  "fields": {
+    "name": "部门副经理",
+    "is_leader": true
+  }
+},
+{
+  "model": "system.position",
+  "pk": 9,
+  "fields": {
+    "name": "技术总监",
+    "is_leader": true
+  }
+},
+{
+  "model": "system.position",
+  "pk": 10,
+  "fields": {
+    "name": "产品总监",
+    "is_leader": true
+  }
+},
+{
+  "model": "system.position",
+  "pk": 11,
+  "fields": {
+    "name": "运营总监",
+    "is_leader": true
+  }
+},
+{
+  "model": "system.position",
+  "pk": 12,
+  "fields": {
+    "name": "市场总监",
+    "is_leader": true
+  }
+},
+{
+  "model": "system.position",
+  "pk": 13,
+  "fields": {
+    "name": "项目总监",
+    "is_leader": true
+  }
+},
+{
+  "model": "system.position",
+  "pk": 14,
+  "fields": {
+    "name": "研发总监",
+    "is_leader": true
+  }
+},
+{
+  "model": "system.position",
+  "pk": 15,
+  "fields": {
+    "name": "软件工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 16,
+  "fields": {
+    "name": "高级软件工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 17,
+  "fields": {
+    "name": "前端工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 18,
+  "fields": {
+    "name": "后端工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 19,
+  "fields": {
+    "name": "高级测试工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 20,
+  "fields": {
+    "name": "自动化测试工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 21,
+  "fields": {
+    "name": "UI设计师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 22,
+  "fields": {
+    "name": "UX设计师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 23,
+  "fields": {
+    "name": "数据分析师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 24,
+  "fields": {
+    "name": "算法工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 25,
+  "fields": {
+    "name": "运维工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 26,
+  "fields": {
+    "name": "安全工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 27,
+  "fields": {
+    "name": "数据库管理员",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 28,
+  "fields": {
+    "name": "项目经理",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 29,
+  "fields": {
+    "name": "质量工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 30,
+  "fields": {
+    "name": "人力资源专员",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 31,
+  "fields": {
+    "name": "行政专员",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 32,
+  "fields": {
+    "name": "财务专员",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 33,
+  "fields": {
+    "name": "市场专员",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 34,
+  "fields": {
+    "name": "客服专员",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 35,
+  "fields": {
+    "name": "售前工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 36,
+  "fields": {
+    "name": "售后工程师",
+    "is_leader": false
+  }
+},
+{
+  "model": "system.position",
+  "pk": 37,
+  "fields": {
+    "name": "采购专员",
+    "is_leader": false
+  }
+},
+{
+  "model": "case_api.endpoint",
+  "pk": 1,
+  "fields": {
+    "project": 1,
+    "method": "POST",
+    "url": "/api/private/v1/login",
+    "params": null,
+    "data": null,
+    "json": {
+      "username": "admin",
+      "password": "123456"
+    },
+    "cookies": null,
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+},
+{
+  "model": "case_api.endpoint",
+  "pk": 2,
+  "fields": {
+    "project": 1,
+    "method": "POST",
+    "url": "/api/private/v1/users",
+    "params": null,
+    "data": null,
+    "json": {
+      "username": "$parametrize{username}",
+      "password": "$parametrize{password}",
+      "mobile": "$parametrize{mobile}",
+      "email": "$parametrize{email}",
+      "rid": "$parametrize{rid}"
+    },
+    "cookies": null,
+    "headers": {
+      "Authorization": "${read_extract(token)}",
+      "Content-Type": "application/json"
+    }
+  }
+},
+{
+  "model": "case_api.caseapiinfo",
+  "pk": 3,
+  "fields": {
+    "endpoint": 1,
+    "allure": {
+      "feature": "登录模块",
+      "story": "登录接口",
+      "title": "登录成功",
+      "description": "登录admin账号"
+    },
+    "extract": [
+      {
+        "key": "token",
+        "attr": "json",
+        "expr": "$.data.token"
+      }
+    ],
+    "parametrize": null,
+    "validate": null
+  }
+},
+{
+  "model": "case_api.caseapiinfo",
+  "pk": 4,
+  "fields": {
+    "endpoint": 2,
+    "allure": {
+      "feature": "用户管理模块",
+      "story": "创建用户接口",
+      "title": "$parametrize{title}",
+      "description": "创建用户$parametrize{username}账号成功"
+    },
+    "extract": null,
+    "parametrize": {
+      "title": [
+        "test_create_user_success_01",
+        "test_create_user_success_02"
+      ],
+      "username": [
+        "llc",
+        "user"
+      ],
+      "password": [
+        "3526823227llc",
+        "123456a"
+      ],
+      "mobile": [
+        "13451038652",
+        "13451038651"
+      ],
+      "email": [
+        "llc3526823227@163.com",
+        "llc3526823221@163.com"
+      ],
+      "rid": [
+        10,
+        11
+      ]
+    },
+    "validate": {
+      "equals": [
+        [
+          200,
+          "status_code"
+        ]
+      ],
+      "contains": [
+        [
+          "创建成功",
+          "json",
+          "$.meta.msg"
+        ]
+      ]
+    }
+  }
+},
+{
+  "model": "case_api.caseapi",
+  "pk": 1,
+  "fields": {
+    "name": "test_create_user_success",
+    "project": 1,
+    "caseapiinfo": [
+      3,
+      4
+    ]
+  }
+},
+{
+  "model": "suite.suite",
+  "pk": 1,
+  "fields": {
+    "schedule": null,
+    "project": 1,
+    "name": "用户管理回归套件",
+    "description": "用户管理模块冒烟+回归",
+    "run_type": "O",
+    "cron": "",
+    "hook": "",
+    "case_ui_list": [],
+    "case_api_list": [
+      1
+    ]
+  }
+},
+{
+  "model": "suite.suite",
+  "pk": 2,
+  "fields": {
+    "schedule": null,
+    "project": 1,
+    "name": "第一个测试套件",
+    "description": "只有接口测试用例的测试套件",
+    "run_type": "O",
+    "cron": "",
+    "hook": "",
+    "case_ui_list": [],
+    "case_api_list": [
+      1
+    ]
+  }
+},
+{
+  "model": "suite.suite",
+  "pk": 3,
+  "fields": {
+    "schedule": null,
+    "project": 1,
+    "name": "UI-only登录测试套件",
+    "description": "只有UI测试用例（登录成功，来自 test_login_success.yaml）",
+    "run_type": "O",
+    "cron": "",
+    "hook": "",
+    "case_ui_list": [],
+    "case_api_list": []
+  }
+},
+{
+  "model": "suite.suite",
+  "pk": 4,
+  "fields": {
+    "schedule": null,
+    "project": 1,
+    "name": "UI+接口混合测试套件",
+    "description": "UI登录用例 + 接口创建用户用例（接口复用已有数据）",
+    "run_type": "O",
+    "cron": "",
+    "hook": "",
+    "case_ui_list": [],
+    "case_api_list": [
+      1
+    ]
+  }
+},
+{
+  "model": "suite.suite",
+  "pk": 5,
+  "fields": {
+    "schedule": null,
+    "project": 1,
+    "name": "UI定时验证套件",
+    "description": "仅含 UI 用例，用于验证 django-q 定时执行功能（每 2 分钟）",
+    "run_type": "O",
+    "cron": "",
+    "hook": "",
+    "case_ui_list": [],
+    "case_api_list": []
+  }
+},
+{
+  "model": "suite.suite",
+  "pk": 6,
+  "fields": {
+    "schedule": null,
+    "project": 1,
+    "name": "UI定时验证套件",
+    "description": "验证 django-q 定时执行功能（每 2 分钟）",
+    "run_type": "C",
+    "cron": "*/2 * * * *",
+    "hook": "",
+    "case_ui_list": [],
+    "case_api_list": []
+  }
+},
+{
+  "model": "suite.suite",
+  "pk": 7,
+  "fields": {
+    "schedule": null,
+    "project": 1,
+    "name": "UI定时验证套件",
+    "description": "验证 django-q 定时执行功能（每分钟执行）",
+    "run_type": "C",
+    "cron": "0 * * * * *",
+    "hook": "",
+    "case_ui_list": [],
+    "case_api_list": []
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 1,
+  "fields": {
+    "suite": 1,
+    "path": "testcases/usermanagement/test_create_user_success.py",
+    "is_pass": true,
+    "status": 4,
+    "create_datetime": "2026-09-20T06:20:55.482Z",
+    "update_datetime": "2026-09-20T06:20:55.482Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 2,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": 2,
+    "create_datetime": "2026-09-21T09:30:23.645Z",
+    "update_datetime": "2026-09-21T09:30:23.690Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 3,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": 1,
+    "create_datetime": "2026-09-21T09:33:01.425Z",
+    "update_datetime": "2026-09-21T09:33:02.485Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 4,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": 1,
+    "create_datetime": "2026-09-21T09:33:41.567Z",
+    "update_datetime": "2026-09-21T09:33:42.739Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 5,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": 1,
+    "create_datetime": "2026-09-21T09:34:02.418Z",
+    "update_datetime": "2026-09-21T09:34:03.712Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 6,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": 1,
+    "create_datetime": "2026-09-21T09:34:23.104Z",
+    "update_datetime": "2026-09-21T09:34:24.303Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 7,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": -1,
+    "create_datetime": "2026-09-21T09:37:17.846Z",
+    "update_datetime": "2026-09-21T09:37:19.640Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 8,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": -1,
+    "create_datetime": "2026-09-21T09:41:30.500Z",
+    "update_datetime": "2026-09-21T09:41:32.182Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 9,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": -1,
+    "create_datetime": "2026-09-21T09:44:13.452Z",
+    "update_datetime": "2026-09-21T09:44:15.274Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 10,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": -1,
+    "create_datetime": "2026-09-21T09:47:12.619Z",
+    "update_datetime": "2026-09-21T09:47:14.439Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 11,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": -1,
+    "create_datetime": "2026-09-21T09:48:57.890Z",
+    "update_datetime": "2026-09-21T09:48:59.717Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 12,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": -1,
+    "create_datetime": "2026-09-21T09:53:46.413Z",
+    "update_datetime": "2026-09-21T09:53:48.216Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 13,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": 4,
+    "create_datetime": "2026-09-21T09:56:03.929Z",
+    "update_datetime": "2026-09-21T09:56:05.714Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 14,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": -1,
+    "create_datetime": "2026-09-22T01:48:30.836Z",
+    "update_datetime": "2026-09-22T01:48:33.404Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 15,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": true,
+    "status": 3,
+    "create_datetime": "2026-09-22T01:55:14.398Z",
+    "update_datetime": "2026-09-22T01:55:16.992Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 16,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": true,
+    "status": 3,
+    "create_datetime": "2026-09-22T02:03:01.316Z",
+    "update_datetime": "2026-09-22T02:03:03.882Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 17,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": true,
+    "status": 3,
+    "create_datetime": "2026-09-22T02:04:23.959Z",
+    "update_datetime": "2026-09-22T02:04:26.575Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 18,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": true,
+    "status": 3,
+    "create_datetime": "2026-09-22T02:15:59.033Z",
+    "update_datetime": "2026-09-22T02:16:01.707Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 19,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": true,
+    "status": 3,
+    "create_datetime": "2026-09-22T02:17:42.761Z",
+    "update_datetime": "2026-09-22T02:17:45.315Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 20,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": true,
+    "status": 3,
+    "create_datetime": "2026-09-22T02:23:46.303Z",
+    "update_datetime": "2026-09-22T02:23:48.602Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 21,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": -1,
+    "create_datetime": "2026-09-22T02:45:04.844Z",
+    "update_datetime": "2026-09-22T02:45:07.327Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 22,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": 4,
+    "create_datetime": "2026-09-22T02:54:45.606Z",
+    "update_datetime": "2026-09-22T02:54:49.828Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 23,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": 4,
+    "create_datetime": "2026-09-22T03:00:16.655Z",
+    "update_datetime": "2026-09-22T03:00:20.949Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 24,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": 0,
+    "create_datetime": "2026-09-22T03:17:50.542Z",
+    "update_datetime": "2026-09-22T03:17:50.542Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 25,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": -1,
+    "create_datetime": "2026-09-22T03:18:26.968Z",
+    "update_datetime": "2026-09-22T03:18:28.933Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 26,
+  "fields": {
+    "suite": 2,
+    "path": "upload_yaml\\project_1\\suite_2",
+    "is_pass": false,
+    "status": 4,
+    "create_datetime": "2026-09-22T03:21:24.228Z",
+    "update_datetime": "2026-09-22T03:21:28.207Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 27,
+  "fields": {
+    "suite": 3,
+    "path": "upload_yaml\\project_1\\suite_3",
+    "is_pass": false,
+    "status": 4,
+    "create_datetime": "2026-09-22T08:18:30.890Z",
+    "update_datetime": "2026-09-22T08:18:30.890Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 28,
+  "fields": {
+    "suite": 3,
+    "path": "upload_yaml\\project_1\\suite_3",
+    "is_pass": false,
+    "status": 2,
+    "create_datetime": "2026-09-22T08:33:09.538Z",
+    "update_datetime": "2026-09-22T08:33:09.538Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 29,
+  "fields": {
+    "suite": 3,
+    "path": "upload_yaml\\project_1\\suite_3",
+    "is_pass": false,
+    "status": 4,
+    "create_datetime": "2026-09-22T08:38:46.222Z",
+    "update_datetime": "2026-09-22T08:38:46.222Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 30,
+  "fields": {
+    "suite": 3,
+    "path": "upload_yaml\\project_1\\suite_3",
+    "is_pass": false,
+    "status": 4,
+    "create_datetime": "2026-09-22T08:46:03.901Z",
+    "update_datetime": "2026-09-22T08:46:03.901Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 31,
+  "fields": {
+    "suite": 3,
+    "path": "upload_yaml\\project_1\\suite_3",
+    "is_pass": false,
+    "status": 4,
+    "create_datetime": "2026-09-22T08:49:36.156Z",
+    "update_datetime": "2026-09-22T08:49:36.156Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 32,
+  "fields": {
+    "suite": 3,
+    "path": "upload_yaml\\project_1\\suite_3",
+    "is_pass": false,
+    "status": 4,
+    "create_datetime": "2026-09-22T08:53:25.153Z",
+    "update_datetime": "2026-09-22T08:53:25.153Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 33,
+  "fields": {
+    "suite": 3,
+    "path": "upload_yaml\\project_1\\suite_3",
+    "is_pass": false,
+    "status": 4,
+    "create_datetime": "2026-09-22T09:00:10.645Z",
+    "update_datetime": "2026-09-22T09:00:10.645Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 34,
+  "fields": {
+    "suite": 3,
+    "path": "upload_yaml\\project_1\\suite_3",
+    "is_pass": false,
+    "status": 4,
+    "create_datetime": "2026-09-22T09:01:15.386Z",
+    "update_datetime": "2026-09-22T09:01:15.386Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 35,
+  "fields": {
+    "suite": 3,
+    "path": "upload_yaml\\project_1\\suite_3",
+    "is_pass": true,
+    "status": 4,
+    "create_datetime": "2026-09-22T09:03:29.118Z",
+    "update_datetime": "2026-09-22T09:03:29.118Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 36,
+  "fields": {
+    "suite": 3,
+    "path": "upload_yaml\\project_1\\suite_3",
+    "is_pass": true,
+    "status": 4,
+    "create_datetime": "2026-09-22T09:04:02.953Z",
+    "update_datetime": "2026-09-22T09:04:02.953Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 37,
+  "fields": {
+    "suite": 4,
+    "path": "upload_yaml\\project_1\\suite_4",
+    "is_pass": true,
+    "status": 4,
+    "create_datetime": "2026-09-22T09:05:04.998Z",
+    "update_datetime": "2026-09-22T09:05:04.998Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 38,
+  "fields": {
+    "suite": 6,
+    "path": "upload_yaml\\project_1\\suite_6",
+    "is_pass": false,
+    "status": 0,
+    "create_datetime": "2026-09-24T09:24:48.990Z",
+    "update_datetime": "2026-09-24T09:24:48.990Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 39,
+  "fields": {
+    "suite": 6,
+    "path": "upload_yaml\\project_1\\suite_6",
+    "is_pass": false,
+    "status": 0,
+    "create_datetime": "2026-09-24T09:26:21.032Z",
+    "update_datetime": "2026-09-24T09:26:21.032Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 40,
+  "fields": {
+    "suite": 6,
+    "path": "upload_yaml\\project_1\\suite_6",
+    "is_pass": false,
+    "status": 0,
+    "create_datetime": "2026-09-24T09:28:24.205Z",
+    "update_datetime": "2026-09-24T09:28:24.205Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 41,
+  "fields": {
+    "suite": 6,
+    "path": "upload_yaml\\project_1\\suite_6",
+    "is_pass": false,
+    "status": 0,
+    "create_datetime": "2026-09-24T09:32:13.206Z",
+    "update_datetime": "2026-09-24T09:32:13.206Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 42,
+  "fields": {
+    "suite": 6,
+    "path": "upload_yaml\\project_1\\suite_6",
+    "is_pass": true,
+    "status": 2,
+    "create_datetime": "2026-10-08T02:00:59.199Z",
+    "update_datetime": "2026-10-08T02:00:59.199Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 43,
+  "fields": {
+    "suite": 6,
+    "path": "upload_yaml\\project_1\\suite_6",
+    "is_pass": true,
+    "status": 4,
+    "create_datetime": "2026-10-08T02:00:59.200Z",
+    "update_datetime": "2026-10-08T02:00:59.200Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 44,
+  "fields": {
+    "suite": 6,
+    "path": "upload_yaml\\project_1\\suite_6",
+    "is_pass": true,
+    "status": 4,
+    "create_datetime": "2026-10-08T02:01:16.787Z",
+    "update_datetime": "2026-10-08T02:01:16.787Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 45,
+  "fields": {
+    "suite": 6,
+    "path": "upload_yaml\\project_1\\suite_6",
+    "is_pass": true,
+    "status": 4,
+    "create_datetime": "2026-10-08T02:01:16.822Z",
+    "update_datetime": "2026-10-08T02:01:16.822Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 46,
+  "fields": {
+    "suite": 7,
+    "path": "upload_yaml\\project_1\\suite_7",
+    "is_pass": true,
+    "status": 4,
+    "create_datetime": "2026-10-08T02:01:34.504Z",
+    "update_datetime": "2026-10-08T02:01:34.504Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 47,
+  "fields": {
+    "suite": 3,
+    "path": "project_1\\suite_3\\result_47",
+    "is_pass": true,
+    "status": 4,
+    "create_datetime": "2026-10-08T08:59:55.863Z",
+    "update_datetime": "2026-10-08T08:59:55.863Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 48,
+  "fields": {
+    "suite": 2,
+    "path": "project_1\\suite_2\\result_48",
+    "is_pass": false,
+    "status": 4,
+    "create_datetime": "2026-10-09T01:22:43.469Z",
+    "update_datetime": "2026-10-09T01:22:43.469Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 49,
+  "fields": {
+    "suite": 2,
+    "path": "project_1\\suite_2\\result_49",
+    "is_pass": false,
+    "status": 4,
+    "create_datetime": "2026-10-09T01:31:48.972Z",
+    "update_datetime": "2026-10-09T01:31:48.972Z"
+  }
+},
+{
+  "model": "suite.runresult",
+  "pk": 50,
+  "fields": {
+    "suite": 2,
+    "path": "project_1\\suite_2\\result_50",
+    "is_pass": false,
+    "status": 4,
+    "create_datetime": "2026-10-09T01:35:58.053Z",
+    "update_datetime": "2026-10-09T01:35:58.053Z"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add profile",
+    "content_type": [
+      "account",
+      "profile"
+    ],
+    "codename": "add_profile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change profile",
+    "content_type": [
+      "account",
+      "profile"
+    ],
+    "codename": "change_profile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete profile",
+    "content_type": [
+      "account",
+      "profile"
+    ],
+    "codename": "delete_profile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view profile",
+    "content_type": [
+      "account",
+      "profile"
+    ],
+    "codename": "view_profile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add Token",
+    "content_type": [
+      "authtoken",
+      "token"
+    ],
+    "codename": "add_token"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change Token",
+    "content_type": [
+      "authtoken",
+      "token"
+    ],
+    "codename": "change_token"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete Token",
+    "content_type": [
+      "authtoken",
+      "token"
+    ],
+    "codename": "delete_token"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view Token",
+    "content_type": [
+      "authtoken",
+      "token"
+    ],
+    "codename": "view_token"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add Token",
+    "content_type": [
+      "authtoken",
+      "tokenproxy"
+    ],
+    "codename": "add_tokenproxy"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change Token",
+    "content_type": [
+      "authtoken",
+      "tokenproxy"
+    ],
+    "codename": "change_tokenproxy"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete Token",
+    "content_type": [
+      "authtoken",
+      "tokenproxy"
+    ],
+    "codename": "delete_tokenproxy"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view Token",
+    "content_type": [
+      "authtoken",
+      "tokenproxy"
+    ],
+    "codename": "view_tokenproxy"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add position",
+    "content_type": [
+      "system",
+      "position"
+    ],
+    "codename": "add_position"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change position",
+    "content_type": [
+      "system",
+      "position"
+    ],
+    "codename": "change_position"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete position",
+    "content_type": [
+      "system",
+      "position"
+    ],
+    "codename": "delete_position"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view position",
+    "content_type": [
+      "system",
+      "position"
+    ],
+    "codename": "view_position"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add role",
+    "content_type": [
+      "system",
+      "role"
+    ],
+    "codename": "add_role"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change role",
+    "content_type": [
+      "system",
+      "role"
+    ],
+    "codename": "change_role"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete role",
+    "content_type": [
+      "system",
+      "role"
+    ],
+    "codename": "delete_role"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view role",
+    "content_type": [
+      "system",
+      "role"
+    ],
+    "codename": "view_role"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add department",
+    "content_type": [
+      "system",
+      "department"
+    ],
+    "codename": "add_department"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change department",
+    "content_type": [
+      "system",
+      "department"
+    ],
+    "codename": "change_department"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete department",
+    "content_type": [
+      "system",
+      "department"
+    ],
+    "codename": "delete_department"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view department",
+    "content_type": [
+      "system",
+      "department"
+    ],
+    "codename": "view_department"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add config",
+    "content_type": [
+      "project",
+      "config"
+    ],
+    "codename": "add_config"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change config",
+    "content_type": [
+      "project",
+      "config"
+    ],
+    "codename": "change_config"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete config",
+    "content_type": [
+      "project",
+      "config"
+    ],
+    "codename": "delete_config"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view config",
+    "content_type": [
+      "project",
+      "config"
+    ],
+    "codename": "view_config"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add project",
+    "content_type": [
+      "project",
+      "project"
+    ],
+    "codename": "add_project"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change project",
+    "content_type": [
+      "project",
+      "project"
+    ],
+    "codename": "change_project"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete project",
+    "content_type": [
+      "project",
+      "project"
+    ],
+    "codename": "delete_project"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view project",
+    "content_type": [
+      "project",
+      "project"
+    ],
+    "codename": "view_project"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add case",
+    "content_type": [
+      "case_api",
+      "case"
+    ],
+    "codename": "add_case"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change case",
+    "content_type": [
+      "case_api",
+      "case"
+    ],
+    "codename": "change_case"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete case",
+    "content_type": [
+      "case_api",
+      "case"
+    ],
+    "codename": "delete_case"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view case",
+    "content_type": [
+      "case_api",
+      "case"
+    ],
+    "codename": "view_case"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add endpoint",
+    "content_type": [
+      "case_api",
+      "endpoint"
+    ],
+    "codename": "add_endpoint"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change endpoint",
+    "content_type": [
+      "case_api",
+      "endpoint"
+    ],
+    "codename": "change_endpoint"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete endpoint",
+    "content_type": [
+      "case_api",
+      "endpoint"
+    ],
+    "codename": "delete_endpoint"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view endpoint",
+    "content_type": [
+      "case_api",
+      "endpoint"
+    ],
+    "codename": "view_endpoint"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add case api info",
+    "content_type": [
+      "case_api",
+      "caseapiinfo"
+    ],
+    "codename": "add_caseapiinfo"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change case api info",
+    "content_type": [
+      "case_api",
+      "caseapiinfo"
+    ],
+    "codename": "change_caseapiinfo"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete case api info",
+    "content_type": [
+      "case_api",
+      "caseapiinfo"
+    ],
+    "codename": "delete_caseapiinfo"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view case api info",
+    "content_type": [
+      "case_api",
+      "caseapiinfo"
+    ],
+    "codename": "view_caseapiinfo"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add case api",
+    "content_type": [
+      "case_api",
+      "caseapi"
+    ],
+    "codename": "add_caseapi"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change case api",
+    "content_type": [
+      "case_api",
+      "caseapi"
+    ],
+    "codename": "change_caseapi"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete case api",
+    "content_type": [
+      "case_api",
+      "caseapi"
+    ],
+    "codename": "delete_caseapi"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view case api",
+    "content_type": [
+      "case_api",
+      "caseapi"
+    ],
+    "codename": "view_caseapi"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add suite",
+    "content_type": [
+      "suite",
+      "suite"
+    ],
+    "codename": "add_suite"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change suite",
+    "content_type": [
+      "suite",
+      "suite"
+    ],
+    "codename": "change_suite"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete suite",
+    "content_type": [
+      "suite",
+      "suite"
+    ],
+    "codename": "delete_suite"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view suite",
+    "content_type": [
+      "suite",
+      "suite"
+    ],
+    "codename": "view_suite"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add run result",
+    "content_type": [
+      "suite",
+      "runresult"
+    ],
+    "codename": "add_runresult"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change run result",
+    "content_type": [
+      "suite",
+      "runresult"
+    ],
+    "codename": "change_runresult"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete run result",
+    "content_type": [
+      "suite",
+      "runresult"
+    ],
+    "codename": "delete_runresult"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view run result",
+    "content_type": [
+      "suite",
+      "runresult"
+    ],
+    "codename": "view_runresult"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add Scheduled task",
+    "content_type": [
+      "django_q",
+      "schedule"
+    ],
+    "codename": "add_schedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change Scheduled task",
+    "content_type": [
+      "django_q",
+      "schedule"
+    ],
+    "codename": "change_schedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete Scheduled task",
+    "content_type": [
+      "django_q",
+      "schedule"
+    ],
+    "codename": "delete_schedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view Scheduled task",
+    "content_type": [
+      "django_q",
+      "schedule"
+    ],
+    "codename": "view_schedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add Task",
+    "content_type": [
+      "django_q",
+      "task"
+    ],
+    "codename": "add_task"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change Task",
+    "content_type": [
+      "django_q",
+      "task"
+    ],
+    "codename": "change_task"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete Task",
+    "content_type": [
+      "django_q",
+      "task"
+    ],
+    "codename": "delete_task"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view Task",
+    "content_type": [
+      "django_q",
+      "task"
+    ],
+    "codename": "view_task"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add Failed task",
+    "content_type": [
+      "django_q",
+      "failure"
+    ],
+    "codename": "add_failure"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change Failed task",
+    "content_type": [
+      "django_q",
+      "failure"
+    ],
+    "codename": "change_failure"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete Failed task",
+    "content_type": [
+      "django_q",
+      "failure"
+    ],
+    "codename": "delete_failure"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view Failed task",
+    "content_type": [
+      "django_q",
+      "failure"
+    ],
+    "codename": "view_failure"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add Successful task",
+    "content_type": [
+      "django_q",
+      "success"
+    ],
+    "codename": "add_success"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change Successful task",
+    "content_type": [
+      "django_q",
+      "success"
+    ],
+    "codename": "change_success"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete Successful task",
+    "content_type": [
+      "django_q",
+      "success"
+    ],
+    "codename": "delete_success"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view Successful task",
+    "content_type": [
+      "django_q",
+      "success"
+    ],
+    "codename": "view_success"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add Queued task",
+    "content_type": [
+      "django_q",
+      "ormq"
+    ],
+    "codename": "add_ormq"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change Queued task",
+    "content_type": [
+      "django_q",
+      "ormq"
+    ],
+    "codename": "change_ormq"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete Queued task",
+    "content_type": [
+      "django_q",
+      "ormq"
+    ],
+    "codename": "delete_ormq"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view Queued task",
+    "content_type": [
+      "django_q",
+      "ormq"
+    ],
+    "codename": "view_ormq"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add head img",
+    "content_type": [
+      "account",
+      "headimg"
+    ],
+    "codename": "add_headimg"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change head img",
+    "content_type": [
+      "account",
+      "headimg"
+    ],
+    "codename": "change_headimg"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete head img",
+    "content_type": [
+      "account",
+      "headimg"
+    ],
+    "codename": "delete_headimg"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view head img",
+    "content_type": [
+      "account",
+      "headimg"
+    ],
+    "codename": "view_headimg"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add allure",
+    "content_type": [
+      "case_ui",
+      "allure"
+    ],
+    "codename": "add_allure"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change allure",
+    "content_type": [
+      "case_ui",
+      "allure"
+    ],
+    "codename": "change_allure"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete allure",
+    "content_type": [
+      "case_ui",
+      "allure"
+    ],
+    "codename": "delete_allure"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view allure",
+    "content_type": [
+      "case_ui",
+      "allure"
+    ],
+    "codename": "view_allure"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add parametrize",
+    "content_type": [
+      "case_ui",
+      "parametrize"
+    ],
+    "codename": "add_parametrize"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change parametrize",
+    "content_type": [
+      "case_ui",
+      "parametrize"
+    ],
+    "codename": "change_parametrize"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete parametrize",
+    "content_type": [
+      "case_ui",
+      "parametrize"
+    ],
+    "codename": "delete_parametrize"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view parametrize",
+    "content_type": [
+      "case_ui",
+      "parametrize"
+    ],
+    "codename": "view_parametrize"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add validate",
+    "content_type": [
+      "case_ui",
+      "validate"
+    ],
+    "codename": "add_validate"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change validate",
+    "content_type": [
+      "case_ui",
+      "validate"
+    ],
+    "codename": "change_validate"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete validate",
+    "content_type": [
+      "case_ui",
+      "validate"
+    ],
+    "codename": "delete_validate"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view validate",
+    "content_type": [
+      "case_ui",
+      "validate"
+    ],
+    "codename": "view_validate"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add caseui",
+    "content_type": [
+      "case_ui",
+      "caseui"
+    ],
+    "codename": "add_caseui"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change caseui",
+    "content_type": [
+      "case_ui",
+      "caseui"
+    ],
+    "codename": "change_caseui"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete caseui",
+    "content_type": [
+      "case_ui",
+      "caseui"
+    ],
+    "codename": "delete_caseui"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view caseui",
+    "content_type": [
+      "case_ui",
+      "caseui"
+    ],
+    "codename": "view_caseui"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add step",
+    "content_type": [
+      "case_ui",
+      "step"
+    ],
+    "codename": "add_step"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change step",
+    "content_type": [
+      "case_ui",
+      "step"
+    ],
+    "codename": "change_step"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete step",
+    "content_type": [
+      "case_ui",
+      "step"
+    ],
+    "codename": "delete_step"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view step",
+    "content_type": [
+      "case_ui",
+      "step"
+    ],
+    "codename": "view_step"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add caseuistep",
+    "content_type": [
+      "case_ui",
+      "caseuistep"
+    ],
+    "codename": "add_caseuistep"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change caseuistep",
+    "content_type": [
+      "case_ui",
+      "caseuistep"
+    ],
+    "codename": "change_caseuistep"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete caseuistep",
+    "content_type": [
+      "case_ui",
+      "caseuistep"
+    ],
+    "codename": "delete_caseuistep"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view caseuistep",
+    "content_type": [
+      "case_ui",
+      "caseuistep"
+    ],
+    "codename": "view_caseuistep"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add element",
+    "content_type": [
+      "case_ui",
+      "element"
+    ],
+    "codename": "add_element"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change element",
+    "content_type": [
+      "case_ui",
+      "element"
+    ],
+    "codename": "change_element"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete element",
+    "content_type": [
+      "case_ui",
+      "element"
+    ],
+    "codename": "delete_element"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view element",
+    "content_type": [
+      "case_ui",
+      "element"
+    ],
+    "codename": "view_element"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add action",
+    "content_type": [
+      "case_ui",
+      "action"
+    ],
+    "codename": "add_action"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change action",
+    "content_type": [
+      "case_ui",
+      "action"
+    ],
+    "codename": "change_action"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete action",
+    "content_type": [
+      "case_ui",
+      "action"
+    ],
+    "codename": "delete_action"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view action",
+    "content_type": [
+      "case_ui",
+      "action"
+    ],
+    "codename": "view_action"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add keyword",
+    "content_type": [
+      "case_ui",
+      "keyword"
+    ],
+    "codename": "add_keyword"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change keyword",
+    "content_type": [
+      "case_ui",
+      "keyword"
+    ],
+    "codename": "change_keyword"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete keyword",
+    "content_type": [
+      "case_ui",
+      "keyword"
+    ],
+    "codename": "delete_keyword"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view keyword",
+    "content_type": [
+      "case_ui",
+      "keyword"
+    ],
+    "codename": "view_keyword"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add case ui action",
+    "content_type": [
+      "case_ui",
+      "caseuiaction"
+    ],
+    "codename": "add_caseuiaction"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change case ui action",
+    "content_type": [
+      "case_ui",
+      "caseuiaction"
+    ],
+    "codename": "change_caseuiaction"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete case ui action",
+    "content_type": [
+      "case_ui",
+      "caseuiaction"
+    ],
+    "codename": "delete_caseuiaction"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view case ui action",
+    "content_type": [
+      "case_ui",
+      "caseuiaction"
+    ],
+    "codename": "view_caseuiaction"
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$m8tqf8FPVm4ECQWWF3PUWq$JPnAMoFKR4caV6XQOl2WQoler9lsmbjLNVTYxkR83w4=",
+    "last_login": "2026-10-12T06:53:18.885Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@example.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-09-15T01:22:30.565Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$tqWm93obTjEfUyYiR2JEkH$ylB8MUPDsPmon1rTPwcmOxuQK1Av0YoNfkWPOuQLorw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user1",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T01:38:46.089Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$sUIvLFe2nWe0vpdPZVeMOT$o/lakJ3Wa/rtAMFiBlQtkjVQ/iFMY6Y9srBTHXtGQKs=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user2",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T01:38:46.736Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$VESUgBgPQjjCY60vHHhvft$prdTn3nE5Mp9aPMhyGJ8Bz293x1YX5JnPFjQwjIiaGQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user3",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T01:38:47.412Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$6NEfWkOCA4QSKK8ZO70F7Y$7SJxcN2c1tcaXxpZIxVb7YZySARNWbjUnZNm6zFEuc0=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user4",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T01:38:48.173Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$mqPA6BFNic76QLelzOKLef$d/qQs8SrS7YB8GwP+KQr4gVtjYsQcPnL7/1Hjaf5GsI=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user5",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T01:38:48.933Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$xclAi9LmJIAPQhi4vhxYt5$yov9qyQJO3F2z6MATkV4wz5SZg+zrVkFzqBGthw5OTk=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user6",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T01:38:49.541Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$sZMzRHtQ0XpcGhWMLjpww3$khKyjP6+LhJ8Vn1OFeyvDEgGKQEakjL7INnwWPV94Z8=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user7",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T01:38:50.262Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$rqOOomiWmMcrpeuTbyqlId$WzcDrZ7QaIdEaPX/YVFY6SZuAziDjQMjiNgL/x8AaYc=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user8",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T01:38:50.932Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$nlJlcIQpuwVz7c2e4t816b$4W4kQUii0TDft7/R3S+GP4eRNOox5HDTsZq8DLtMy3k=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user9",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T01:38:51.506Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$ghkXfd33goAVBHaixbU9D5$Mgtz8P1lwsaVg6g0eXfvQLeyEGHive42G4eFgXIjeg4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user10",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T01:38:52.170Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$L5eEoIg3tIyvOqXzpdBJQN$sqVSaiNsE1sWVEhBcAs4zYT2Cm/hw3VTYT3tfCEkeh0=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user11",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:49.734Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$hOEVLbN1BQZvH4ZWy8Sgio$I3u0nvL29XvuyaHIuOlQglimBqWmkNOX7Wqmaf76v0I=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user12",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:50.336Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$VP1GLJfsLmRdUNqCYCqJn9$2DT43ITIurtrmpYq3Eav3zWbVKC7IdgcdLe2xIKBUbo=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user13",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:50.918Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$gw8oNeewwlEaFa408Eaby1$864/9Qxq3slBQnJdYFv/gJuGjPfxLcNNPUpdfQ/sDew=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user14",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:51.524Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$L3tW7uuChcMFWp8kKeORFD$APhqtbu7MGsLIC8JuUAsQTcyTkpTByqAHPExPCYUJZw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user15",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:52.183Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$rmWaGcvTncaW7rs9w4XAKk$ebbQyEnQifkeybsEM3XX6EYJPuaK2wwiGf9TZbh8if4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user16",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:52.805Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$OqYiBJvCmMYOQdcd7YzON4$7etYdbEvUfMrY4ItbfQ5Lby4SU2aPGa9FBG98htickE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user17",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:53.386Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$mf1RzoGwQReGTqDDXtEZiO$72qc0WxadZyH+YkJyi9l2HVpfIIL3A69AGfvhnUarhM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user18",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:54.003Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$PHm2SN8Wo5ZvWRNJGWTLLP$t7UKrqcuA03g70r1Mm/pUh4qPxjIt0D9W1oKtykr98I=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user19",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:54.603Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$hcejye4mo5SXc5j1wl5xXt$SRf5WaUx8VsPoAZFL4ugWW+epgdrFhmN2u5VOxd1xK4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user20",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:55.211Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$ielT2BU1ol0Omg5SXOMoa1$fJ44XzSVFUCtuvYFgFsjwfwIuWGKg+N6JPvCB2MrxbQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user21",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:55.896Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$DkV8eaazHdyiczrfzX1C0I$7QdHftmD769ogTEty9RYHJ/tnMt8twBRPxpPVcIc4Ag=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user22",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:56.503Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$ZQe6OqwUhKH6b7E7ZDBLZn$oLe2OzWR2nOyKC0ndfy2Ot91waiOp9AGWlhKk/e1kJk=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user23",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:57.092Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$JWCLKWjh06m35LFtuPqsdS$Assy1ula8WTACenmkBGz0lEojqqwvaPDkl5O1TVl4rg=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user24",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:57.695Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$NNRl71Al69sdgWuxzdssbj$2FOSdBpVj4ZfszVY6Ej6vMqFzA7ddO04QC5TZRdue5o=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user25",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:58.290Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$mTfnjD2IuIZ3OxcXFCIrvB$yfFv5Iyvi/E0io7m15wW+vEy8cnotWg5yDhABFgQ08c=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user26",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:58.885Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$LwfwGlI2DqDXvFiL8KNvXO$Dlw2Tkc+08KwwioBFtqomBorhVPKYOXxkd8TzdyY0wg=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user27",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:51:59.487Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$7yBiwcc3KrykuGmMHSRY7I$Cseix1nY7FIf+29xMGDdpA7oLRd3biAvh66FWdl1yv8=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user28",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:52:00.071Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$310WVG6rF0jkOJKgElDNTb$tsMvOlrJUnqNr/UcWAF5u9R4l0g05Ftr6wx/1pdTGrs=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user29",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:52:00.691Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$nFQP7KadRMEnC46Ww6Qci2$0pEUQ8vZMcLVl2+TwyGvdZtfn9hfuvhcjUkQFvhlA8E=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user30",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:52:01.285Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$LKjRXQH0axd1G2a7z22L67$n1Sa6ajnBqdcHMLOd8WrPmYyq9tMY2UhNWyGTyouMzk=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user31",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:52:01.898Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$ayvtoJFmCuGwPIzEtqugnc$Zj/4FyJ3oQ0G5QAbmrytjww2IhrKhEfYcnC681nS5Xw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user32",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:52:02.490Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$xactvH4lPPieTvmZoR3DpO$mMqbRo9dtrc0kPUvM1LibKNJICcnyctC6xU7C+QUKIQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user33",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:52:03.094Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$19TEUCc9fEqtfP5lw7U0oP$RmwJy1Fqaqtigp4jYCxJSX3It13A0ywGX6RPIOXWpUI=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user34",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:52:03.686Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$PJjPxz2Py4xnXyBvz3YYiC$SsxiTWyZiQ6QVMwjdpGjaqLyEw/AoN+RBEoE5JFgqAc=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user35",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-14T07:52:04.329Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "name": "liliangchen",
+    "head_img": "/api/account/static/user_1/Snipaste_2026-08-11_14-08-51.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "user1"
+    ],
+    "name": "user1",
+    "head_img": "/api/account/static/user_2/llc2.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "user2"
+    ],
+    "name": "user2",
+    "head_img": "/api/account/static/user_3/llc3.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "user3"
+    ],
+    "name": "user3",
+    "head_img": "/api/account/static/user_4/llc4.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "user4"
+    ],
+    "name": "user4",
+    "head_img": "/api/account/static/user_5/llc7.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "user5"
+    ],
+    "name": "user5",
+    "head_img": "/api/account/static/user_6/Snipaste_2026-08-11_09-03-31.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "user6"
+    ],
+    "name": "user6",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "user7"
+    ],
+    "name": "user7",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "user8"
+    ],
+    "name": "user8",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 10,
+  "fields": {
+    "user": [
+      "user9"
+    ],
+    "name": "user9",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 11,
+  "fields": {
+    "user": [
+      "user10"
+    ],
+    "name": "user10",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 12,
+  "fields": {
+    "user": [
+      "user11"
+    ],
+    "name": "李诗涵",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 13,
+  "fields": {
+    "user": [
+      "user12"
+    ],
+    "name": "郭浩然",
+    "head_img": "/api/account/static/user_13/Snipaste_2026-08-11_15-03-00.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 14,
+  "fields": {
+    "user": [
+      "user13"
+    ],
+    "name": "王桂英",
+    "head_img": "/api/account/static/user_14/llc3_KGd7bCk.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 15,
+  "fields": {
+    "user": [
+      "user14"
+    ],
+    "name": "杨芳",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 16,
+  "fields": {
+    "user": [
+      "user15"
+    ],
+    "name": "朱丽华",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 17,
+  "fields": {
+    "user": [
+      "user16"
+    ],
+    "name": "徐军",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 18,
+  "fields": {
+    "user": [
+      "user17"
+    ],
+    "name": "赵芳",
+    "head_img": "/api/account/static/user_18/llc3.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 19,
+  "fields": {
+    "user": [
+      "user18"
+    ],
+    "name": "周勇",
+    "head_img": "/api/account/static/user_19/llc3_KGd7bCk.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 20,
+  "fields": {
+    "user": [
+      "user19"
+    ],
+    "name": "徐丽",
+    "head_img": "/api/account/static/user_20/Snipaste_2026-08-11_15-03-00.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 21,
+  "fields": {
+    "user": [
+      "user20"
+    ],
+    "name": "王梓涵",
+    "head_img": "/api/account/static/user_21/llc3_947zMXR.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 22,
+  "fields": {
+    "user": [
+      "user21"
+    ],
+    "name": "赵浩然",
+    "head_img": "/api/account/static/user_22/Snipaste_2026-08-11_10-49-21.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 23,
+  "fields": {
+    "user": [
+      "user22"
+    ],
+    "name": "周丽",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 24,
+  "fields": {
+    "user": [
+      "user23"
+    ],
+    "name": "陈文杰",
+    "head_img": "/api/account/static/user_24/Snipaste_2026-08-11_15-03-00.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 25,
+  "fields": {
+    "user": [
+      "user24"
+    ],
+    "name": "王军",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 26,
+  "fields": {
+    "user": [
+      "user25"
+    ],
+    "name": "吴涛",
+    "head_img": "/api/account/static/user_26/llc4.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 27,
+  "fields": {
+    "user": [
+      "user26"
+    ],
+    "name": "郭俊杰",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 28,
+  "fields": {
+    "user": [
+      "user27"
+    ],
+    "name": "罗芳",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 29,
+  "fields": {
+    "user": [
+      "user28"
+    ],
+    "name": "李军",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 30,
+  "fields": {
+    "user": [
+      "user29"
+    ],
+    "name": "林子轩",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 31,
+  "fields": {
+    "user": [
+      "user30"
+    ],
+    "name": "孙秀英",
+    "head_img": "/api/account/static/user_31/llc4_03xYi68.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 32,
+  "fields": {
+    "user": [
+      "user31"
+    ],
+    "name": "黄杰",
+    "head_img": "/api/account/static/user_32/llc4_03xYi68.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 33,
+  "fields": {
+    "user": [
+      "user32"
+    ],
+    "name": "赵欣怡",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 34,
+  "fields": {
+    "user": [
+      "user33"
+    ],
+    "name": "朱诗涵",
+    "head_img": "/api/account/static/user_34/llc3_KGd7bCk.png"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 35,
+  "fields": {
+    "user": [
+      "user34"
+    ],
+    "name": "高桂英",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 36,
+  "fields": {
+    "user": [
+      "user35"
+    ],
+    "name": "黄强",
+    "head_img": ""
+  }
+},
+{
+  "model": "account.headimg",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "head_img": ""
+  }
+},
+{
+  "model": "account.headimg",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "head_img": "account/static/user_1/llc7.png"
+  }
+},
+{
+  "model": "account.headimg",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "head_img": "account/static/user_1/llc4.png"
+  }
+},
+{
+  "model": "account.headimg",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "head_img": "account/static/user_1/llc4_03xYi68.png"
+  }
+},
+{
+  "model": "account.headimg",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "head_img": "account/static/user_1/llc2.png"
+  }
+},
+{
+  "model": "account.headimg",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "head_img": "account/static/user_1/Snipaste_2026-08-11_10-49-21.png"
+  }
+},
+{
+  "model": "account.headimg",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "head_img": "account/static/user_1/Snipaste_2026-08-11_09-03-31.png"
+  }
+},
+{
+  "model": "account.headimg",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "head_img": "account/static/user_1/Snipaste_2026-08-11_14-59-55.png"
+  }
+},
+{
+  "model": "account.headimg",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "head_img": "account/static/user_1/Snipaste_2026-08-11_15-03-00.png"
+  }
+},
+{
+  "model": "account.headimg",
+  "pk": 10,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "head_img": "account/static/user_1/Snipaste_2026-08-11_14-02-27.png"
+  }
+},
+{
+  "model": "account.headimg",
+  "pk": 11,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "head_img": "account/static/user_1/Snipaste_2026-08-12_11-26-48.png"
+  }
+},
+{
+  "model": "account.headimg",
+  "pk": 12,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "head_img": "account/static/user_1/Snipaste_2026-08-11_14-08-51.png"
+  }
+},
+{
+  "model": "system.role",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "department": 13,
+    "position": 28
+  }
+},
+{
+  "model": "system.role",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "user1"
+    ],
+    "department": 38,
+    "position": 8
+  }
+},
+{
+  "model": "system.role",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "user2"
+    ],
+    "department": 41,
+    "position": 14
+  }
+},
+{
+  "model": "system.role",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "user3"
+    ],
+    "department": 41,
+    "position": 14
+  }
+},
+{
+  "model": "system.role",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "user4"
+    ],
+    "department": 34,
+    "position": 4
+  }
+},
+{
+  "model": "system.role",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "user5"
+    ],
+    "department": 11,
+    "position": 9
+  }
+},
+{
+  "model": "system.role",
+  "pk": 10,
+  "fields": {
+    "user": [
+      "user6"
+    ],
+    "department": 12,
+    "position": 4
+  }
+},
+{
+  "model": "system.role",
+  "pk": 11,
+  "fields": {
+    "user": [
+      "user7"
+    ],
+    "department": 37,
+    "position": 8
+  }
+},
+{
+  "model": "system.role",
+  "pk": 12,
+  "fields": {
+    "user": [
+      "user8"
+    ],
+    "department": 31,
+    "position": 10
+  }
+},
+{
+  "model": "system.role",
+  "pk": 13,
+  "fields": {
+    "user": [
+      "user9"
+    ],
+    "department": 28,
+    "position": 13
+  }
+},
+{
+  "model": "system.role",
+  "pk": 14,
+  "fields": {
+    "user": [
+      "user10"
+    ],
+    "department": 10,
+    "position": 5
+  }
+},
+{
+  "model": "system.role",
+  "pk": 15,
+  "fields": {
+    "user": [
+      "user11"
+    ],
+    "department": 41,
+    "position": 21
+  }
+},
+{
+  "model": "system.role",
+  "pk": 16,
+  "fields": {
+    "user": [
+      "user12"
+    ],
+    "department": 24,
+    "position": 16
+  }
+},
+{
+  "model": "system.role",
+  "pk": 17,
+  "fields": {
+    "user": [
+      "user13"
+    ],
+    "department": 42,
+    "position": 1
+  }
+},
+{
+  "model": "system.role",
+  "pk": 18,
+  "fields": {
+    "user": [
+      "user14"
+    ],
+    "department": 29,
+    "position": 26
+  }
+},
+{
+  "model": "system.role",
+  "pk": 19,
+  "fields": {
+    "user": [
+      "user15"
+    ],
+    "department": 33,
+    "position": 24
+  }
+},
+{
+  "model": "system.role",
+  "pk": 20,
+  "fields": {
+    "user": [
+      "user16"
+    ],
+    "department": 43,
+    "position": 27
+  }
+},
+{
+  "model": "system.role",
+  "pk": 21,
+  "fields": {
+    "user": [
+      "user17"
+    ],
+    "department": 13,
+    "position": 28
+  }
+},
+{
+  "model": "system.role",
+  "pk": 22,
+  "fields": {
+    "user": [
+      "user18"
+    ],
+    "department": 37,
+    "position": 28
+  }
+},
+{
+  "model": "system.role",
+  "pk": 23,
+  "fields": {
+    "user": [
+      "user19"
+    ],
+    "department": 22,
+    "position": 30
+  }
+},
+{
+  "model": "system.role",
+  "pk": 24,
+  "fields": {
+    "user": [
+      "user20"
+    ],
+    "department": 36,
+    "position": 37
+  }
+},
+{
+  "model": "system.role",
+  "pk": 25,
+  "fields": {
+    "user": [
+      "user21"
+    ],
+    "department": 7,
+    "position": 19
+  }
+},
+{
+  "model": "system.role",
+  "pk": 26,
+  "fields": {
+    "user": [
+      "user22"
+    ],
+    "department": 14,
+    "position": 34
+  }
+},
+{
+  "model": "system.role",
+  "pk": 27,
+  "fields": {
+    "user": [
+      "user23"
+    ],
+    "department": 39,
+    "position": 15
+  }
+},
+{
+  "model": "system.role",
+  "pk": 28,
+  "fields": {
+    "user": [
+      "user24"
+    ],
+    "department": 33,
+    "position": 16
+  }
+},
+{
+  "model": "system.role",
+  "pk": 29,
+  "fields": {
+    "user": [
+      "user25"
+    ],
+    "department": 36,
+    "position": 15
+  }
+},
+{
+  "model": "system.role",
+  "pk": 30,
+  "fields": {
+    "user": [
+      "user26"
+    ],
+    "department": 35,
+    "position": 27
+  }
+},
+{
+  "model": "system.role",
+  "pk": 31,
+  "fields": {
+    "user": [
+      "user27"
+    ],
+    "department": 40,
+    "position": 29
+  }
+},
+{
+  "model": "system.role",
+  "pk": 32,
+  "fields": {
+    "user": [
+      "user28"
+    ],
+    "department": 31,
+    "position": 21
+  }
+},
+{
+  "model": "system.role",
+  "pk": 33,
+  "fields": {
+    "user": [
+      "user29"
+    ],
+    "department": 41,
+    "position": 32
+  }
+},
+{
+  "model": "system.role",
+  "pk": 34,
+  "fields": {
+    "user": [
+      "user30"
+    ],
+    "department": 38,
+    "position": 27
+  }
+},
+{
+  "model": "system.role",
+  "pk": 35,
+  "fields": {
+    "user": [
+      "user31"
+    ],
+    "department": 31,
+    "position": 18
+  }
+},
+{
+  "model": "system.role",
+  "pk": 36,
+  "fields": {
+    "user": [
+      "user32"
+    ],
+    "department": 24,
+    "position": 1
+  }
+},
+{
+  "model": "system.role",
+  "pk": 37,
+  "fields": {
+    "user": [
+      "user33"
+    ],
+    "department": 8,
+    "position": 32
+  }
+},
+{
+  "model": "system.role",
+  "pk": 38,
+  "fields": {
+    "user": [
+      "user34"
+    ],
+    "department": 35,
+    "position": 28
+  }
+},
+{
+  "model": "system.role",
+  "pk": 39,
+  "fields": {
+    "user": [
+      "user35"
+    ],
+    "department": 37,
+    "position": 18
+  }
+},
+{
+  "model": "system.role",
+  "pk": 40,
+  "fields": {
+    "user": [
+      "user16"
+    ],
+    "department": 37,
+    "position": 28
+  }
+},
+{
+  "model": "system.role",
+  "pk": 41,
+  "fields": {
+    "user": [
+      "user31"
+    ],
+    "department": 33,
+    "position": 33
+  }
+},
+{
+  "model": "system.role",
+  "pk": 42,
+  "fields": {
+    "user": [
+      "user2"
+    ],
+    "department": 24,
+    "position": 12
+  }
+},
+{
+  "model": "system.role",
+  "pk": 43,
+  "fields": {
+    "user": [
+      "user6"
+    ],
+    "department": 34,
+    "position": 9
+  }
+},
+{
+  "model": "system.role",
+  "pk": 44,
+  "fields": {
+    "user": [
+      "user28"
+    ],
+    "department": 17,
+    "position": 35
+  }
+},
+{
+  "model": "system.role",
+  "pk": 45,
+  "fields": {
+    "user": [
+      "user30"
+    ],
+    "department": 10,
+    "position": 20
+  }
+},
+{
+  "model": "system.role",
+  "pk": 46,
+  "fields": {
+    "user": [
+      "user31"
+    ],
+    "department": 29,
+    "position": 18
+  }
+},
+{
+  "model": "system.role",
+  "pk": 47,
+  "fields": {
+    "user": [
+      "user26"
+    ],
+    "department": 15,
+    "position": 1
+  }
+},
+{
+  "model": "system.role",
+  "pk": 48,
+  "fields": {
+    "user": [
+      "user5"
+    ],
+    "department": 6,
+    "position": 14
+  }
+},
+{
+  "model": "system.role",
+  "pk": 49,
+  "fields": {
+    "user": [
+      "user34"
+    ],
+    "department": 11,
+    "position": 37
+  }
+},
+{
+  "model": "system.role",
+  "pk": 50,
+  "fields": {
+    "user": [
+      "user12"
+    ],
+    "department": 21,
+    "position": 31
+  }
+},
+{
+  "model": "system.role",
+  "pk": 51,
+  "fields": {
+    "user": [
+      "user2"
+    ],
+    "department": 40,
+    "position": 10
+  }
+},
+{
+  "model": "system.role",
+  "pk": 52,
+  "fields": {
+    "user": [
+      "user9"
+    ],
+    "department": 6,
+    "position": 14
+  }
+},
+{
+  "model": "system.role",
+  "pk": 53,
+  "fields": {
+    "user": [
+      "user31"
+    ],
+    "department": 14,
+    "position": 19
+  }
+},
+{
+  "model": "system.role",
+  "pk": 54,
+  "fields": {
+    "user": [
+      "user30"
+    ],
+    "department": 43,
+    "position": 31
+  }
+},
+{
+  "model": "system.role",
+  "pk": 55,
+  "fields": {
+    "user": [
+      "user32"
+    ],
+    "department": 11,
+    "position": 33
+  }
+},
+{
+  "model": "system.role",
+  "pk": 56,
+  "fields": {
+    "user": [
+      "user10"
+    ],
+    "department": 14,
+    "position": 9
+  }
+},
+{
+  "model": "system.role",
+  "pk": 57,
+  "fields": {
+    "user": [
+      "user32"
+    ],
+    "department": 32,
+    "position": 37
+  }
+},
+{
+  "model": "system.role",
+  "pk": 58,
+  "fields": {
+    "user": [
+      "user9"
+    ],
+    "department": 39,
+    "position": 11
+  }
+},
+{
+  "model": "system.role",
+  "pk": 59,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "department": 12,
+    "position": 3
+  }
+},
+{
+  "model": "system.role",
+  "pk": 60,
+  "fields": {
+    "user": [
+      "user3"
+    ],
+    "department": 28,
+    "position": 4
+  }
+},
+{
+  "model": "system.role",
+  "pk": 61,
+  "fields": {
+    "user": [
+      "user1"
+    ],
+    "department": 36,
+    "position": 9
+  }
+},
+{
+  "model": "system.role",
+  "pk": 62,
+  "fields": {
+    "user": [
+      "user28"
+    ],
+    "department": 26,
+    "position": 27
+  }
+},
+{
+  "model": "system.role",
+  "pk": 63,
+  "fields": {
+    "user": [
+      "user29"
+    ],
+    "department": 42,
+    "position": 37
+  }
+},
+{
+  "model": "system.role",
+  "pk": 64,
+  "fields": {
+    "user": [
+      "user10"
+    ],
+    "department": 15,
+    "position": 13
+  }
+},
+{
+  "model": "system.role",
+  "pk": 65,
+  "fields": {
+    "user": [
+      "user13"
+    ],
+    "department": 33,
+    "position": 22
+  }
+},
+{
+  "model": "system.role",
+  "pk": 66,
+  "fields": {
+    "user": [
+      "user29"
+    ],
+    "department": 20,
+    "position": 34
+  }
+},
+{
+  "model": "system.role",
+  "pk": 67,
+  "fields": {
+    "user": [
+      "user4"
+    ],
+    "department": 41,
+    "position": 4
+  }
+},
+{
+  "model": "system.role",
+  "pk": 68,
+  "fields": {
+    "user": [
+      "user12"
+    ],
+    "department": 17,
+    "position": 32
+  }
+},
+{
+  "model": "system.role",
+  "pk": 69,
+  "fields": {
+    "user": [
+      "user34"
+    ],
+    "department": 9,
+    "position": 36
+  }
+},
+{
+  "model": "system.role",
+  "pk": 70,
+  "fields": {
+    "user": [
+      "user12"
+    ],
+    "department": 36,
+    "position": 33
+  }
+},
+{
+  "model": "system.role",
+  "pk": 71,
+  "fields": {
+    "user": [
+      "user1"
+    ],
+    "department": 14,
+    "position": 8
+  }
+},
+{
+  "model": "system.role",
+  "pk": 72,
+  "fields": {
+    "user": [
+      "user33"
+    ],
+    "department": 14,
+    "position": 33
+  }
+},
+{
+  "model": "system.role",
+  "pk": 73,
+  "fields": {
+    "user": [
+      "user11"
+    ],
+    "department": 30,
+    "position": 25
+  }
+},
+{
+  "model": "system.role",
+  "pk": 74,
+  "fields": {
+    "user": [
+      "user34"
+    ],
+    "department": 32,
+    "position": 24
+  }
+},
+{
+  "model": "system.role",
+  "pk": 75,
+  "fields": {
+    "user": [
+      "user19"
+    ],
+    "department": 17,
+    "position": 17
+  }
+},
+{
+  "model": "system.role",
+  "pk": 76,
+  "fields": {
+    "user": [
+      "user16"
+    ],
+    "department": 35,
+    "position": 36
+  }
+},
+{
+  "model": "system.role",
+  "pk": 77,
+  "fields": {
+    "user": [
+      "user26"
+    ],
+    "department": 24,
+    "position": 17
+  }
+},
+{
+  "model": "system.role",
+  "pk": 78,
+  "fields": {
+    "user": [
+      "user20"
+    ],
+    "department": 39,
+    "position": 26
+  }
+},
+{
+  "model": "system.role",
+  "pk": 79,
+  "fields": {
+    "user": [
+      "user7"
+    ],
+    "department": 39,
+    "position": 9
+  }
+},
+{
+  "model": "system.role",
+  "pk": 80,
+  "fields": {
+    "user": [
+      "user6"
+    ],
+    "department": 19,
+    "position": 4
+  }
+},
+{
+  "model": "system.role",
+  "pk": 81,
+  "fields": {
+    "user": [
+      "user5"
+    ],
+    "department": 35,
+    "position": 11
+  }
+},
+{
+  "model": "system.role",
+  "pk": 82,
+  "fields": {
+    "user": [
+      "user34"
+    ],
+    "department": 17,
+    "position": 23
+  }
+},
+{
+  "model": "system.role",
+  "pk": 83,
+  "fields": {
+    "user": [
+      "user10"
+    ],
+    "department": 28,
+    "position": 14
+  }
+},
+{
+  "model": "system.role",
+  "pk": 84,
+  "fields": {
+    "user": [
+      "user34"
+    ],
+    "department": 19,
+    "position": 31
+  }
+},
+{
+  "model": "system.role",
+  "pk": 85,
+  "fields": {
+    "user": [
+      "user17"
+    ],
+    "department": 41,
+    "position": 30
+  }
+},
+{
+  "model": "system.role",
+  "pk": 86,
+  "fields": {
+    "user": [
+      "user13"
+    ],
+    "department": 24,
+    "position": 20
+  }
+},
+{
+  "model": "system.role",
+  "pk": 87,
+  "fields": {
+    "user": [
+      "user35"
+    ],
+    "department": 14,
+    "position": 37
+  }
+},
+{
+  "model": "system.role",
+  "pk": 88,
+  "fields": {
+    "user": [
+      "user16"
+    ],
+    "department": 12,
+    "position": 17
+  }
+},
+{
+  "model": "system.role",
+  "pk": 89,
+  "fields": {
+    "user": [
+      "user6"
+    ],
+    "department": 9,
+    "position": 7
+  }
+},
+{
+  "model": "system.role",
+  "pk": 90,
+  "fields": {
+    "user": [
+      "user6"
+    ],
+    "department": 38,
+    "position": 9
+  }
+},
+{
+  "model": "system.role",
+  "pk": 91,
+  "fields": {
+    "user": [
+      "user4"
+    ],
+    "department": 24,
+    "position": 7
+  }
+},
+{
+  "model": "system.role",
+  "pk": 92,
+  "fields": {
+    "user": [
+      "user16"
+    ],
+    "department": 22,
+    "position": 1
+  }
+},
+{
+  "model": "system.role",
+  "pk": 93,
+  "fields": {
+    "user": [
+      "user26"
+    ],
+    "department": 22,
+    "position": 1
+  }
+},
+{
+  "model": "system.role",
+  "pk": 94,
+  "fields": {
+    "user": [
+      "user3"
+    ],
+    "department": 12,
+    "position": 4
+  }
+},
+{
+  "model": "system.role",
+  "pk": 95,
+  "fields": {
+    "user": [
+      "user19"
+    ],
+    "department": 13,
+    "position": 33
+  }
+},
+{
+  "model": "system.role",
+  "pk": 96,
+  "fields": {
+    "user": [
+      "user35"
+    ],
+    "department": 42,
+    "position": 22
+  }
+},
+{
+  "model": "system.role",
+  "pk": 97,
+  "fields": {
+    "user": [
+      "user29"
+    ],
+    "department": 8,
+    "position": 22
+  }
+},
+{
+  "model": "system.role",
+  "pk": 98,
+  "fields": {
+    "user": [
+      "user13"
+    ],
+    "department": 35,
+    "position": 33
+  }
+},
+{
+  "model": "system.role",
+  "pk": 99,
+  "fields": {
+    "user": [
+      "user7"
+    ],
+    "department": 29,
+    "position": 9
+  }
+},
+{
+  "model": "system.role",
+  "pk": 100,
+  "fields": {
+    "user": [
+      "user24"
+    ],
+    "department": 24,
+    "position": 2
+  }
+},
+{
+  "model": "system.role",
+  "pk": 101,
+  "fields": {
+    "user": [
+      "user27"
+    ],
+    "department": 7,
+    "position": 34
+  }
+},
+{
+  "model": "system.role",
+  "pk": 102,
+  "fields": {
+    "user": [
+      "user21"
+    ],
+    "department": 24,
+    "position": 36
+  }
+},
+{
+  "model": "system.role",
+  "pk": 103,
+  "fields": {
+    "user": [
+      "user7"
+    ],
+    "department": 25,
+    "position": 10
+  }
+},
+{
+  "model": "system.department",
+  "pk": 6,
+  "fields": {
+    "name": "研发部",
+    "leader": [
+      "user1"
+    ],
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 7,
+  "fields": {
+    "name": "测试部",
+    "leader": [
+      "user2"
+    ],
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 8,
+  "fields": {
+    "name": "产品部",
+    "leader": [
+      "user3"
+    ],
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 9,
+  "fields": {
+    "name": "设计部",
+    "leader": [
+      "user4"
+    ],
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 10,
+  "fields": {
+    "name": "前端开发部",
+    "leader": [
+      "user5"
+    ],
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 11,
+  "fields": {
+    "name": "后端开发部",
+    "leader": [
+      "user6"
+    ],
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 12,
+  "fields": {
+    "name": "算法部",
+    "leader": [
+      "user7"
+    ],
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 13,
+  "fields": {
+    "name": "数据部",
+    "leader": [
+      "user8"
+    ],
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 14,
+  "fields": {
+    "name": "运维部",
+    "leader": [
+      "user9"
+    ],
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 15,
+  "fields": {
+    "name": "安全部",
+    "leader": [
+      "user10"
+    ],
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 16,
+  "fields": {
+    "name": "架构部",
+    "leader": null,
+    "description": "负责系统架构设计与技术选型"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 17,
+  "fields": {
+    "name": "项目管理部",
+    "leader": null,
+    "description": "负责项目整体进度与资源协调"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 18,
+  "fields": {
+    "name": "质量保障部",
+    "leader": null,
+    "description": "负责产品质量保障与流程规范"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 19,
+  "fields": {
+    "name": "需求分析部",
+    "leader": null,
+    "description": "负责业务需求分析与需求文档编写"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 20,
+  "fields": {
+    "name": "市场部",
+    "leader": null,
+    "description": "负责市场推广与品牌传播"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 21,
+  "fields": {
+    "name": "运营部",
+    "leader": null,
+    "description": "负责用户运营与活动策划"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 22,
+  "fields": {
+    "name": "销售部",
+    "leader": null,
+    "description": "负责产品销售与客户开拓"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 23,
+  "fields": {
+    "name": "客服部",
+    "leader": null,
+    "description": "负责客户咨询与售后支持"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 24,
+  "fields": {
+    "name": "人力资源部",
+    "leader": null,
+    "description": "负责人力资源规划与招聘培训"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 25,
+  "fields": {
+    "name": "财务部",
+    "leader": null,
+    "description": "负责财务核算与预算管理"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 26,
+  "fields": {
+    "name": "行政部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 27,
+  "fields": {
+    "name": "法务部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 28,
+  "fields": {
+    "name": "品牌公关部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 29,
+  "fields": {
+    "name": "商务部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 30,
+  "fields": {
+    "name": "采购部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 31,
+  "fields": {
+    "name": "供应链部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 32,
+  "fields": {
+    "name": "技术支持部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 33,
+  "fields": {
+    "name": "售前部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 34,
+  "fields": {
+    "name": "售后部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 35,
+  "fields": {
+    "name": "移动开发部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 36,
+  "fields": {
+    "name": "大数据部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 37,
+  "fields": {
+    "name": "云平台部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 38,
+  "fields": {
+    "name": "基础设施部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 39,
+  "fields": {
+    "name": "网络部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 40,
+  "fields": {
+    "name": "数据库管理部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 41,
+  "fields": {
+    "name": "UI设计部",
+    "leader": null,
+    "description": "公司部门"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 42,
+  "fields": {
+    "name": "哈基米部门",
+    "leader": null,
+    "description": "南北绿豆"
+  }
+},
+{
+  "model": "system.department",
+  "pk": 43,
+  "fields": {
+    "name": "错误部",
+    "leader": null,
+    "description": "wdflol"
+  }
+},
+{
+  "model": "project.project",
+  "pk": 1,
+  "fields": {
+    "project_leader": [
+      "admin"
+    ],
+    "name": "慧测项目",
+    "description": "用户管理模块自动化测试项目",
+    "base_url": "http://127.0.0.1:8000",
+    "user_list": [
+      [
+        "admin"
+      ],
+      [
+        "user2"
+      ],
+      [
+        "user4"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 2,
+  "fields": {
+    "project_leader": [
+      "user7"
+    ],
+    "name": "登录注册模块",
+    "description": "账号登录、注册、鉴权及密码找回模块",
+    "base_url": "http://auth.example.com",
+    "user_list": [
+      [
+        "user6"
+      ],
+      [
+        "user14"
+      ],
+      [
+        "user32"
+      ],
+      [
+        "user35"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 3,
+  "fields": {
+    "project_leader": [
+      "user26"
+    ],
+    "name": "订单管理系统",
+    "description": "订单创建、支付、履约与售后全流程管理",
+    "base_url": "http://order.example.com",
+    "user_list": [
+      [
+        "admin"
+      ],
+      [
+        "user15"
+      ],
+      [
+        "user19"
+      ],
+      [
+        "user28"
+      ],
+      [
+        "user31"
+      ],
+      [
+        "user35"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 4,
+  "fields": {
+    "project_leader": [
+      "user5"
+    ],
+    "name": "用户中心",
+    "description": "用户资料、头像、权限与角色管理",
+    "base_url": "http://user.example.com",
+    "user_list": [
+      [
+        "user6"
+      ],
+      [
+        "user18"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 5,
+  "fields": {
+    "project_leader": [
+      "user28"
+    ],
+    "name": "支付系统",
+    "description": "多渠道支付接入、对账与退款",
+    "base_url": "http://pay.example.com",
+    "user_list": [
+      [
+        "user20"
+      ],
+      [
+        "user31"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 6,
+  "fields": {
+    "project_leader": [
+      "user13"
+    ],
+    "name": "商品管理平台",
+    "description": "商品、库存、SKU 与价格管理",
+    "base_url": "http://goods.example.com",
+    "user_list": [
+      [
+        "user4"
+      ],
+      [
+        "user16"
+      ],
+      [
+        "user22"
+      ],
+      [
+        "user24"
+      ],
+      [
+        "user32"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 7,
+  "fields": {
+    "project_leader": [
+      "user21"
+    ],
+    "name": "后台管理系统",
+    "description": "运营后台，含部门、职位、角色管理",
+    "base_url": "http://admin.example.com",
+    "user_list": [
+      [
+        "user34"
+      ],
+      [
+        "user35"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 8,
+  "fields": {
+    "project_leader": [
+      "user18"
+    ],
+    "name": "数据报表平台",
+    "description": "业务数据统计、报表导出与可视化",
+    "base_url": "http://report.example.com",
+    "user_list": [
+      [
+        "user1"
+      ],
+      [
+        "user9"
+      ],
+      [
+        "user19"
+      ],
+      [
+        "user29"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 9,
+  "fields": {
+    "project_leader": [
+      "user23"
+    ],
+    "name": "自动化测试框架",
+    "description": "接口与 UI 自动化用例执行平台",
+    "base_url": "http://atp.example.com",
+    "user_list": [
+      [
+        "user5"
+      ],
+      [
+        "user25"
+      ],
+      [
+        "user27"
+      ],
+      [
+        "user29"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 10,
+  "fields": {
+    "project_leader": [
+      "user35"
+    ],
+    "name": "接口测试平台",
+    "description": "接口调试、用例管理与定时任务",
+    "base_url": "http://apitest.example.com",
+    "user_list": [
+      [
+        "user7"
+      ],
+      [
+        "user25"
+      ],
+      [
+        "user27"
+      ],
+      [
+        "user31"
+      ],
+      [
+        "user32"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 11,
+  "fields": {
+    "project_leader": [
+      "user33"
+    ],
+    "name": "性能测试平台",
+    "description": "压测脚本、报告与监控大盘",
+    "base_url": "http://perf.example.com",
+    "user_list": [
+      [
+        "user26"
+      ],
+      [
+        "user30"
+      ],
+      [
+        "user32"
+      ],
+      [
+        "user33"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 12,
+  "fields": {
+    "project_leader": [
+      "user1"
+    ],
+    "name": "小程序商城",
+    "description": "微信小程序商城前端与交易链路",
+    "base_url": "http://shop.example.com",
+    "user_list": [
+      [
+        "user3"
+      ],
+      [
+        "user6"
+      ],
+      [
+        "user8"
+      ],
+      [
+        "user14"
+      ],
+      [
+        "user15"
+      ],
+      [
+        "user27"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 13,
+  "fields": {
+    "project_leader": [
+      "user9"
+    ],
+    "name": "官网门户",
+    "description": "公司官网、产品介绍与资讯",
+    "base_url": "http://www.example.com",
+    "user_list": [
+      [
+        "user7"
+      ],
+      [
+        "user14"
+      ],
+      [
+        "user29"
+      ],
+      [
+        "user30"
+      ],
+      [
+        "user34"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 14,
+  "fields": {
+    "project_leader": [
+      "user16"
+    ],
+    "name": "会员系统",
+    "description": "会员等级、积分与权益体系",
+    "base_url": "http://member.example.com",
+    "user_list": [
+      [
+        "user13"
+      ],
+      [
+        "user19"
+      ],
+      [
+        "user25"
+      ],
+      [
+        "user30"
+      ],
+      [
+        "user32"
+      ],
+      [
+        "user35"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 20,
+  "fields": {
+    "project_leader": [
+      "admin"
+    ],
+    "name": "安徽生态农产品",
+    "description": "安徽生态农产品测试项目",
+    "base_url": "https://uc-uat.ahsjs.com/dologin.htm",
+    "user_list": [
+      [
+        "admin"
+      ],
+      [
+        "user2"
+      ],
+      [
+        "user5"
+      ]
+    ]
+  }
+},
+{
+  "model": "project.project",
+  "pk": 21,
+  "fields": {
+    "project_leader": [
+      "admin"
+    ],
+    "name": "UI自动化测试项目",
+    "description": "UI自动化测试用例项目",
+    "base_url": "https://uc-uat.ahsjs.com/dologin.htm",
+    "user_list": [
+      [
+        "admin"
+      ]
+    ]
+  }
+}
+]

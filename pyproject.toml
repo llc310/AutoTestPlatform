@@ -48,7 +48,7 @@ liliangchen = { composite = [
 init = { composite = [
     "makeM",
     "M",
-    # "L",
+    "L",
     # "createadmin"
 ]}
 

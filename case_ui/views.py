@@ -3,8 +3,9 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from case_ui.models import Element, KeyWord, Action, CaseUI
-from case_ui.serializers import ElementSerializer, KeyWordSerializer, ActionSerializer, CaseUISerializer
+from case_ui.models import Element, KeyWord, Action, CaseUI, CaseUIAction
+from case_ui.serializers import ElementSerializer, KeyWordSerializer, ActionSerializer, CaseUISerializer, \
+    CaseUIActionSerializer
 
 
 # Create your views here.
@@ -47,11 +48,6 @@ class ActionViewSet(viewsets.ModelViewSet):
         serializer = ActionSerializer(action_list, many=True)
         return Response(serializer.data)
 
-    @extend_schema()
-    @action(methods=["POST"], detail=False)
-    def test_action_edit(self, request):
-        print(request.data)
-        return Response()
 
 @extend_schema(tags=["Case_UI"])
 class CaseUIViewSet(viewsets.ModelViewSet):
@@ -68,3 +64,15 @@ class CaseUIViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
         serializer = CaseUISerializer(caseui_list,many=True)
         return Response(serializer.data)
+
+@extend_schema(tags=["Case_UI"])
+class CaseUIActionViewSet(viewsets.ModelViewSet):
+    queryset = CaseUIAction.objects
+    serializer_class = CaseUIActionSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        caseui_id = self.request.query_params.get("caseui_id")
+        if caseui_id:
+            queryset = queryset.filter(caseui_id=caseui_id)
+        return queryset

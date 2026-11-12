@@ -96,6 +96,8 @@ class CaseUI(models.Model):
 
 
 class CaseUIAction(models.Model):
+    objects: models.QuerySet
+
     sort = models.PositiveIntegerField(verbose_name="执行顺序")
 
     caseui_id = models.ForeignKey(verbose_name="UI测试用例id",to=CaseUI,on_delete=models.CASCADE)

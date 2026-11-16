@@ -65,6 +65,7 @@ class CaseUIViewSet(viewsets.ModelViewSet):
         serializer = CaseUISerializer(caseui_list,many=True)
         return Response(serializer.data)
 
+
 @extend_schema(tags=["Case_UI"])
 class CaseUIActionViewSet(viewsets.ModelViewSet):
     queryset = CaseUIAction.objects

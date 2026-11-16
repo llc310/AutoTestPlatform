@@ -35,7 +35,6 @@ class ActionSerializer(serializers.ModelSerializer):
 
 
 class CaseUISerializer(serializers.ModelSerializer):
-    action_id = ActionSerializer(many=True,read_only=True)
     class Meta:
         model = CaseUI
         fields = "__all__"

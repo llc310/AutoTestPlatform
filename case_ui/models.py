@@ -1,3 +1,5 @@
+import copy
+
 import yaml
 from django.db import models
 
@@ -70,28 +72,52 @@ class CaseUI(models.Model):
     class Meta:
         ordering = ["id"]
 
+    # 将数据库中的用例信息转化为YAML测试文件
     def to_yaml(self, yaml_path):
-        from models import CaseUIAction
+        from case_ui.models import CaseUIAction
         case = []
 
-        actions = CaseUIAction.objects.filter(caseui_id=self.id).select_related("action_id").order_by("sort")
+        caseuiactions = CaseUIAction.objects.filter(caseui_id=self.id).select_related("action_id").order_by("sort")
+        actions = [caseuiaction.action_id for caseuiaction in caseuiactions]
         for action in actions:
-            action_dict:dict = {}.update(action.allure)
-
+            # 获取allure参数
+            action_dict = {}
+            action_dict.update(action.allure)
+            # 获取step
             action_dict.update({"step": []})
             for step in action.step:
-                step_dict:dict = {}.update({"action": step["action"]})
+                step_dict = {}
+                step_dict.update({"action": step["action"]})
                 step_dict.update({"keyword": KeyWord.objects.get(id=step["keyword_id"]).keyword_name})
-                element = Element.objects.get(id=step["element_id"])
-                step_dict.update({"locator": [element.by,element.path]})
-                step_dict.update({"args": step["args"]})
+                if "element_id" in step:
+                    element = Element.objects.get(id=step["element_id"])
+                    step_dict.update({"locator": [element.by,element.path]})
+                if "args" in step:
+                    step_dict.update({"args": step["args"]})
                 action_dict["step"].append(step_dict)
-
+            # 获取parametrize
             if action.parametrize:
-                action_dict.update({"parametrize": step["parametrize"]})
-
+                action_dict.update({"parametrize": action.parametrize})
+            # 获取validate
             if action.validate:
+                validate_dict = copy.deepcopy(action.validate)
+                for _,type in validate_dict.items():
+                    for result_assert in type:
+                        actual_result:dict = result_assert["actual_result"]
+                        # 获取keyword
+                        keyword = KeyWord.objects.get(id=actual_result.pop("keyword_id")).keyword_name
+                        actual_result.update({"keyword": keyword})
+                        # 获取locator
+                        if "element_id" in actual_result:
+                            element = Element.objects.get(id=actual_result.pop("element_id"))
+                            actual_result.update({"locator": [element.by, element.path]})
+                action_dict.update({"validate": validate_dict})
 
+            case.append(action_dict)
+
+        # 将数据写入YAML文件
+        with open(file=yaml_path,encoding="utf-8",mode="w") as f:
+            yaml.safe_dump(data=case,stream=f,allow_unicode=True,sort_keys=False)
 
 
 class CaseUIAction(models.Model):

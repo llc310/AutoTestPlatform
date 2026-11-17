@@ -55,7 +55,7 @@ class AssertUtil:
             else:
                 return keyword()
         locator = tuple(actual_result_dict["locator"])
-        if "args" in actual_result_dict.keys():
+        if "args" in actual_result_dict:
             args = actual_result_dict["args"]
             logging.info(
                 f"{keyword.__name__}({locator, ', '.join(repr(a) for a in args)})"

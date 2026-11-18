@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from case_ui.models import CaseUI, Element, KeyWord, Action, CaseUIAction
+from case_ui.models import CaseUI, Element, KeyWord, Action
 
 
 class ElementSerializer(serializers.ModelSerializer):
@@ -21,26 +21,21 @@ class ActionSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-    def validate(self, attrs):
-        super().validate(attrs)
-        parametrize_dict:dict = attrs.get("parametrize",{})
-        length = -1
-        for value in parametrize_dict.values():
-            if length == -1:
-                length = len(value)
-                continue
-            elif length != len(value):
-                raise serializers.ValidationError("每个parametrize参数长度不一致")
-        return attrs
-
-
 class CaseUISerializer(serializers.ModelSerializer):
     class Meta:
         model = CaseUI
         fields = "__all__"
 
-
-class CaseUIActionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CaseUIAction
-        fields = "__all__"
+    def validate(self, attrs):
+        super().validate(attrs)
+        action_list:list = attrs.get("action_list",[])
+        length = -1
+        for action in action_list:
+            if "parametrize" in action:
+                for _,param_value in action["parametrize"].items():
+                    if length == -1:
+                        length = len(param_value)
+                        continue
+                    elif length != len(param_value):
+                        raise serializers.ValidationError("每个parametrize参数长度不一致")
+        return attrs

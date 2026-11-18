@@ -3,7 +3,6 @@ from django.contrib import admin
 from case_ui.models import (
     Action,
     CaseUI,
-    CaseUIAction,
     Element,
     KeyWord,
 )
@@ -23,17 +22,10 @@ class KeyWordAdmin(admin.ModelAdmin):
 
 @admin.register(Action)
 class ActionAdmin(admin.ModelAdmin):
-    list_display = ("id", "allure", "parametrize", "validate")
+    list_display = ("id", "name", "allure")
 
 
 @admin.register(CaseUI)
 class CaseUIAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "project_id")
+    list_display = ("id", "name", "project_id", "action_list")
     search_fields = ("name",)
-
-
-@admin.register(CaseUIAction)
-class CaseUIStepAdmin(admin.ModelAdmin):
-    list_display = ("id", "caseui_id", "action_id", "sort")
-    list_filter = ("caseui_id",)
-    ordering = ("caseui_id", "sort")

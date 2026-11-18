@@ -1214,19 +1214,13 @@
         "sort": 1,
         "action": "查找元素：用户名输入框",
         "keyword_id": 1,
-        "element_id": 1,
-        "args": [
-          "admin"
-        ]
+        "element_id": 1
       },
       {
         "sort": 2,
         "action": "查找元素：密码输入框",
         "keyword_id": 1,
-        "element_id": 2,
-        "args": [
-          "123456"
-        ]
+        "element_id": 2
       },
       {
         "sort": 3,
@@ -1235,27 +1229,6 @@
         "element_id": 3
       }
     ],
-    "parametrize": {
-      "username": [
-        "admin",
-        "test01"
-      ],
-      "password": [
-        "123456",
-        "123456"
-      ]
-    },
-    "validate": {
-      "equals": [
-        {
-          "expect_result": "admin",
-          "actual_result": {
-            "keyword_id": 4,
-            "element_id": 6
-          }
-        }
-      ]
-    },
     "project_id": 1
   }
 },
@@ -1266,8 +1239,6 @@
     "name": "用户登录成功",
     "allure": {},
     "step": [],
-    "parametrize": {},
-    "validate": {},
     "project_id": 1
   }
 },
@@ -1278,8 +1249,6 @@
     "name": "新增用户成功",
     "allure": {},
     "step": [],
-    "parametrize": {},
-    "validate": {},
     "project_id": 1
   }
 },
@@ -1290,8 +1259,6 @@
     "name": "删除用户成功",
     "allure": {},
     "step": [],
-    "parametrize": {},
-    "validate": {},
     "project_id": 1
   }
 },
@@ -1308,63 +1275,30 @@
     },
     "step": [
       {
-        "sort": 1,
         "action": "清空用户名输入框中的内容",
-        "keyword_id": 3,
-        "args": [
-          "dsaffasf",
-          "dasfasfaf",
-          123131232
-        ]
+        "keyword_id": 3
       },
       {
-        "sort": 2,
         "action": "在用户名输入框中输入内容",
         "keyword_id": 4,
         "element_id": 12
       },
       {
-        "sort": 3,
-        "action": "清空密码输入框中的内容",
-        "keyword_id": 3,
-        "element_id": 12
-      },
-      {
-        "sort": 4,
         "action": "在密码输入框中输入内容",
         "keyword_id": 4,
         "element_id": 12
       },
       {
-        "sort": 5,
+        "action": "清空密码输入框中的内容",
+        "keyword_id": 3,
+        "element_id": 12
+      },
+      {
         "action": "点击登录按钮",
         "keyword_id": 5,
         "element_id": 13
       }
     ],
-    "parametrize": {
-      "用户名": [
-        "admin",
-        "test",
-        "user01"
-      ],
-      "密码": [
-        123456,
-        123123,
-        123123123
-      ]
-    },
-    "validate": {
-      "equals": [
-        {
-          "expect_result": "用户中心",
-          "actual_result": {
-            "keyword_id": 6,
-            "element_id": 15
-          }
-        }
-      ]
-    },
     "project_id": 21
   }
 },
@@ -1384,10 +1318,7 @@
         "sort": 1,
         "action": "在搜索框中输入张",
         "keyword_id": 4,
-        "element_id": 13,
-        "args": [
-          "张"
-        ]
+        "element_id": 13
       },
       {
         "sort": 2,
@@ -1396,24 +1327,6 @@
         "element_id": 13
       }
     ],
-    "parametrize": {
-      "关键词": [
-        "张",
-        "王",
-        "李"
-      ]
-    },
-    "validate": {
-      "contains": [
-        {
-          "expect_result": "张",
-          "actual_result": {
-            "keyword_id": 6,
-            "element_id": 12
-          }
-        }
-      ]
-    },
     "project_id": 21
   }
 },
@@ -1439,19 +1352,13 @@
         "sort": 2,
         "action": "在用户名输入框中输入new_user_01",
         "keyword_id": 4,
-        "element_id": 1,
-        "args": [
-          "new_user_01"
-        ]
+        "element_id": 1
       },
       {
         "sort": 3,
         "action": "在密码输入框中输入abc123456",
         "keyword_id": 4,
-        "element_id": 2,
-        "args": [
-          "abc123456"
-        ]
+        "element_id": 2
       },
       {
         "sort": 4,
@@ -1460,26 +1367,6 @@
         "element_id": 3
       }
     ],
-    "parametrize": {
-      "用户名": [
-        "new_user_01",
-        "new_user_02"
-      ],
-      "密码": [
-        "abc123456"
-      ]
-    },
-    "validate": {
-      "equals": [
-        {
-          "expect_result": "new_user_01",
-          "actual_result": {
-            "keyword_id": 6,
-            "element_id": 6
-          }
-        }
-      ]
-    },
     "project_id": 21
   }
 },
@@ -1513,21 +1400,6 @@
         "keyword_id": 11
       }
     ],
-    "parametrize": {},
-    "validate": {
-      "db_equals": [
-        {
-          "expect_result": 0,
-          "actual_result": {
-            "keyword_id": 6,
-            "element_id": 6,
-            "args": [
-              "count"
-            ]
-          }
-        }
-      ]
-    },
     "project_id": 21
   }
 },
@@ -1560,18 +1432,6 @@
         "keyword_id": 11
       }
     ],
-    "parametrize": {},
-    "validate": {
-      "equals": [
-        {
-          "expect_result": "登录",
-          "actual_result": {
-            "keyword_id": 6,
-            "element_id": 3
-          }
-        }
-      ]
-    },
     "project_id": 21
   }
 },
@@ -1580,6 +1440,11 @@
   "pk": 1,
   "fields": {
     "name": "登录成功用例",
+    "action_list": [
+      {
+        "step": []
+      }
+    ],
     "project_id": 1
   }
 },
@@ -1588,6 +1453,11 @@
   "pk": 2,
   "fields": {
     "name": "新增用户用例",
+    "action_list": [
+      {
+        "step": []
+      }
+    ],
     "project_id": 1
   }
 },
@@ -1596,6 +1466,11 @@
   "pk": 3,
   "fields": {
     "name": "删除用户用例",
+    "action_list": [
+      {
+        "step": []
+      }
+    ],
     "project_id": 1
   }
 },
@@ -1604,6 +1479,17 @@
   "pk": 4,
   "fields": {
     "name": "用户管理完整流程",
+    "action_list": [
+      {
+        "step": []
+      },
+      {
+        "step": []
+      },
+      {
+        "step": []
+      }
+    ],
     "project_id": 1
   }
 },
@@ -1612,6 +1498,314 @@
   "pk": 5,
   "fields": {
     "name": "用户管理完整流程",
+    "action_list": [
+      {
+        "feature": "登录模块",
+        "story": "登录功能",
+        "title": "正确账号密码登录成功",
+        "description": "输入用户名密码后点击登录按钮",
+        "step": [
+          {
+            "action": "清空用户名输入框中的内容",
+            "keyword": "clear"
+          },
+          {
+            "action": "在用户名输入框中输入内容",
+            "keyword": "send_keys",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "清空密码输入框中的内容",
+            "keyword": "clear",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "在密码输入框中输入内容",
+            "keyword": "send_keys",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "点击登录按钮",
+            "keyword": "click",
+            "locator": [
+              "link text",
+              "订单管理"
+            ]
+          }
+        ],
+        "parametrize": {
+          "用户名": [
+            "admin",
+            "test",
+            "user01"
+          ],
+          "密码": [
+            123456,
+            123123,
+            123123123
+          ]
+        },
+        "validate": {
+          "equals": [
+            {
+              "expect_result": "用户中心",
+              "actual_result": {
+                "keyword": "text",
+                "locator": [
+                  "link text",
+                  "系统设置"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "feature": "用户管理",
+        "story": "用户列表",
+        "title": "关键词搜索命中目标用户",
+        "description": "搜索框输入关键词后校验列表内容",
+        "step": [
+          {
+            "action": "在搜索框中输入张",
+            "keyword": "send_keys",
+            "locator": [
+              "link text",
+              "订单管理"
+            ]
+          },
+          {
+            "action": "查找多个元素：用户列表表格",
+            "keyword": "find_elements",
+            "locator": [
+              "link text",
+              "订单管理"
+            ]
+          }
+        ],
+        "parametrize": {
+          "关键词": [
+            "张",
+            "王",
+            "李"
+          ]
+        },
+        "validate": {
+          "contains": [
+            {
+              "expect_result": "张",
+              "actual_result": {
+                "keyword": "text",
+                "locator": [
+                  "link text",
+                  "首页"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "feature": "用户管理",
+        "story": "新增用户",
+        "title": "填写表单提交后新用户出现在列表",
+        "description": "点击新增按钮填写用户名密码并提交",
+        "step": [
+          {
+            "action": "点击新增用户按钮",
+            "keyword": "click",
+            "locator": [
+              "css",
+              ".btn-add"
+            ]
+          },
+          {
+            "action": "在用户名输入框中输入new_user_01",
+            "keyword": "send_keys",
+            "locator": [
+              "id",
+              "username"
+            ]
+          },
+          {
+            "action": "在密码输入框中输入abc123456",
+            "keyword": "send_keys",
+            "locator": [
+              "id",
+              "password"
+            ]
+          },
+          {
+            "action": "点击登录按钮",
+            "keyword": "click",
+            "locator": [
+              "css",
+              ".btn-login"
+            ]
+          }
+        ],
+        "parametrize": {
+          "用户名": [
+            "new_user_01",
+            "new_user_02"
+          ],
+          "密码": [
+            "abc123456"
+          ]
+        },
+        "validate": {
+          "equals": [
+            {
+              "expect_result": "new_user_01",
+              "actual_result": {
+                "keyword": "text",
+                "locator": [
+                  "xpath",
+                  "//table[@id='user-table']"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "feature": "用户管理",
+        "story": "删除用户",
+        "title": "删除选中记录并确认弹窗",
+        "description": "点击删除按钮后在确认弹窗中点确定",
+        "step": [
+          {
+            "action": "查找多个元素：用户列表表格",
+            "keyword": "find_elements",
+            "locator": [
+              "xpath",
+              "//table[@id='user-table']"
+            ]
+          },
+          {
+            "action": "确认弹窗",
+            "keyword": "alert_accept"
+          },
+          {
+            "action": "点击删除按钮",
+            "keyword": "click",
+            "locator": [
+              "xpath",
+              "//button[contains(text(),'删除')]"
+            ]
+          }
+        ],
+        "validate": {
+          "db_equals": [
+            {
+              "expect_result": 0,
+              "actual_result": {
+                "keyword": "text",
+                "locator": [
+                  "xpath",
+                  "//table[@id='user-table']"
+                ],
+                "args": [
+                  "count"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "feature": "登录模块",
+        "story": "退出功能",
+        "title": "点击退出链接返回登录页",
+        "description": "点击退出登录链接并在弹窗中确认",
+        "step": [
+          {
+            "action": "点击退出登录链接",
+            "keyword": "click",
+            "locator": [
+              "link_text",
+              "退出登录"
+            ]
+          },
+          {
+            "action": "切换到弹窗",
+            "keyword": "switch_to_alert"
+          },
+          {
+            "action": "确认弹窗",
+            "keyword": "alert_accept"
+          }
+        ],
+        "validate": {
+          "equals": [
+            {
+              "expect_result": "登录",
+              "actual_result": {
+                "keyword": "text",
+                "locator": [
+                  "css",
+                  ".btn-login"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "feature": "用户管理",
+        "story": "删除用户",
+        "title": "删除选中记录并确认弹窗",
+        "description": "点击删除按钮后在确认弹窗中点确定",
+        "step": [
+          {
+            "action": "查找多个元素：用户列表表格",
+            "keyword": "find_elements",
+            "locator": [
+              "xpath",
+              "//table[@id='user-table']"
+            ]
+          },
+          {
+            "action": "点击删除按钮",
+            "keyword": "click",
+            "locator": [
+              "xpath",
+              "//button[contains(text(),'删除')]"
+            ]
+          },
+          {
+            "action": "确认弹窗",
+            "keyword": "alert_accept"
+          }
+        ],
+        "validate": {
+          "db_equals": [
+            {
+              "expect_result": 0,
+              "actual_result": {
+                "keyword": "text",
+                "locator": [
+                  "xpath",
+                  "//table[@id='user-table']"
+                ],
+                "args": [
+                  "count"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
     "project_id": 21
   }
 },
@@ -1620,6 +1814,123 @@
   "pk": 6,
   "fields": {
     "name": "登录与搜索用户",
+    "action_list": [
+      {
+        "feature": "登录模块",
+        "story": "登录功能",
+        "title": "正确账号密码登录成功",
+        "description": "输入用户名密码后点击登录按钮",
+        "step": [
+          {
+            "action": "清空用户名输入框中的内容",
+            "keyword": "clear"
+          },
+          {
+            "action": "在用户名输入框中输入内容",
+            "keyword": "send_keys",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "清空密码输入框中的内容",
+            "keyword": "clear",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "在密码输入框中输入内容",
+            "keyword": "send_keys",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "点击登录按钮",
+            "keyword": "click",
+            "locator": [
+              "link text",
+              "订单管理"
+            ]
+          }
+        ],
+        "parametrize": {
+          "用户名": [
+            "admin",
+            "test",
+            "user01"
+          ],
+          "密码": [
+            123456,
+            123123,
+            123123123
+          ]
+        },
+        "validate": {
+          "equals": [
+            {
+              "expect_result": "用户中心",
+              "actual_result": {
+                "keyword": "text",
+                "locator": [
+                  "link text",
+                  "系统设置"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "feature": "用户管理",
+        "story": "用户列表",
+        "title": "关键词搜索命中目标用户",
+        "description": "搜索框输入关键词后校验列表内容",
+        "step": [
+          {
+            "action": "在搜索框中输入张",
+            "keyword": "send_keys",
+            "locator": [
+              "link text",
+              "订单管理"
+            ]
+          },
+          {
+            "action": "查找多个元素：用户列表表格",
+            "keyword": "find_elements",
+            "locator": [
+              "link text",
+              "订单管理"
+            ]
+          }
+        ],
+        "parametrize": {
+          "关键词": [
+            "张",
+            "王",
+            "李"
+          ]
+        },
+        "validate": {
+          "contains": [
+            {
+              "expect_result": "张",
+              "actual_result": {
+                "keyword": "text",
+                "locator": [
+                  "link text",
+                  "首页"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
     "project_id": 21
   }
 },
@@ -1628,6 +1939,141 @@
   "pk": 7,
   "fields": {
     "name": "新增用户并校验",
+    "action_list": [
+      {
+        "feature": "登录模块",
+        "story": "登录功能",
+        "title": "正确账号密码登录成功",
+        "description": "输入用户名密码后点击登录按钮",
+        "step": [
+          {
+            "action": "清空用户名输入框中的内容",
+            "keyword": "clear"
+          },
+          {
+            "action": "在用户名输入框中输入内容",
+            "keyword": "send_keys",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "清空密码输入框中的内容",
+            "keyword": "clear",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "在密码输入框中输入内容",
+            "keyword": "send_keys",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "点击登录按钮",
+            "keyword": "click",
+            "locator": [
+              "link text",
+              "订单管理"
+            ]
+          }
+        ],
+        "parametrize": {
+          "用户名": [
+            "admin",
+            "test",
+            "user01"
+          ],
+          "密码": [
+            123456,
+            123123,
+            123123123
+          ]
+        },
+        "validate": {
+          "equals": [
+            {
+              "expect_result": "用户中心",
+              "actual_result": {
+                "keyword": "text",
+                "locator": [
+                  "link text",
+                  "系统设置"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "feature": "用户管理",
+        "story": "新增用户",
+        "title": "填写表单提交后新用户出现在列表",
+        "description": "点击新增按钮填写用户名密码并提交",
+        "step": [
+          {
+            "action": "点击新增用户按钮",
+            "keyword": "click",
+            "locator": [
+              "css",
+              ".btn-add"
+            ]
+          },
+          {
+            "action": "在用户名输入框中输入new_user_01",
+            "keyword": "send_keys",
+            "locator": [
+              "id",
+              "username"
+            ]
+          },
+          {
+            "action": "在密码输入框中输入abc123456",
+            "keyword": "send_keys",
+            "locator": [
+              "id",
+              "password"
+            ]
+          },
+          {
+            "action": "点击登录按钮",
+            "keyword": "click",
+            "locator": [
+              "css",
+              ".btn-login"
+            ]
+          }
+        ],
+        "parametrize": {
+          "用户名": [
+            "new_user_01",
+            "new_user_02"
+          ],
+          "密码": [
+            "abc123456"
+          ]
+        },
+        "validate": {
+          "equals": [
+            {
+              "expect_result": "new_user_01",
+              "actual_result": {
+                "keyword": "text",
+                "locator": [
+                  "xpath",
+                  "//table[@id='user-table']"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
     "project_id": 21
   }
 },
@@ -1636,6 +2082,123 @@
   "pk": 8,
   "fields": {
     "name": "删除用户并校验",
+    "action_list": [
+      {
+        "feature": "登录模块",
+        "story": "登录功能",
+        "title": "正确账号密码登录成功",
+        "description": "输入用户名密码后点击登录按钮",
+        "step": [
+          {
+            "action": "清空用户名输入框中的内容",
+            "keyword": "clear"
+          },
+          {
+            "action": "在用户名输入框中输入内容",
+            "keyword": "send_keys",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "清空密码输入框中的内容",
+            "keyword": "clear",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "在密码输入框中输入内容",
+            "keyword": "send_keys",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "点击登录按钮",
+            "keyword": "click",
+            "locator": [
+              "link text",
+              "订单管理"
+            ]
+          }
+        ],
+        "parametrize": {
+          "用户名": [
+            "admin",
+            "test",
+            "user01"
+          ],
+          "密码": [
+            123456,
+            123123,
+            123123123
+          ]
+        },
+        "validate": {
+          "equals": [
+            {
+              "expect_result": "用户中心",
+              "actual_result": {
+                "keyword": "text",
+                "locator": [
+                  "link text",
+                  "系统设置"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "feature": "用户管理",
+        "story": "删除用户",
+        "title": "删除选中记录并确认弹窗",
+        "description": "点击删除按钮后在确认弹窗中点确定",
+        "step": [
+          {
+            "action": "查找多个元素：用户列表表格",
+            "keyword": "find_elements",
+            "locator": [
+              "xpath",
+              "//table[@id='user-table']"
+            ]
+          },
+          {
+            "action": "点击删除按钮",
+            "keyword": "click",
+            "locator": [
+              "xpath",
+              "//button[contains(text(),'删除')]"
+            ]
+          },
+          {
+            "action": "确认弹窗",
+            "keyword": "alert_accept"
+          }
+        ],
+        "validate": {
+          "db_equals": [
+            {
+              "expect_result": 0,
+              "actual_result": {
+                "args": [
+                  "count"
+                ],
+                "keyword": "text",
+                "locator": [
+                  "xpath",
+                  "//table[@id='user-table']"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
     "project_id": 21
   }
 },
@@ -1644,187 +2207,117 @@
   "pk": 9,
   "fields": {
     "name": "登录退出流程",
+    "action_list": [
+      {
+        "feature": "登录模块",
+        "story": "登录功能",
+        "title": "正确账号密码登录成功",
+        "description": "输入用户名密码后点击登录按钮",
+        "step": [
+          {
+            "action": "清空用户名输入框中的内容",
+            "keyword": "clear"
+          },
+          {
+            "action": "在用户名输入框中输入内容",
+            "keyword": "send_keys",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "清空密码输入框中的内容",
+            "keyword": "clear",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "在密码输入框中输入内容",
+            "keyword": "send_keys",
+            "locator": [
+              "link text",
+              "首页"
+            ]
+          },
+          {
+            "action": "点击登录按钮",
+            "keyword": "click",
+            "locator": [
+              "link text",
+              "订单管理"
+            ]
+          }
+        ],
+        "parametrize": {
+          "用户名": [
+            "admin",
+            "test",
+            "user01"
+          ],
+          "密码": [
+            123456,
+            123123,
+            123123123
+          ]
+        },
+        "validate": {
+          "equals": [
+            {
+              "expect_result": "用户中心",
+              "actual_result": {
+                "keyword": "text",
+                "locator": [
+                  "link text",
+                  "系统设置"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "feature": "登录模块",
+        "story": "退出功能",
+        "title": "点击退出链接返回登录页",
+        "description": "点击退出登录链接并在弹窗中确认",
+        "step": [
+          {
+            "action": "点击退出登录链接",
+            "keyword": "click",
+            "locator": [
+              "link_text",
+              "退出登录"
+            ]
+          },
+          {
+            "action": "切换到弹窗",
+            "keyword": "switch_to_alert"
+          },
+          {
+            "action": "确认弹窗",
+            "keyword": "alert_accept"
+          }
+        ],
+        "validate": {
+          "equals": [
+            {
+              "expect_result": "登录",
+              "actual_result": {
+                "keyword": "text",
+                "locator": [
+                  "css",
+                  ".btn-login"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
     "project_id": 21
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 1,
-  "fields": {
-    "sort": 1,
-    "caseui_id": 1,
-    "action_id": 2
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 2,
-  "fields": {
-    "sort": 1,
-    "caseui_id": 2,
-    "action_id": 3
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 3,
-  "fields": {
-    "sort": 1,
-    "caseui_id": 3,
-    "action_id": 4
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 4,
-  "fields": {
-    "sort": 1,
-    "caseui_id": 4,
-    "action_id": 2
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 5,
-  "fields": {
-    "sort": 2,
-    "caseui_id": 4,
-    "action_id": 3
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 6,
-  "fields": {
-    "sort": 3,
-    "caseui_id": 4,
-    "action_id": 4
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 7,
-  "fields": {
-    "sort": 1,
-    "caseui_id": 5,
-    "action_id": 5
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 8,
-  "fields": {
-    "sort": 2,
-    "caseui_id": 5,
-    "action_id": 6
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 9,
-  "fields": {
-    "sort": 3,
-    "caseui_id": 5,
-    "action_id": 7
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 10,
-  "fields": {
-    "sort": 4,
-    "caseui_id": 5,
-    "action_id": 8
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 11,
-  "fields": {
-    "sort": 5,
-    "caseui_id": 5,
-    "action_id": 9
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 12,
-  "fields": {
-    "sort": 1,
-    "caseui_id": 6,
-    "action_id": 5
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 13,
-  "fields": {
-    "sort": 2,
-    "caseui_id": 6,
-    "action_id": 6
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 14,
-  "fields": {
-    "sort": 1,
-    "caseui_id": 7,
-    "action_id": 5
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 15,
-  "fields": {
-    "sort": 2,
-    "caseui_id": 7,
-    "action_id": 7
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 16,
-  "fields": {
-    "sort": 1,
-    "caseui_id": 8,
-    "action_id": 5
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 17,
-  "fields": {
-    "sort": 2,
-    "caseui_id": 8,
-    "action_id": 8
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 18,
-  "fields": {
-    "sort": 1,
-    "caseui_id": 9,
-    "action_id": 5
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 19,
-  "fields": {
-    "sort": 2,
-    "caseui_id": 9,
-    "action_id": 9
-  }
-},
-{
-  "model": "case_ui.caseuiaction",
-  "pk": 20,
-  "fields": {
-    "sort": 6,
-    "caseui_id": 5,
-    "action_id": 8
   }
 },
 {

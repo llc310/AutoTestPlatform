@@ -15,8 +15,20 @@ from commons.yaml_util import YamlUtil
 class TestAllCase: ...
 
 
+@pytest.fixture(autouse=True)
+def stop_after_yaml_failure(request):
+    """同一个 yaml 文件中已有用例失败时，跳过该文件剩余的参数化用例"""
+    state = getattr(getattr(request, "function", None), "yaml_state", None)
+    if state and state["failed"]:
+        pytest.skip(
+            f"用例文件内已有用例失败（{state['title']}），终止本文件后续执行"
+        )
+
+
 def create_test_case(yaml_path):
     case_value, case_name = load_case(yaml_path)
+    # 记录该 yaml 文件是否已经失败，供同文件后续参数化用例判断
+    state = {"failed": False, "title": ""}
 
     @pytest.mark.parametrize("caseinfo", case_value, ids=case_name)
     def function(self, caseinfo, get_webdriver):
@@ -26,7 +38,11 @@ def create_test_case(yaml_path):
                 case_model = verify_case(caseinfo)
                 if case_model:
                     set_allure_log(case_model)
+                    state["title"] = case_model.title
                     stand_case_flow(get_webdriver, case_model)
+            except Exception:
+                state["failed"] = True
+                raise
             finally:
                 logging.info("----单功能测试用例执行结束----\n")
         else:
@@ -37,10 +53,15 @@ def create_test_case(yaml_path):
                     case_model = verify_case(case)
                     if case_model:
                         set_allure_log(case_model)
+                        state["title"] = case_model.title
                         stand_case_flow(get_webdriver, case_model)
+            except Exception:
+                state["failed"] = True
+                raise
             finally:
                 logging.info("----业务流程测试用例执行结束----\n")
 
+    function.yaml_state = state
     return function
 
 

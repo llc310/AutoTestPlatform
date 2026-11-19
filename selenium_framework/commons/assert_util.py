@@ -23,26 +23,36 @@ class AssertUtil:
     @classmethod
     def __assert_equals(cls, driver, assert_list: list):
         for assert_result in assert_list:
-            expected_result = assert_result["expected_result"]
+            expect_result = assert_result["expect_result"]
             actual_result = cls.__get_actual_result(
                 driver, assert_result["actual_result"]
             )
             logging.info(
-                f"断言相等:实际结果'{actual_result}'==预期结果'{expected_result}'"
+                f"断言相等:实际结果'{actual_result}'==预期结果'{expect_result}'"
             )
-            assert actual_result == expected_result
+            if actual_result != expect_result:
+                raise AssertionError(
+                    f"断言相等失败: 实际结果{actual_result!r} != 预期结果{expect_result!r}"
+                    f" | keyword={assert_result['actual_result'].get('keyword')}"
+                    f" | locator={assert_result['actual_result'].get('locator')}"
+                )
 
     @classmethod
     def __assert_contains(cls, driver, assert_list: list):
         for assert_result in assert_list:
-            expected_result = assert_result[0]
+            expect_result = assert_result["expect_result"]
             actual_result = cls.__get_actual_result(
                 driver, assert_result["actual_result"]
             )
             logging.info(
-                f"断言字段包含:实际结果'{actual_result}'in预期结果'{expected_result}'"
+                f"断言字段包含:实际结果'{actual_result}'in预期结果'{expect_result}'"
             )
-            assert actual_result in expected_result
+            if actual_result not in expect_result:
+                raise AssertionError(
+                    f"断言字段包含失败: 实际结果{actual_result!r} 不在预期结果{expect_result!r} 中"
+                    f" | keyword={assert_result['actual_result'].get('keyword')}"
+                    f" | locator={assert_result['actual_result'].get('locator')}"
+                )
 
     @classmethod
     def __get_actual_result(cls, driver, actual_result_dict):
@@ -68,22 +78,30 @@ class AssertUtil:
     @classmethod
     def assert_db_equals(cls, assert_list: list):
         for assert_result in assert_list:
-            expected_result = assert_result[0]
-            actual_result = cls.__get_db_actual_result(assert_result)
+            expect_result = assert_result["expect_result"]
+            actual_result = cls.__get_db_actual_result(assert_result["actual_result"])
+            sql = assert_result["actual_result"].get("args")
             logging.info(
-                f"数据库断言{assert_result[1]}字段相等:实际结果'{actual_result}'==预期结果'{expected_result}'"
+                f"数据库断言{sql}字段相等:实际结果'{actual_result}'==预期结果'{expect_result}'"
             )
-            assert actual_result == expected_result
+            if actual_result != expect_result:
+                raise AssertionError(
+                    f"数据库断言相等失败: 实际结果{actual_result!r} != 预期结果{expect_result!r} | args={sql}"
+                )
 
     @classmethod
     def assert_db_contains(cls, assert_list: list):
         for assert_result in assert_list:
-            expected_result = assert_result[0]
+            expect_result = assert_result["expect_result"]
             actual_result = cls.__get_db_actual_result(assert_result)
+            sql = assert_result.get("args")
             logging.info(
-                f"数据库断言{assert_result[1]}字段包含:实际结果'{actual_result}'in预期结果'{expected_result}'"
+                f"数据库断言{sql}字段包含:实际结果'{actual_result}'in预期结果'{expect_result}'"
             )
-            assert actual_result in expected_result
+            if actual_result not in expect_result:
+                raise AssertionError(
+                    f"数据库断言包含失败: 实际结果{actual_result!r} 不在预期结果{expect_result!r} 中 | args={sql}"
+                )
 
     @classmethod
     def __get_db_actual_result(cls, assert_result):

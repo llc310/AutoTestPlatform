@@ -32,7 +32,7 @@ PASSWORD = "123456a"
 # LOG文件夹路径
 LOG_DIR = BASE_DIR / "log"
 # LOG文件最多记录数
-LOG_FILE_MAX_NUM = 4
+LOG_FILE_MAX_NUM = 10
 
 # 项目数据库配置
 DB_HOST = "127.0.0.1"

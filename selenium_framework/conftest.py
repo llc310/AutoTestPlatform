@@ -1,3 +1,5 @@
+import logging
+
 import pytest
 import settings
 from commons.db_util import DBUtil
@@ -39,3 +41,21 @@ db = 21313
 # def get_db():
 #     yield
 #     db.close()
+
+
+# 用例或夹具失败时，把异常信息写入本次运行的日志文件
+@pytest.hookimpl(hookwrapper=True, tryfirst=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    report = outcome.get_result()
+    if report.failed:
+        logging.error(
+            "\n===== 用例执行失败 =====\n"
+            "阶段: %s\n"
+            "用例: %s\n"
+            "%s\n"
+            "===== 失败信息结束 =====\n",
+            report.when,
+            item.nodeid,
+            report.longreprtext,
+        )

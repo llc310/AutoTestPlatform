@@ -1,32 +1,40 @@
 import logging
-
 from commons.kdt import KeyWord
 
 
 class StepUtil:
     @classmethod
     def run_step(cls, driver, action_list: list):
-        for action in action_list:
-            logging.info(action["action"])
-            keyword = getattr(KeyWord(driver), action["keyword"])
-            if not action["locator"]:
-                if action["args"]:
-                    args: list = action["args"]
+        for index, action in enumerate(action_list, start=1):
+            logging.info("第 %d 步：%s", index, action.get("action"))
+            try:
+                keyword = getattr(KeyWord(driver), action.get("keyword"))
+                locator = action.get("locator")
+                args = action.get("args")
+
+                if not locator and not args:
+                    logging.info(f"{keyword.__name__}()")
+                    keyword()
+                elif not locator:
                     logging.info(
                         f"{keyword.__name__}({', '.join(repr(a) for a in args)})"
                     )
                     keyword(*args)
-                    continue
+                elif not args:
+                    logging.info(f"{keyword.__name__}({tuple(locator)})")
+                    keyword(tuple(locator))
                 else:
-                    logging.info(f"{keyword.__name__}()")
-                    keyword()
-            locator = tuple(action["locator"])
-            if "args" in action.keys():
-                args = action["args"]
-                logging.info(
-                    f"{keyword.__name__}({locator,', '.join(repr(a) for a in args)})"
+                    logging.info(
+                        f"{keyword.__name__}({tuple(locator), ', '.join(repr(a) for a in args)})"
+                    )
+                    keyword(tuple(locator), *args)
+            except Exception:
+                logging.exception(
+                    "步骤执行失败 | 第 %d 步 | action=%s | keyword=%s | locator=%s | args=%s",
+                    index,
+                    action.get("action"),
+                    action.get("keyword"),
+                    action.get("locator"),
+                    action.get("args"),
                 )
-                keyword(locator, *args)
-                continue
-            logging.info(f"{keyword.__name__}({locator})")
-            keyword(locator)
+                raise

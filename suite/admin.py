@@ -5,7 +5,7 @@ from suite.models import Suite, RunResult
 
 @admin.register(Suite)
 class SuiteAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "project", "run_type", "cron", "case_ui_count", "case_api_count")
+    list_display = ("id", "name", "project_id", "run_type", "cron", "case_ui_count", "case_api_count")
 
     @admin.display(description="运行模式")
     def run_type(self, obj):

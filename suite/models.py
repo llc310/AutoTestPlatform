@@ -24,7 +24,7 @@ class Suite(models.Model):
         CRON = "C"
         WEBHOOK = "WEBHOOK"
 
-    project = models.ForeignKey(
+    project_id = models.ForeignKey(
         verbose_name="项目id", to=Project, on_delete=models.CASCADE
     )
     case_ui_list = models.ManyToManyField(
@@ -41,6 +41,9 @@ class Suite(models.Model):
     )
     cron = models.CharField(verbose_name="运行表达式", max_length=32, blank=True)
     hook = models.CharField(verbose_name="hook密钥", max_length=255, blank=True)
+
+    class Meta:
+        ordering = ["id"]
 
     def case_ui_count(self):
         return self.case_ui_list.all().count()
@@ -70,7 +73,7 @@ class Suite(models.Model):
 
     def run(self):
         # 创建工作目录
-        project_path = Path(f"project_{self.project.id}") / f"suite_{self.id}"
+        project_path = Path(f"project_{self.project_id.id}") / f"suite_{self.id}"
         path = Path("upload_yaml") / project_path
 
         run_result = RunResult.objects.create(suite=self, path=path)
@@ -91,7 +94,7 @@ class Suite(models.Model):
             for case_api in self.case_api_list.all():
                 yaml_path = api_path / f"test_api_{case_api.id}.yaml"
                 case_api.to_yaml(yaml_path)
-            futures.append(pool.submit(run_case, api_path, run_result.id, "api",self.project.base_url))
+            futures.append(pool.submit(run_case, api_path, run_result.id, "api",self.project_id.base_url))
             run_type.append("api")
 
         if self.case_ui_list.exists():
@@ -100,7 +103,7 @@ class Suite(models.Model):
             for case_ui in self.case_ui_list.all():
                 yaml_path = ui_path / f"test_ui_{case_ui.id}.yaml"
                 case_ui.to_yaml(yaml_path)
-            futures.append(pool.submit(run_case, ui_path, run_result.id, "ui",self.project.base_url))
+            futures.append(pool.submit(run_case, ui_path, run_result.id, "ui",self.project_id.base_url))
             run_type.append("ui")
 
         results = [future.result(timeout=900) for future in futures]
@@ -143,3 +146,6 @@ class RunResult(models.Model):
     )
     create_datetime = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
     update_datetime = models.DateTimeField(verbose_name="更新时间", auto_now=True)
+
+    class Meta:
+        ordering = ["id"]

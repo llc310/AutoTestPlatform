@@ -3724,7 +3724,7 @@
         {
           "feature": "登录注册模块",
           "story": "登录功能",
-          "title": "登录账号",
+          "title": "$parametrize{title}",
           "description": "输入用户名、密码、验证码登录",
           "step": [
             {
@@ -3775,6 +3775,11 @@
             }
           ],
           "parametrize": {
+            "title": [
+              "test_login_success01",
+              "test_login_success02",
+              "test_login_success03"
+            ],
             "password": [
               "123456a",
               "123456a",
@@ -3784,6 +3789,20 @@
               "llc-x",
               "llc-s",
               "llc-ss"
+            ]
+          },
+          "validate": {
+            "equals": [
+              {
+                "expect_result": "退出",
+                "actual_result": {
+                  "keyword": "text",
+                  "locator": [
+                    "link text",
+                    "退出"
+                  ]
+                }
+              }
             ]
           }
         }
@@ -4995,6 +5014,18 @@
     }
   },
   {
+    "model": "suite.runresult",
+    "pk": 58,
+    "fields": {
+      "suite": 51,
+      "path": "project_22\\suite_51\\result_58",
+      "is_pass": true,
+      "status": 4,
+      "create_datetime": "2026-11-20T01:42:16.454Z",
+      "update_datetime": "2026-11-20T01:42:16.454Z"
+    }
+  },
+  {
     "model": "suite.suite",
     "pk": 1,
     "fields": {
@@ -5617,6 +5648,23 @@
       "case_ui_list": [
         28,
         29
+      ],
+      "case_api_list": []
+    }
+  },
+  {
+    "model": "suite.suite",
+    "pk": 51,
+    "fields": {
+      "schedule": null,
+      "project_id": 22,
+      "name": "测试登录功能",
+      "description": "测试登录",
+      "run_type": "O",
+      "cron": "",
+      "hook": "",
+      "case_ui_list": [
+        38
       ],
       "case_api_list": []
     }
